@@ -59,25 +59,14 @@
         </table>
 
         <!--By default vue-router adds an active class to each route link. This way the links are colored when clicked-->
-        <slot>
-          <sidebar-link
-            v-for="(link, index) in sidebarLinks"
-            :key="link.name + index"
-            :to="link.path"
-            :link="link"
-          >
-          </sidebar-link>
-        </slot>
       </md-list>
     </div>
   </div>
 </template>
 <script>
-import SidebarLink from "./SidebarLink.vue";
 
 export default {
   components: {
-    SidebarLink,
   },
   props: {
     title: {
