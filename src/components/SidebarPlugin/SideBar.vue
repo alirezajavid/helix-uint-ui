@@ -19,7 +19,7 @@
     <div class="sidebar-wrapper">
       <slot name="content"></slot>
       <md-list class="nav">
-        <div id="video"><img :src="img" /></div>
+        <img :src="img" />
         <table border="0">
           <tr>
             <td class="dokme">&nbsp;</td>
@@ -117,7 +117,7 @@ export default {
   computed: {
     sidebarStyle() {
       return {
-        //backgroundImage: `url(${this.sidebarBackgroundImage})`,
+        backgroundImage: `url(${this.sidebarBackgroundImage})`,
       };
     },
   },
