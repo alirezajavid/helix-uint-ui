@@ -2,74 +2,53 @@
   <form>
     <md-card>
       <md-card-header :data-background-color="dataBackgroundColor">
-        <h4 class="title">Edit Profile</h4>
-        <p class="category">Complete your profile</p>
+        <h4 class="title">Configuration</h4>
+        <p class="category">Device properties</p>
       </md-card-header>
 
       <md-card-content>
         <div class="md-layout">
-          <div class="md-layout-item md-small-size-100 md-size-33">
+          <div class="md-layout-item md-small-size-100 md-size-100">
             <md-field>
-              <label>Company (disabled)</label>
-              <md-input v-model="disabled" disabled></md-input>
-            </md-field>
-          </div>
-          <div class="md-layout-item md-small-size-100 md-size-33">
-            <md-field>
-              <label>User Name</label>
-              <md-input v-model="username" type="text"></md-input>
-            </md-field>
-          </div>
-          <div class="md-layout-item md-small-size-100 md-size-33">
-            <md-field>
-              <label>Email Address</label>
-              <md-input v-model="emailadress" type="email"></md-input>
-            </md-field>
-          </div>
-          <div class="md-layout-item md-small-size-100 md-size-50">
-            <md-field>
-              <label>First Name</label>
-              <md-input v-model="firstname" type="text"></md-input>
-            </md-field>
-          </div>
-          <div class="md-layout-item md-small-size-100 md-size-50">
-            <md-field>
-              <label>Last Name</label>
-              <md-input v-model="lastname" type="text"></md-input>
+              <label>Human ID</label>
+              <md-input v-model="HUMANID"></md-input>
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-100">
             <md-field>
-              <label>Adress</label>
-              <md-input v-model="address" type="text"></md-input>
+              <label>IoT Device ID</label>
+              <md-input v-model="IOT_DEVICE_ID" type="text"></md-input>
             </md-field>
           </div>
-          <div class="md-layout-item md-small-size-100 md-size-33">
+          <div class="md-layout-item md-small-size-100 md-size-100">
             <md-field>
-              <label>City</label>
-              <md-input v-model="city" type="text"></md-input>
+              <label>Camera Type</label>
+              <md-input v-model="CAMERA_TYPE" type="email"></md-input>
             </md-field>
           </div>
-          <div class="md-layout-item md-small-size-100 md-size-33">
+          <div class="md-layout-item md-small-size-100 md-size-100">
             <md-field>
-              <label>Country</label>
-              <md-input v-model="country" type="text"></md-input>
+              <label>Hardware</label>
+              <md-input v-model="HARDWARE" type="text"></md-input>
             </md-field>
           </div>
-          <div class="md-layout-item md-small-size-100 md-size-33">
+          <div class="md-layout-item md-small-size-100 md-size-100">
             <md-field>
-              <label>Postal Code</label>
-              <md-input v-model="code" type="number"></md-input>
+              <label>Hardware Version</label>
+              <md-input v-model="HARDWARE_VERSION" type="text"></md-input>
             </md-field>
           </div>
-          <div class="md-layout-item md-size-100">
-            <md-field maxlength="5">
-              <label>About Me</label>
-              <md-textarea v-model="aboutme"></md-textarea>
+          <div class="md-layout-item md-small-size-100 md-size-100">
+            <md-field>
+              <label>Extra Storage</label>
+              <md-input v-model="EXTRA_STORAGE" type="text"></md-input>
             </md-field>
           </div>
-          <div class="md-layout-item md-size-100 text-right">
-            <md-button class="md-raised md-success">Update Profile</md-button>
+          <div class="md-layout-item md-small-size-50 md-size-50">
+            <md-button class="md-info">Save</md-button>
+          </div>
+          <div class="md-layout-item md-small-size-50 md-size-50">
+            <md-button class="md-info">Reboot</md-button>
           </div>
         </div>
       </md-card-content>
@@ -77,6 +56,7 @@
   </form>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "edit-profile-form",
   props: {
@@ -85,19 +65,53 @@ export default {
       default: "",
     },
   },
+  methods: {
+    save() {
+      axios
+        .post("/api/configs", {
+          HUMANID: this.HUMANID,
+          IOT_DEVICE_ID: this.IOT_DEVICE_ID,
+          CAMERA_TYPE: this.CAMERA_TYPE,
+          HARDWARE: this.HARDWARE,
+          HARDWARE_VERSION: this.HARDWARE_VERSION,
+          EXTRA_STORAGE: this.EXTRA_STORAGE,
+        })
+        .then((r) => {
+          this.HUMANID = r.data.HUMANID;
+          this.IOT_DEVICE_ID = r.data.IOT_DEVICE_ID;
+          this.CAMERA_TYPE = r.data.CAMERA_TYPE;
+          this.HARDWARE = r.data.HARDWARE;
+          this.HARDWARE_VERSION = r.data.HARDWARE_VERSION;
+          this.EXTRA_STORAGE = r.data.EXTRA_STORAGE;
+        })
+        .catch((e) => {
+          alert("Error: " + e.message);
+        });
+    },
+  },
+  created() {
+    axios
+      .get("/api/configs")
+      .then((r) => {
+        this.HUMANID = r.data.HUMANID;
+        this.IOT_DEVICE_ID = r.data.IOT_DEVICE_ID;
+        this.CAMERA_TYPE = r.data.CAMERA_TYPE;
+        this.HARDWARE = r.data.HARDWARE;
+        this.HARDWARE_VERSION = r.data.HARDWARE_VERSION;
+        this.EXTRA_STORAGE = r.data.EXTRA_STORAGE;
+      })
+      .catch((e) => {
+        alert("Error: " + e.message);
+      });
+  },
   data() {
     return {
-      username: null,
-      disabled: null,
-      emailadress: null,
-      lastname: null,
-      firstname: null,
-      address: null,
-      city: null,
-      country: null,
-      code: null,
-      aboutme:
-        "Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.",
+      HUMANID: "",
+      IOT_DEVICE_ID: "",
+      CAMERA_TYPE: "",
+      HARDWARE: "",
+      HARDWARE_VERSION: "",
+      EXTRA_STORAGE: "",
     };
   },
 };

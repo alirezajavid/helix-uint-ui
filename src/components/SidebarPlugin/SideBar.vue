@@ -12,17 +12,52 @@
         </div>
       </a>
 
-      <a
-        href="https://www.creative-tim.com/product/vue-material-dashboard"
-        target="_blank"
-        class="simple-text logo-normal"
-      >
+      <a href="https://#" target="_blank" class="simple-text logo-normal">
         {{ title }}
       </a>
     </div>
     <div class="sidebar-wrapper">
       <slot name="content"></slot>
       <md-list class="nav">
+        <div id="video"><img :src="img" /></div>
+        <table border="0">
+          <tr>
+            <td class="dokme">&nbsp;</td>
+            <td class="dokme">
+              <md-button class="md-warning md-sm md-just-icon jdok"
+                ><md-icon>keyboard_double_arrow_up</md-icon></md-button
+              >
+            </td>
+            <td class="dokme"></td>
+          </tr>
+          <tr>
+            <td class="dokme">
+              <md-button class="md-warning md-sm md-just-icon jdok"
+                ><md-icon>keyboard_double_arrow_left</md-icon></md-button
+              >
+            </td>
+            <td class="dokme">
+              <md-button class="md-warning md-sm md-just-icon jdok"
+                ><md-icon>camera</md-icon></md-button
+              >
+            </td>
+            <td class="dokme">
+              <md-button class="md-warning md-sm md-just-icon jdok"
+                ><md-icon>keyboard_double_arrow_right</md-icon></md-button
+              >
+            </td>
+          </tr>
+          <tr>
+            <td class="dokme"></td>
+            <td class="dokme">
+              <md-button class="md-warning md-sm md-just-icon jdok"
+                ><md-icon>keyboard_double_arrow_down</md-icon></md-button
+              >
+            </td>
+            <td class="dokme"></td>
+          </tr>
+        </table>
+
         <!--By default vue-router adds an active class to each route link. This way the links are colored when clicked-->
         <slot>
           <sidebar-link
@@ -47,7 +82,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: "Vue MD",
+      default: "Helix",
     },
     sidebarBackgroundImage: {
       type: String,
@@ -55,11 +90,11 @@ export default {
     },
     imgLogo: {
       type: String,
-      default: require("@/assets/img/vue-logo.png"),
+      default: require("@/assets/img/helix.png"),
     },
     sidebarItemColor: {
       type: String,
-      default: "green",
+      default: "blue",
       validator: (value) => {
         let acceptedValues = ["", "purple", "blue", "green", "orange", "red"];
         return acceptedValues.indexOf(value) !== -1;
@@ -82,9 +117,19 @@ export default {
   computed: {
     sidebarStyle() {
       return {
-        backgroundImage: `url(${this.sidebarBackgroundImage})`,
+        //backgroundImage: `url(${this.sidebarBackgroundImage})`,
       };
     },
+  },
+  data() {
+    return {
+      img: "/jpeg/mjpeg_latest.jpg",
+    };
+  },
+  created() {
+    setInterval(() => {
+      this.img = "/jpeg/mjpeg_latest.jpg?rnd=" + Math.random();
+    }, 4000);
   },
 };
 </script>
@@ -93,5 +138,16 @@ export default {
   .nav-mobile-menu {
     display: none;
   }
+}
+#video {
+  background-color: black;
+  height: 120px;
+  margin: 0px 20px 0px 20px;
+}
+.dokme {
+  text-align: center;
+}
+.jdok {
+  padding-left: 8px !important;
 }
 </style>
