@@ -1,6 +1,56 @@
 <template>
   <div class="content">
     <div class="md-layout">
+
+
+
+      <div
+        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
+      >
+        <stats-card :data-background-color="obj.camera == 0 ? 'red' : 'green'">
+          <template slot="header">
+            <md-icon>video_camera_front</md-icon>
+          </template>
+
+          <template slot="content">
+            <p class="category">Camera Status</p>
+            <h3 class="title">{{ obj.camera == 0 ? "Disconnected" : "Connected" }}</h3>
+          </template>
+
+          <template slot="footer">
+            <div class="stats">
+              <md-icon>update</md-icon>
+              Just Updated
+            </div>
+          </template>
+        </stats-card>
+      </div>
+
+
+
+      <div
+        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
+      >
+        <stats-card :data-background-color="obj.armed ? 'red' : 'blue'">
+          <template slot="header">
+            <md-icon>album</md-icon>
+          </template>
+
+          <template slot="content">
+            <p class="category">Arm Status</p>
+            <h3 class="title">{{ obj.armed }}</h3>
+          </template>
+
+          <template slot="footer">
+            <div class="stats">
+              <md-icon>update</md-icon>
+              Just Updated
+            </div>
+          </template>
+        </stats-card>
+      </div>      
+
+
       <div
         class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
       >
@@ -93,7 +143,7 @@
       <div
         class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
       >
-        <stats-card data-background-color="red">
+        <stats-card :data-background-color="obj.temperature > 70 ? 'red' : 'green'">
           <template slot="header">
             <md-icon>device_thermostat</md-icon>
           </template>
@@ -136,51 +186,6 @@
       </div>
 
 
-<div
-        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
-      >
-        <stats-card data-background-color="green">
-          <template slot="header">
-            <md-icon>video_camera_front</md-icon>
-          </template>
-
-          <template slot="content">
-            <p class="category">Camera Status</p>
-            <h3 class="title">{{ obj.camera == "0" ? "Disconnected" : "Connected" }}</h3>
-          </template>
-
-          <template slot="footer">
-            <div class="stats">
-              <md-icon>update</md-icon>
-              Just Updated
-            </div>
-          </template>
-        </stats-card>
-      </div>
-
-
-
-<div
-        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
-      >
-        <stats-card data-background-color="green">
-          <template slot="header">
-            <md-icon>album</md-icon>
-          </template>
-
-          <template slot="content">
-            <p class="category">Arm Status</p>
-            <h3 class="title">{{ obj.armed }}</h3>
-          </template>
-
-          <template slot="footer">
-            <div class="stats">
-              <md-icon>update</md-icon>
-              Just Updated
-            </div>
-          </template>
-        </stats-card>
-      </div>      
 
 
 
@@ -202,8 +207,7 @@ export default {
     axios
       .get('/api/status_quo')
       .then((r) => {
-	this.obj = r.data
-	console.log(r.data)
+      	this.obj = r.data	
       })
   },
   data() {
