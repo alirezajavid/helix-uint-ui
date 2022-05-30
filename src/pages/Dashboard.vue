@@ -2,88 +2,16 @@
   <div class="content">
     <div class="md-layout">
       <div
-        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-33"
-      >
-        <chart-card
-          :chart-data="dailySalesChart.data"
-          :chart-options="dailySalesChart.options"
-          :chart-type="'Line'"
-          data-background-color="blue"
-        >
-          <template slot="content">
-            <h4 class="title">Daily Sales</h4>
-            <p class="category">
-              <span class="text-success"
-                ><i class="fas fa-long-arrow-alt-up"></i> 55%
-              </span>
-              increase in today sales.
-            </p>
-          </template>
-
-          <template slot="footer">
-            <div class="stats">
-              <md-icon>access_time</md-icon>
-              updated 4 minutes ago
-            </div>
-          </template>
-        </chart-card>
-      </div>
-      <div
-        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-33"
-      >
-        <chart-card
-          :chart-data="emailsSubscriptionChart.data"
-          :chart-options="emailsSubscriptionChart.options"
-          :chart-responsive-options="emailsSubscriptionChart.responsiveOptions"
-          :chart-type="'Bar'"
-          data-background-color="red"
-        >
-          <template slot="content">
-            <h4 class="title">Email Subscription</h4>
-            <p class="category">Last Campaign Performance</p>
-          </template>
-
-          <template slot="footer">
-            <div class="stats">
-              <md-icon>access_time</md-icon>
-              updated 10 days ago
-            </div>
-          </template>
-        </chart-card>
-      </div>
-      <div
-        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-33"
-      >
-        <chart-card
-          :chart-data="dataCompletedTasksChart.data"
-          :chart-options="dataCompletedTasksChart.options"
-          :chart-type="'Line'"
-          data-background-color="green"
-        >
-          <template slot="content">
-            <h4 class="title">Completed Tasks</h4>
-            <p class="category">Last Campaign Performance</p>
-          </template>
-
-          <template slot="footer">
-            <div class="stats">
-              <md-icon>access_time</md-icon>
-              campaign sent 26 minutes ago
-            </div>
-          </template>
-        </chart-card>
-      </div>
-      <div
         class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
       >
         <stats-card data-background-color="green">
           <template slot="header">
-            <md-icon>store</md-icon>
+            <md-icon>developer_board</md-icon>
           </template>
 
           <template slot="content">
-            <p class="category">Revenue</p>
-            <h3 class="title">$34,245</h3>
+            <p class="category">CPU</p>
+            <h3 class="title">{{ obj.cpu }} %</h3>
           </template>
 
           <template slot="footer">
@@ -99,21 +27,20 @@
       >
         <stats-card data-background-color="orange">
           <template slot="header">
-            <md-icon>content_copy</md-icon>
+            <md-icon>earbuds_battery</md-icon>
           </template>
 
           <template slot="content">
-            <p class="category">Used Space</p>
+            <p class="category">Load</p>
             <h3 class="title">
-              49/50
-              <small>GB</small>
+              {{ obj.load_current }}
+              <small></small>
             </h3>
           </template>
 
           <template slot="footer">
             <div class="stats">
-              <md-icon class="text-danger">warning</md-icon>
-              <a href="#pablo">Get More Space...</a>
+              &nbsp;
             </div>
           </template>
         </stats-card>
@@ -123,12 +50,12 @@
       >
         <stats-card data-background-color="red">
           <template slot="header">
-            <md-icon>info_outline</md-icon>
+            <md-icon>memory</md-icon>
           </template>
 
           <template slot="content">
-            <p class="category">Fixed Issues</p>
-            <h3 class="title">75</h3>
+            <p class="category">Memory</p>
+            <h3 class="title">{{ Math.round(obj.memory) }} %</h3>
           </template>
 
           <template slot="footer">
@@ -144,12 +71,12 @@
       >
         <stats-card data-background-color="blue">
           <template slot="header">
-            <i class="fab fa-twitter"></i>
+            <md-icon>data_usage</md-icon>
           </template>
 
           <template slot="content">
-            <p class="category">Folowers</p>
-            <h3 class="title">+245</h3>
+            <p class="category">Disk Usage</p>
+            <h3 class="title">{{ obj.primary_disk }}</h3>
           </template>
 
           <template slot="footer">
@@ -160,150 +87,137 @@
           </template>
         </stats-card>
       </div>
-      <div
-        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50"
-      >
-        <md-card>
-          <md-card-header data-background-color="orange">
-            <h4 class="title">Employees Stats</h4>
-            <p class="category">New employees on 15th September, 2016</p>
-          </md-card-header>
-          <md-card-content>
-            <ordered-table table-header-color="orange"></ordered-table>
-          </md-card-content>
-        </md-card>
-      </div>
-      <div
-        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50"
-      >
-        <nav-tabs-card>
-          <template slot="content">
-            <span class="md-nav-tabs-title">Tasks:</span>
-            <md-tabs class="md-success" md-alignment="left">
-              <md-tab id="tab-home" md-label="Bugs" md-icon="bug_report">
-                <nav-tabs-table></nav-tabs-table>
-              </md-tab>
 
-              <md-tab id="tab-pages" md-label="Website" md-icon="code">
-                <nav-tabs-table></nav-tabs-table>
-              </md-tab>
 
-              <md-tab id="tab-posts" md-label="server" md-icon="cloud">
-                <nav-tabs-table></nav-tabs-table>
-              </md-tab>
-            </md-tabs>
+
+      <div
+        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
+      >
+        <stats-card data-background-color="red">
+          <template slot="header">
+            <md-icon>device_thermostat</md-icon>
           </template>
-        </nav-tabs-card>
+
+          <template slot="content">
+            <p class="category">Temperature</p>
+            <h3 class="title">{{ obj.temperature }}</h3>
+          </template>
+
+          <template slot="footer">
+            <div class="stats">
+              <md-icon>update</md-icon>
+              Just Updated
+            </div>
+          </template>
+        </stats-card>
       </div>
+
+
+      <div
+        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
+      >
+        <stats-card data-background-color="green">
+          <template slot="header">
+            <md-icon>timer</md-icon>
+          </template>
+
+          <template slot="content">
+            <p class="category">Uptime</p>
+            <h3 class="title">{{ obj.uptime }}</h3>
+          </template>
+
+          <template slot="footer">
+            <div class="stats">
+              <md-icon>update</md-icon>
+              Just Updated
+            </div>
+          </template>
+        </stats-card>
+      </div>
+
+
+<div
+        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
+      >
+        <stats-card data-background-color="green">
+          <template slot="header">
+            <md-icon>video_camera_front</md-icon>
+          </template>
+
+          <template slot="content">
+            <p class="category">Camera Status</p>
+            <h3 class="title">{{ obj.camera == "0" ? "Disconnected" : "Connected" }}</h3>
+          </template>
+
+          <template slot="footer">
+            <div class="stats">
+              <md-icon>update</md-icon>
+              Just Updated
+            </div>
+          </template>
+        </stats-card>
+      </div>
+
+
+
+<div
+        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
+      >
+        <stats-card data-background-color="green">
+          <template slot="header">
+            <md-icon>album</md-icon>
+          </template>
+
+          <template slot="content">
+            <p class="category">Arm Status</p>
+            <h3 class="title">{{ obj.armed }}</h3>
+          </template>
+
+          <template slot="footer">
+            <div class="stats">
+              <md-icon>update</md-icon>
+              Just Updated
+            </div>
+          </template>
+        </stats-card>
+      </div>      
+
+
+
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import {
   StatsCard,
-  ChartCard,
-  NavTabsCard,
-  NavTabsTable,
-  OrderedTable,
 } from "@/components";
 
 export default {
   components: {
     StatsCard,
-    ChartCard,
-    NavTabsCard,
-    NavTabsTable,
-    OrderedTable,
+  },
+  created () {
+    axios
+      .get('/api/status_quo')
+      .then((r) => {
+	this.obj = r.data
+	console.log(r.data)
+      })
   },
   data() {
     return {
-      dailySalesChart: {
-        data: {
-          labels: ["M", "T", "W", "T", "F", "S", "S"],
-          series: [[12, 17, 7, 17, 23, 18, 38]],
-        },
-        options: {
-          lineSmooth: this.$Chartist.Interpolation.cardinal({
-            tension: 0,
-          }),
-          low: 0,
-          high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-          chartPadding: {
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-          },
-        },
-      },
-      dataCompletedTasksChart: {
-        data: {
-          labels: ["12am", "3pm", "6pm", "9pm", "12pm", "3am", "6am", "9am"],
-          series: [[230, 750, 450, 300, 280, 240, 200, 190]],
-        },
-
-        options: {
-          lineSmooth: this.$Chartist.Interpolation.cardinal({
-            tension: 0,
-          }),
-          low: 0,
-          high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-          chartPadding: {
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-          },
-        },
-      },
-      emailsSubscriptionChart: {
-        data: {
-          labels: [
-            "Ja",
-            "Fe",
-            "Ma",
-            "Ap",
-            "Mai",
-            "Ju",
-            "Jul",
-            "Au",
-            "Se",
-            "Oc",
-            "No",
-            "De",
-          ],
-          series: [
-            [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895],
-          ],
-        },
-        options: {
-          axisX: {
-            showGrid: false,
-          },
-          low: 0,
-          high: 1000,
-          chartPadding: {
-            top: 0,
-            right: 5,
-            bottom: 0,
-            left: 0,
-          },
-        },
-        responsiveOptions: [
-          [
-            "screen and (max-width: 640px)",
-            {
-              seriesBarDistance: 5,
-              axisX: {
-                labelInterpolationFnc: function (value) {
-                  return value[0];
-                },
-              },
-            },
-          ],
-        ],
-      },
+      obj : {
+	    "armed": null,
+	    "camera": null,
+	    "cpu": null,
+	    "load_current": null,
+	    "memory": null,
+	    "primary_disk": null,
+	    "temperature": null,
+	    "uptime": null
+      }
     };
   },
 };

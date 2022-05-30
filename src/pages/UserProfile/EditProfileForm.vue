@@ -21,10 +21,9 @@
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-100">
-            <md-field>
-              <label>Camera Type</label>
-              <md-input v-model="CAMERA_TYPE" type="email"></md-input>
-            </md-field>
+            <label class="label" style="color: #aaa; font-size: 0.6875rem">Camera Type</label
+            >
+            <v-select v-model="CAMERA_TYPE" :options="CAMERA_TYPES"></v-select>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-100">
             <md-field>
@@ -57,6 +56,8 @@
 </template>
 <script>
 import axios from "axios";
+import "vue-select/dist/vue-select.css";
+
 export default {
   name: "edit-profile-form",
   props: {
@@ -91,6 +92,14 @@ export default {
   },
   created() {
     axios
+      .get("/api/camera_types")
+      .then((r) => {
+        this.CAMERA_TYPES = r.data.camera_types;
+      })
+      .catch((e) => {
+        alert("Error: " + e.message);
+      });
+    axios
       .get("/api/configs")
       .then((r) => {
         this.HUMANID = r.data.HUMANID;
@@ -112,6 +121,7 @@ export default {
       HARDWARE: "",
       HARDWARE_VERSION: "",
       EXTRA_STORAGE: "",
+      CAMERA_TYPES: [],
     };
   },
 };
