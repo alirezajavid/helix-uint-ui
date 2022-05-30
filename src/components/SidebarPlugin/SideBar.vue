@@ -19,7 +19,7 @@
     <div class="sidebar-wrapper">
       <slot name="content"></slot>
       <md-list class="nav">
-        <img :src="img" />
+        <img :src="img" width="100%" />
         <table border="0">
           <tr>
             <td class="dokme">&nbsp;</td>
@@ -57,14 +57,21 @@
             <td class="dokme"></td>
           </tr>
         </table>
-
+        <div class="logo" />
+        <div class="md-layout">
+          <div class="md-layout-item md-small-size-100 md-size-50 " style="text-align:center">
+            <md-button class="md-info md-sm">ARM</md-button>
+          </div>
+          <div class="md-layout-item md-small-size-100 md-size-50" style="text-align:center">
+            <md-button class="md-danger md-sm">DISARM</md-button>
+          </div>
+        </div>
         <!--By default vue-router adds an active class to each route link. This way the links are colored when clicked-->
       </md-list>
     </div>
   </div>
 </template>
 <script>
-
 export default {
   components: {
   },
@@ -79,7 +86,7 @@ export default {
     },
     imgLogo: {
       type: String,
-      default: require("@/assets/img/helix.png"),
+      default: require("@/assets/img/helix-logo.png"),
     },
     sidebarItemColor: {
       type: String,
