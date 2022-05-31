@@ -1,8 +1,8 @@
 <template>
   <md-toolbar md-elevation="0" class="md-transparent">
     <div class="md-toolbar-row">
-      <div class="md-toolbar-section-start">
-        <h3 class="md-title">{{ $route.name }}</h3>
+      <div class="md-toolbar-section-start md-danger">
+        <h3 class="md-title md-succcess">{{ $route.name }}</h3>
       </div>
 
       <div class="md-toolbar-section-end">
@@ -33,7 +33,6 @@
                   data-toggle="dropdown"
                 >
                   <md-icon>notifications</md-icon>
-                  <span class="notification">5</span>
                   <p class="hidden-lg hidden-md">Notifications</p>
                 </md-button>
               </div>
@@ -49,17 +48,17 @@
       </div>
     </div>
 
-    <sidebar-link to="/dashboard">
+    <sidebar-link to="/live">
       <md-icon>auto_graph</md-icon>
       <p>Live</p>
     </sidebar-link>
-    <sidebar-link to="/settings">
+    <sidebar-link to="/configuration">
       <md-icon>settings</md-icon>
       <p>Configuration</p>
     </sidebar-link>
-    <sidebar-link to="/status">
+    <sidebar-link to="/history">
       <md-icon>analytics</md-icon>
-      <p>Dashboard</p>
+      <p>History</p>
     </sidebar-link>
   </md-toolbar>
 </template>

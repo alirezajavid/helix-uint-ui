@@ -10,9 +10,6 @@
           <li>
             <a href="http://blog.helix.com"> Blog </a>
           </li>
-          <li>
-            <a href="https://helix.com/license"> Licenses </a>
-          </li>
         </ul>
       </nav>
       <div class="copyright text-center">

@@ -19,7 +19,9 @@
     "vue-material": "1.0.0-beta-15",
     "vue-router": "3.5.2",
     "vue-select": "^3.18.3",
-    "vue-social-sharing": "3.0.9"
+    "vue-social-sharing": "3.0.9",
+    "vue-video-player": "^5.0.2",
+    "vue-vjs-hls": "^1.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "4.5.15",

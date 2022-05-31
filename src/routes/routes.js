@@ -1,63 +1,31 @@
 import DashboardLayout from "@/pages/Layout/DashboardLayout.vue";
 
-import Dashboard from "@/pages/Dashboard.vue";
-import UserProfile from "@/pages/UserProfile.vue";
-import TableList from "@/pages/TableList.vue";
-import Typography from "@/pages/Typography.vue";
-import Icons from "@/pages/Icons.vue";
-import Maps from "@/pages/Maps.vue";
+import Live from "@/pages/Live.vue";
+import Configuration from "@/pages/Configuration.vue";
+import History from "@/pages/History.vue";
 import Notifications from "@/pages/Notifications.vue";
-import UpgradeToPRO from "@/pages/UpgradeToPRO.vue";
 
 const routes = [
   {
     path: "/",
     component: DashboardLayout,
-    redirect: "/dashboard",
+    redirect: "/live",
     children: [
       {
-        path: "dashboard",
-        name: "Dashboard",
-        component: Dashboard,
+        path: "live",
+        name: "Live",
+        component: Live,
       },
       {
-        path: "settings",
+        path: "history",
+        name: "History",
+        component: History,
+      },
+      {
+        path: "configuration",
         name: "Configuration",
-        component: UserProfile,
-      },
-      {
-        path: "table",
-        name: "Table List",
-        component: TableList,
-      },
-      {
-        path: "typography",
-        name: "Typography",
-        component: Typography,
-      },
-      {
-        path: "icons",
-        name: "Icons",
-        component: Icons,
-      },
-      {
-        path: "maps",
-        name: "Maps",
-        meta: {
-          hideFooter: true,
-        },
-        component: Maps,
-      },
-      {
-        path: "notifications",
-        name: "Notifications",
-        component: Notifications,
-      },
-      {
-        path: "upgrade",
-        name: "Upgrade to PRO",
-        component: UpgradeToPRO,
-      },
+        component: Configuration
+      }
     ],
   },
 ];

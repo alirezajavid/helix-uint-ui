@@ -29,25 +29,34 @@
           <tr>
             <td class="dokme">&nbsp;</td>
             <td class="dokme">
-              <md-button class="md-warning md-sm md-just-icon jdok"
-                ><md-icon>keyboard_double_arrow_up</md-icon></md-button
+              <md-button
+                class="md-warning md-sm md-just-icon jdok"
+                @click="btn_up"
               >
+                <md-icon>keyboard_double_arrow_up</md-icon>
+              </md-button>
             </td>
             <td class="dokme"></td>
           </tr>
           <tr>
             <td class="dokme">
-              <md-button class="md-warning md-sm md-just-icon jdok"
+              <md-button
+                class="md-warning md-sm md-just-icon jdok"
+                @click="btn_left"
                 ><md-icon>keyboard_double_arrow_left</md-icon></md-button
               >
             </td>
             <td class="dokme">
-              <md-button class="md-warning md-sm md-just-icon jdok"
+              <md-button
+                class="md-warning md-sm md-just-icon jdok"
+                @click="btn_cap"
                 ><md-icon>camera</md-icon></md-button
               >
             </td>
             <td class="dokme">
-              <md-button class="md-warning md-sm md-just-icon jdok"
+              <md-button
+                class="md-warning md-sm md-just-icon jdok"
+                @click="btn_right"
                 ><md-icon>keyboard_double_arrow_right</md-icon></md-button
               >
             </td>
@@ -55,7 +64,9 @@
           <tr>
             <td class="dokme"></td>
             <td class="dokme">
-              <md-button class="md-warning md-sm md-just-icon jdok"
+              <md-button
+                class="md-warning md-sm md-just-icon jdok"
+                @click="btn_down"
                 ><md-icon>keyboard_double_arrow_down</md-icon></md-button
               >
             </td>
@@ -120,8 +131,31 @@ export default {
       unitid: "u237",
     };
   },
+  methods: {
+    rotate(arrow) {
+      axios.get("/maintenance?action=rotate&var=" + arrow).then((r) => {});
+    },
+    capture() {
+      axios.get("/maintenance?action=capture&var=still").then((r) => {});
+    },
+    btn_up() {
+      this.rotate("up");
+    },
+    btn_down() {
+      this.rotate("down");
+    },
+    btn_left() {
+      this.rotate("left");
+    },
+    btn_right() {
+      this.rotate("right");
+    },
+    btn_cap() {
+      this.capture();
+    },
+  },
   created() {
-    axios.get("/get/unit_id").then((r) => {
+    axios.get("/api/unit_id").then((r) => {
       this.unitid = r.data.unit_id;
     });
 

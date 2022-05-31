@@ -18,7 +18,10 @@
 
           <template slot="footer">
             <div class="stats">
-              <md-button class="md-danger md-round md-sm">
+              <md-button
+                class="md-danger md-round md-sm"
+                @click="action('restart', 'camera')"
+              >
                 <md-icon>restart_alt</md-icon> Restart
               </md-button>
             </div>
@@ -41,10 +44,18 @@
 
           <template slot="footer">
             <div class="stats">
-              <md-button v-if="!obj.armed" class="md-danger md-round md-sm">
+              <md-button
+                v-if="!obj.armed"
+                class="md-danger md-round md-sm"
+                @click="action('armed', 'on')"
+              >
                 <md-icon>gps_fixed</md-icon> Arm
               </md-button>
-              <md-button v-if="obj.armed" class="md-success md-round md-sm">
+              <md-button
+                v-if="obj.armed"
+                class="md-success md-round md-sm"
+                @click="action('armed', 'off')"
+              >
                 <md-icon>gps_off</md-icon> Disarm
               </md-button>
             </div>
@@ -191,9 +202,7 @@ export default {
     StatsCard,
   },
   created() {
-    axios.get("/api/status_quo").then((r) => {
-      this.obj = r.data;
-    });
+    this.getstats();
   },
   computed: {
     huptime() {
@@ -204,6 +213,18 @@ export default {
       if (this.obj.uptime > 60)
         return Math.floor(this.obj.uptime / 60) + " min";
       return this.obj.uptime + "seconds";
+    },
+  },
+  methods: {
+    getstats() {
+      axios.get("/api/status_quo").then((r) => {
+        this.obj = r.data;
+      });
+    },
+    action(action, _var) {
+      axios.get("/maintenance?action=" + action + "&var=" + _var).then((r) => {
+        this.obj = r.data;
+      });
     },
   },
   data() {

@@ -7,13 +7,17 @@
       :sidebar-background-image="sidebarBackgroundImage"
     >
       <mobile-menu slot="content"></mobile-menu>
-      <sidebar-link to="/dashboard">
+      <sidebar-link to="/live">
         <md-icon>dashboard</md-icon>
-        <p>Dashboard</p>
+        <p>Live</p>
       </sidebar-link>
       <sidebar-link to="/settings">
         <md-icon>settings</md-icon>
         <p>Configuration</p>
+      </sidebar-link>
+      <sidebar-link to="/history">
+        <md-icon>analytics</md-icon>
+        <p>History</p>
       </sidebar-link>
     </side-bar>
 
