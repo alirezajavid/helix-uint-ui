@@ -12,8 +12,13 @@
         </div>
       </a>
 
-      <a href="https://#" target="_blank" class="simple-text logo-normal">
-        {{ title }}
+      <a
+        href="https://#"
+        target="_blank"
+        class="simple-text logo-normal"
+        style="text-transform: none"
+      >
+        {{ title }} <small>({{ unitid }})</small>
       </a>
     </div>
     <div class="sidebar-wrapper">
@@ -58,27 +63,19 @@
           </tr>
         </table>
         <div class="logo" />
-        <div class="md-layout">
-          <div class="md-layout-item md-small-size-100 md-size-50 " style="text-align:center">
-            <md-button class="md-info md-sm">ARM</md-button>
-          </div>
-          <div class="md-layout-item md-small-size-100 md-size-50" style="text-align:center">
-            <md-button class="md-danger md-sm">DISARM</md-button>
-          </div>
-        </div>
         <!--By default vue-router adds an active class to each route link. This way the links are colored when clicked-->
       </md-list>
     </div>
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
-  components: {
-  },
+  components: {},
   props: {
     title: {
       type: String,
-      default: "Helix",
+      default: "Helix Security",
     },
     sidebarBackgroundImage: {
       type: String,
@@ -120,9 +117,14 @@ export default {
   data() {
     return {
       img: "/jpeg/mjpeg_latest.jpg",
+      unitid: "u237",
     };
   },
   created() {
+    axios.get("/get/unit_id").then((r) => {
+      this.unitid = r.data.unit_id;
+    });
+
     setInterval(() => {
       this.img = "/jpeg/mjpeg_latest.jpg?rnd=" + Math.random();
     }, 4000);

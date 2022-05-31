@@ -21,7 +21,8 @@
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-100">
-            <label class="label" style="color: #aaa; font-size: 0.6875rem">Camera Type</label
+            <label class="label" style="color: #aaa; font-size: 0.6875rem"
+              >Camera Type</label
             >
             <v-select v-model="CAMERA_TYPE" :options="CAMERA_TYPES"></v-select>
           </div>
@@ -44,7 +45,7 @@
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-50 md-size-50">
-            <md-button class="md-info">Save</md-button>
+            <md-button @click="save" class="md-info">Save</md-button>
           </div>
           <div class="md-layout-item md-small-size-50 md-size-50">
             <md-button class="md-info">Reboot</md-button>
@@ -75,6 +76,7 @@ export default {
           CAMERA_TYPE: this.CAMERA_TYPE,
           HARDWARE: this.HARDWARE,
           HARDWARE_VERSION: this.HARDWARE_VERSION,
+          MAIN_STORAGE: this.MAIN_STORAGE,
           EXTRA_STORAGE: this.EXTRA_STORAGE,
         })
         .then((r) => {
@@ -83,6 +85,7 @@ export default {
           this.CAMERA_TYPE = r.data.CAMERA_TYPE;
           this.HARDWARE = r.data.HARDWARE;
           this.HARDWARE_VERSION = r.data.HARDWARE_VERSION;
+          this.MAIN_STORAGE = r.data.MAIN_STORAGE;
           this.EXTRA_STORAGE = r.data.EXTRA_STORAGE;
         })
         .catch((e) => {
@@ -107,6 +110,7 @@ export default {
         this.CAMERA_TYPE = r.data.CAMERA_TYPE;
         this.HARDWARE = r.data.HARDWARE;
         this.HARDWARE_VERSION = r.data.HARDWARE_VERSION;
+        this.MAIN_STORAGE = r.data.MAIN_STORAGE;
         this.EXTRA_STORAGE = r.data.EXTRA_STORAGE;
       })
       .catch((e) => {
@@ -120,6 +124,7 @@ export default {
       CAMERA_TYPE: "",
       HARDWARE: "",
       HARDWARE_VERSION: "",
+      MAIN_STORAGE: "",
       EXTRA_STORAGE: "",
       CAMERA_TYPES: [],
     };

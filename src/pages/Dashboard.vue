@@ -1,9 +1,6 @@
 <template>
   <div class="content">
     <div class="md-layout">
-
-
-
       <div
         class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
       >
@@ -14,19 +11,20 @@
 
           <template slot="content">
             <p class="category">Camera Status</p>
-            <h3 class="title">{{ obj.camera == 0 ? "Disconnected" : "Connected" }}</h3>
+            <h4 class="title">
+              {{ obj.camera == 0 ? "Disconnected" : "Connected" }}
+            </h4>
           </template>
 
           <template slot="footer">
             <div class="stats">
-              <md-icon>update</md-icon>
-              Just Updated
+              <md-button class="md-danger md-round md-sm">
+                <md-icon>restart_alt</md-icon> Restart
+              </md-button>
             </div>
           </template>
         </stats-card>
       </div>
-
-
 
       <div
         class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
@@ -38,18 +36,21 @@
 
           <template slot="content">
             <p class="category">Arm Status</p>
-            <h3 class="title">{{ obj.armed }}</h3>
+            <h4 class="title">{{ obj.armed ? "Active" : "Deactive" }}</h4>
           </template>
 
           <template slot="footer">
             <div class="stats">
-              <md-icon>update</md-icon>
-              Just Updated
+              <md-button v-if="!obj.armed" class="md-danger md-round md-sm">
+                <md-icon>gps_fixed</md-icon> Arm
+              </md-button>
+              <md-button v-if="obj.armed" class="md-success md-round md-sm">
+                <md-icon>gps_off</md-icon> Disarm
+              </md-button>
             </div>
           </template>
         </stats-card>
-      </div>      
-
+      </div>
 
       <div
         class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
@@ -61,13 +62,13 @@
 
           <template slot="content">
             <p class="category">CPU</p>
-            <h3 class="title">{{ obj.cpu }} %</h3>
+            <h4 class="title">{{ obj.cpu }} %</h4>
           </template>
 
           <template slot="footer">
             <div class="stats">
-              <md-icon>date_range</md-icon>
-              Last 24 Hours
+              <md-icon></md-icon>
+              &nbsp;
             </div>
           </template>
         </stats-card>
@@ -82,16 +83,14 @@
 
           <template slot="content">
             <p class="category">Load</p>
-            <h3 class="title">
+            <h4 class="title">
               {{ obj.load_current }}
               <small></small>
-            </h3>
+            </h4>
           </template>
 
           <template slot="footer">
-            <div class="stats">
-              &nbsp;
-            </div>
+            <div class="stats">&nbsp;</div>
           </template>
         </stats-card>
       </div>
@@ -105,14 +104,11 @@
 
           <template slot="content">
             <p class="category">Memory</p>
-            <h3 class="title">{{ Math.round(obj.memory) }} %</h3>
+            <h4 class="title">{{ Math.round(obj.memory) }} %</h4>
           </template>
 
           <template slot="footer">
-            <div class="stats">
-              <md-icon>local_offer</md-icon>
-              Tracked from Github
-            </div>
+            <div class="stats">&nbsp;</div>
           </template>
         </stats-card>
       </div>
@@ -126,42 +122,41 @@
 
           <template slot="content">
             <p class="category">Disk Usage</p>
-            <h3 class="title">{{ obj.primary_disk }}</h3>
+            <h4 class="title">{{ obj.primary_disk }}</h4>
           </template>
 
           <template slot="footer">
             <div class="stats">
-              <md-icon>update</md-icon>
-              Just Updated
+              <md-icon></md-icon>
+              &nbsp;
             </div>
           </template>
         </stats-card>
       </div>
 
-
-
       <div
         class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
       >
-        <stats-card :data-background-color="obj.temperature > 70 ? 'red' : 'green'">
+        <stats-card
+          :data-background-color="obj.temperature > 70 ? 'red' : 'green'"
+        >
           <template slot="header">
             <md-icon>device_thermostat</md-icon>
           </template>
 
           <template slot="content">
             <p class="category">Temperature</p>
-            <h3 class="title">{{ obj.temperature }}</h3>
+            <h4 class="title">{{ obj.temperature }} <small>&#8451;</small></h4>
           </template>
 
           <template slot="footer">
             <div class="stats">
-              <md-icon>update</md-icon>
-              Just Updated
+              <md-icon></md-icon>
+              &nbsp;
             </div>
           </template>
         </stats-card>
       </div>
-
 
       <div
         class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
@@ -173,55 +168,56 @@
 
           <template slot="content">
             <p class="category">Uptime</p>
-            <h3 class="title">{{ obj.uptime }}</h3>
+            <h4 class="title">{{ huptime }}</h4>
           </template>
 
           <template slot="footer">
             <div class="stats">
-              <md-icon>update</md-icon>
-              Just Updated
+              <md-icon>&nbsp;</md-icon>
             </div>
           </template>
         </stats-card>
       </div>
-
-
-
-
-
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import {
-  StatsCard,
-} from "@/components";
+import { StatsCard } from "@/components";
 
 export default {
   components: {
     StatsCard,
   },
-  created () {
-    axios
-      .get('/api/status_quo')
-      .then((r) => {
-      	this.obj = r.data	
-      })
+  created() {
+    axios.get("/api/status_quo").then((r) => {
+      this.obj = r.data;
+    });
+  },
+  computed: {
+    huptime() {
+      if (this.obj.uptime > 3600 * 24)
+        return Math.floor(this.obj.uptime / (3600 * 24)) + " days";
+      if (this.obj.uptime > 3600)
+        return Math.floor(this.obj.uptime / 3600) + " hours";
+      if (this.obj.uptime > 60)
+        return Math.floor(this.obj.uptime / 60) + " min";
+      return this.obj.uptime + "seconds";
+    },
   },
   data() {
     return {
-      obj : {
-	    "armed": null,
-	    "camera": null,
-	    "cpu": null,
-	    "load_current": null,
-	    "memory": null,
-	    "primary_disk": null,
-	    "temperature": null,
-	    "uptime": null
-      }
+      obj: {
+        armed: null,
+        camera: null,
+        cpu: null,
+        load_current: null,
+        memory: null,
+        primary_disk: null,
+        temperature: null,
+        uptime: null,
+      },
     };
   },
 };
