@@ -6,19 +6,18 @@
     :style="sidebarStyle"
   >
     <div class="logo">
-      <a href="#" class="simple-text logo-mini">
+      <a class="simple-text logo-mini">
         <div class="logo-img">
           <img :src="imgLogo" alt="" />
         </div>
       </a>
 
       <a
-        href="https://#"
         target="_blank"
         class="simple-text logo-normal"
         style="text-transform: none"
       >
-        {{ title }} <small>({{ unitid }})</small>
+        {{ title }} <small>({{ $unitid }})</small>
       </a>
     </div>
     <div class="sidebar-wrapper">
@@ -128,7 +127,6 @@ export default {
   data() {
     return {
       img: "/jpeg/mjpeg_latest.jpg",
-      unitid: "u237",
     };
   },
   methods: {
@@ -152,13 +150,10 @@ export default {
     },
     btn_cap() {
       this.capture();
+      
     },
   },
   created() {
-    axios.get("/api/unit_id").then((r) => {
-      this.unitid = r.data.unit_id;
-    });
-
     setInterval(() => {
       this.img = "/jpeg/mjpeg_latest.jpg?rnd=" + Math.random();
     }, 4000);

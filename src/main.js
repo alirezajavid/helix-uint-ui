@@ -30,7 +30,7 @@ import Notifications from "./components/NotificationPlugin";
 import MaterialDashboard from "./material-dashboard";
 
 import Chartist from "chartist";
-
+import axios from 'axios'
 // configure router
 const router = new VueRouter({
   routes, // short for routes: routes
@@ -38,13 +38,16 @@ const router = new VueRouter({
 });
 
 Vue.prototype.$Chartist = Chartist;
-
+Vue.prototype.$unitid = '...'
 Vue.use(VueRouter);
 Vue.use(MaterialDashboard);
 Vue.use(GlobalComponents);
 Vue.use(GlobalDirectives);
 Vue.use(Notifications);
 
+axios.get("/api/unit_id").then((r) => {
+  Vue.prototype.$unitid = r.data.unit_id
+});
 /* eslint-disable no-new */
 new Vue({
   el: "#app",
