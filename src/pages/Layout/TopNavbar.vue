@@ -19,13 +19,6 @@
         <div class="md-collapse">
           <md-list>
             <li class="md-list-item">
-              <!--a
-                href="#/notifications"
-                class="
-                  md-list-item-router md-list-item-container md-button-clean
-                  dropdown
-                "
-              -->
               <div class="md-list-item-content">
                 <md-button
                   slot="title"
@@ -36,9 +29,7 @@
                   <p class="hidden-lg hidden-md">Notifications</p>
                 </md-button>
               </div>
-              <!--/a-->
             </li>
-
             <md-list-item href="#">
               <i class="material-icons">person</i>
               <p class="hidden-lg hidden-md">Profile</p>
@@ -47,19 +38,6 @@
         </div>
       </div>
     </div>
-
-    <sidebar-link to="/live">
-      <md-icon>auto_graph</md-icon>
-      <p>Live</p>
-    </sidebar-link>
-    <sidebar-link to="/configuration">
-      <md-icon>settings</md-icon>
-      <p>Configuration</p>
-    </sidebar-link>
-    <sidebar-link to="/history">
-      <md-icon>analytics</md-icon>
-      <p>History</p>
-    </sidebar-link>
   </md-toolbar>
 </template>
 
@@ -70,16 +48,7 @@ export default {
   data() {
     return {
       selectedEmployee: null,
-      employees: [
-        "Jim Halpert",
-        "Dwight Schrute",
-        "Michael Scott",
-        "Pam Beesly",
-        "Angela Martin",
-        "Kelly Kapoor",
-        "Ryan Howard",
-        "Kevin Malone",
-      ],
+      employees: [],
     };
   },
   methods: {

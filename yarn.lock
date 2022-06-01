@@ -1273,7 +1273,7 @@
     mux.js "6.0.1"
     video.js "^6 || ^7"
 
-"@videojs/vhs-utils@3.0.5", "@videojs/vhs-utils@^3.0.4", "@videojs/vhs-utils@^3.0.5":
+"@videojs/vhs-utils@3.0.5", "@videojs/vhs-utils@^3.0.0", "@videojs/vhs-utils@^3.0.4", "@videojs/vhs-utils@^3.0.5":
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/@videojs/vhs-utils/-/vhs-utils-3.0.5.tgz#665ba70d78258ba1ab977364e2fe9f4d4799c46c"
   integrity sha512-PKVgdo8/GReqdx512F+ombhS+Bzogiofy1LgAj4tN8PfdBx3HSS7V5WfJotKTqtOWGwVfSWsrYN/t09/DSryrw==
@@ -8794,7 +8794,7 @@ video.js@^5.10.1, video.js@^5.11.7:
     videojs-vtt.js "0.12.6"
     xhr "2.4.0"
 
-"video.js@^5.6.0 || ^6.2.8 || ^7.0.2", "video.js@^6 || ^7":
+"video.js@^5.6.0 || ^6.2.8 || ^7.0.2", "video.js@^6 || ^7", video.js@^7.11.6:
   version "7.19.2"
   resolved "https://registry.yarnpkg.com/video.js/-/video.js-7.19.2.tgz#83396db819b61e25328c020c0191dbe7a2187403"
   integrity sha512-+rV/lJ1bDoMW3SbYlRp0eC9//RgvfBpEQ0USOyx44tHVxVyMjq+G9jZoiulsDXaIp4BX9q5+/y87TbZUysXBHA==
@@ -9004,10 +9004,25 @@ vue-material@1.0.0-beta-15:
     vue-github-buttons "^3.1.0"
     vue-toc "0.0.1"
 
+vue-ribbon@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/vue-ribbon/-/vue-ribbon-1.0.1.tgz#777ba7c8c5ece9202def5408e980f3a77a655b2b"
+  integrity sha512-2YPMujiCsZcNa4MZXGQmg9IOkZQMShUHRGnbZycRYrBLJ2PoCJGl22jf9ld+B7PrSbmKCQqdkyXCtjih5gfuYw==
+
 vue-router@3.5.2:
   version "3.5.2"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.5.2.tgz#5f55e3f251970e36c3e8d88a7cd2d67a350ade5c"
   integrity sha512-807gn82hTnjCYGrnF3eNmIw/dk7/GE4B5h69BlyCK9KHASwSloD1Sjcn06zg9fVG4fYH2DrsNBZkpLtb25WtaQ==
+
+vue-router@^3.5.1:
+  version "3.5.4"
+  resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.5.4.tgz#c453c0b36bc75554de066fefc3f2a9c3212aca70"
+  integrity sha512-x+/DLAJZv2mcQ7glH2oV9ze8uPwcI+H+GgTgTmb5I55bCgY3+vXWIsqbYUzbBSZnwFHEJku4eoaH/x98veyymQ==
+
+vue-script2@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/vue-script2/-/vue-script2-2.1.0.tgz#8e480dc6052c8cdf2aa0ec112efc80f31ddc3522"
+  integrity sha512-EDUOjQBFvhkJXwmWuUR9ijlF7/4JtmvjXSKaHSa/LNTMy9ltjgKgYB68aqlxgq8ORdSxowd5eo24P1syjZJnBA==
 
 vue-select@^3.18.3:
   version "3.18.3"
@@ -9058,6 +9073,19 @@ vue-video-player@^5.0.2:
     videojs-flash "^2.1.0"
     videojs-hotkeys "^0.2.20"
 
+vue-videojs7@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/vue-videojs7/-/vue-videojs7-1.0.2.tgz#b950cdfa9cbf7a33b5397c93e18007770a50b8db"
+  integrity sha512-6CP4aSETZX9CLFVhNtnbCYXKUsvuPWyLhE95HCP4SB4c9vCdExlTdNb/ozEX9pNEJAVsa6GjIGVdW53AZfA/mQ==
+  dependencies:
+    "@videojs/vhs-utils" "^3.0.0"
+    video.js "^7.11.6"
+    vue "^2.6.12"
+    vue-ribbon "^1.0.1"
+    vue-router "^3.5.1"
+    vue-script2 "^2.1.0"
+    vuex "^3.6.2"
+
 vue-vjs-hls@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/vue-vjs-hls/-/vue-vjs-hls-1.0.0.tgz#3c82cac04793c7e4d8bf563c9c3ee0c69e561492"
@@ -9069,10 +9097,15 @@ vue-vjs-hls@^1.0.0:
     videojs-vimeo "^2.0.2"
     videojs-youtube "^2.1.1"
 
-vue@2.6.14, vue@^2.6.10:
+vue@2.6.14, vue@^2.6.10, vue@^2.6.12:
   version "2.6.14"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.14.tgz#e51aa5250250d569a3fbad3a8a5a687d6036e235"
   integrity sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==
+
+vuex@^3.6.2:
+  version "3.6.2"
+  resolved "https://registry.yarnpkg.com/vuex/-/vuex-3.6.2.tgz#236bc086a870c3ae79946f107f16de59d5895e71"
+  integrity sha512-ETW44IqCgBpVomy520DT5jf8n0zoCac+sxWnn+hMe/CzaSejb/eVw2YToiXYX+Ex/AuHHia28vWTq4goAexFbw==
 
 watchpack-chokidar2@^2.0.1:
   version "2.0.1"

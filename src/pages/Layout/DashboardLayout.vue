@@ -27,7 +27,7 @@
       <fixed-plugin
         :color.sync="sidebarBackground"
         :image.sync="sidebarBackgroundImage"
-      >
+        >ss
       </fixed-plugin>
 
       <dashboard-content> </dashboard-content>

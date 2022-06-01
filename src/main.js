@@ -39,13 +39,16 @@ const router = new VueRouter({
 
 Vue.prototype.$Chartist = Chartist;
 Vue.prototype.$unitid = "...";
+Vue.prototype.$dev_mode = (window.location.hostname === "127.0.0.1") || (window.location.hostname === "localhost")
 Vue.use(VueRouter);
 Vue.use(MaterialDashboard);
 Vue.use(GlobalComponents);
 Vue.use(GlobalDirectives);
 Vue.use(Notifications);
 
-axios.get("/api/unit_id").then((r) => {
+
+axios.get("/api/unit_id").then((r) =>
+{
   Vue.prototype.$unitid = r.data.unit_id;
 });
 /* eslint-disable no-new */
