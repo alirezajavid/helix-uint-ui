@@ -83,6 +83,10 @@
         <md-icon>settings</md-icon>
         <p>Configuration</p>
       </sidebar-link>
+      <sidebar-link to="/stats">
+        <md-icon>settings</md-icon>
+        <p>Stats</p>
+      </sidebar-link>
       <sidebar-link to="/history">
         <md-icon>analytics</md-icon>
         <p>History</p>

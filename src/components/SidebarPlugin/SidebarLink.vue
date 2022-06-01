@@ -8,7 +8,7 @@
       <div class="md-list-item-content md-ripple">
         <slot>
           <md-icon>{{ link.icon }}</md-icon>
-          <p>{{ link.name }}</p>
+          <p>{{ link.name }} vvvvvvvvvvvvvvvvvvvvvv</p>
         </slot>
       </div>
     </router-link>
