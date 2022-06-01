@@ -150,7 +150,6 @@ export default {
     },
     btn_cap() {
       this.capture();
-      
     },
   },
   created() {
