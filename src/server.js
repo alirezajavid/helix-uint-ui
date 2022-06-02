@@ -29,6 +29,17 @@ export function makeServer({ environment = "development" } = {}) {
 					EXTRA_STORAGE: '',
 				}
 			});
+			this.post("configs", () => {
+				return {
+					HUMANID: '303',
+					IOT_DEVICE_ID: '123',
+					CAMERA_TYPE: 'QWE',
+					HARDWARE: 'FA',
+					HARDWARE_VERSION: '12',
+					MAIN_STORAGE: '',
+					EXTRA_STORAGE: '',
+				}
+			});
 			this.get('status_quo', () => {
 				return {
 					armed: true,

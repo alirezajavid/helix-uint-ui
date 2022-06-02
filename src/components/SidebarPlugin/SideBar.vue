@@ -165,7 +165,9 @@ export default {
       axios.get("/maintenance?action=rotate&var=" + arrow).then((r) => {});
     },
     capture() {
-      axios.get("/maintenance?action=capture&var=still").then((r) => {});
+      axios.get("/maintenance?action=capture&var=still").then((r) => {
+        this.setImage();
+      });
     },
     btn_up() {
       this.rotate("up");
@@ -183,13 +185,14 @@ export default {
       this.capture();
     },
     toggleSidebar() {
-       EventBus.$emit("toggleSidebar");
+      EventBus.$emit("toggleSidebar");
+    },
+    setImage() {
+      this.img = this.$cam_image + "?rnd=" + Math.random();
     }
   },
   created() {
-    setInterval(() => {
-      this.img = this.$cam_image + "?rnd=" + Math.random();
-    }, 4000);
+    setInterval(() => this.setImage(), 6000);
   },
 };
 </script>

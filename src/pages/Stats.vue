@@ -133,7 +133,7 @@
 
           <template slot="content">
             <p class="category">Disk Usage</p>
-            <h4 class="title">{{ obj.primary_disk }}</h4>
+            <h4 class="title">{{ obj.primary_disk }} %</h4>
           </template>
 
           <template slot="footer">

@@ -45,10 +45,10 @@
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-50 md-size-50">
-            <md-button @click="save" class="md-info">Save</md-button>
+            <md-button @click="save_clicked" class="md-info">Save</md-button>
           </div>
           <div class="md-layout-item md-small-size-50 md-size-50">
-            <md-button class="md-info">Reboot</md-button>
+            <md-button @click="reboot_clicked" class="md-info">Reboot</md-button>
           </div>
         </div>
       </md-card-content>
@@ -80,6 +80,15 @@ export default {
           EXTRA_STORAGE: this.EXTRA_STORAGE,
         })
         .then((r) => {
+          this.$notify({
+            message:
+              "New Configuration saved. The installation process take about one minute...",
+            icon: "add_alert",
+            horizontalAlign: "center" ,
+            verticalAlign: "top",
+            type: "success",
+            timeout: 7000
+          });
           this.HUMANID = r.data.HUMANID;
           this.IOT_DEVICE_ID = r.data.IOT_DEVICE_ID;
           this.CAMERA_TYPE = r.data.CAMERA_TYPE;
@@ -89,8 +98,78 @@ export default {
           this.EXTRA_STORAGE = r.data.EXTRA_STORAGE;
         })
         .catch((e) => {
-          alert("Error: " + e.message);
+          this.$notify({
+            message:
+              "<big>Error in connection. </big><br>"  + e.message,
+            icon: "signal_wifi_off",
+            horizontalAlign: "right" ,
+            verticalAlign: "top",
+            type: "danger",
+            timeout: 7000
+          });
         });
+    },
+
+    reboot() {
+      axios
+        .get("/maintenance?action=restart&var=pi")
+        .then((r) => {
+          this.$notify({
+            message:
+              "Send reboot signal.",
+            icon: "restart",
+            horizontalAlign: "center" ,
+            verticalAlign: "top",
+            type: "success",
+            timeout: 7000
+          });
+        })
+        .catch((e) => {
+          this.$notify({
+            message:
+              "<big>Error in connection. </big><br>"  + e.message,
+            icon: "signal_wifi_off",
+            horizontalAlign: "right" ,
+            verticalAlign: "top",
+            type: "danger",
+            timeout: 7000
+          });
+        });
+    },
+
+
+    reboot_clicked() {
+      this.$confirm(
+          {
+            message: 'Are you sure?',
+            button: {
+              no: 'No',
+              yes: 'Yes'
+            },
+            callback: confirm => {
+              if (confirm) {
+                this.reboot();
+              }
+            }
+          }
+        )
+      
+    },
+    save_clicked() {
+      this.$confirm(
+        {
+          message: 'Are you sure?',
+          button: {
+            no: 'No',
+            yes: 'Yes'
+          },
+          callback: confirm => {
+            if (confirm) {
+              this.save();
+            }
+          }
+        }
+      )
     },
   },
   created() {
@@ -100,7 +179,15 @@ export default {
         this.CAMERA_TYPES = r.data.camera_types;
       })
       .catch((e) => {
-        alert("Error: " + e.message);
+        this.$notify({
+            message:
+              "<big>Error in connection. </big><br>"  + e.message,
+            icon: "signal_wifi_off",
+            horizontalAlign: "right" ,
+            verticalAlign: "top",
+            type: "danger",
+            timeout: 7000
+          });
       });
     axios
       .get("/api/configs")
@@ -114,7 +201,15 @@ export default {
         this.EXTRA_STORAGE = r.data.EXTRA_STORAGE;
       })
       .catch((e) => {
-        alert("Error: " + e.message);
+        this.$notify({
+            message:
+              "<big>Error in connection. </big><br>"  + e.message,
+            icon: "signal_wifi_off",
+            horizontalAlign: "right" ,
+            verticalAlign: "top",
+            type: "danger",
+            timeout: 7000
+          });
       });
   },
   data() {
