@@ -43,6 +43,7 @@
 
 <script>
 import SidebarLink from "../../components/SidebarPlugin/SidebarLink.vue";
+import  EventBus  from "../../eventBus";
 
 export default {
   data() {
@@ -56,6 +57,11 @@ export default {
       this.$sidebar.displaySidebar(!this.$sidebar.showSidebar);
     },
   },
+  mounted() {
+    EventBus.$on("toggleSidebar", () => {
+      this.toggleSidebar();
+    });
+  }
 };
 </script>
 

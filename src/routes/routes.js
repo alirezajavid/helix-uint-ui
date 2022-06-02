@@ -10,7 +10,7 @@ const routes = [
   {
     path: "/",
     component: DashboardLayout,
-    redirect: "/live",
+    redirect: "/stats",
     children: [
       {
         path: "live",
@@ -30,8 +30,8 @@ const routes = [
       {
         path: "configuration",
         name: "Configuration",
-        component: Configuration
-      }
+        component: Configuration,
+      },
     ],
   },
 ];

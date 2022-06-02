@@ -4,6 +4,7 @@
     :data-color="sidebarItemColor"
     :data-image="sidebarBackgroundImage"
     :style="sidebarStyle"
+    @click="toggleSidebar"
   >
     <div class="logo">
       <a class="simple-text logo-mini">
@@ -13,6 +14,7 @@
       </a>
 
       <a
+      @click="toggleSidebar"
         target="_blank"
         class="simple-text logo-normal"
         style="text-transform: none"
@@ -91,11 +93,24 @@
         <md-icon>analytics</md-icon>
         <p>History</p>
       </sidebar-link>
+
+      dd
+      <sidebar-link
+        v-for="(link, index) in sidebarLinks"
+        :key="link.name + index"
+        :to="link.path"
+        :link="link"
+      >
+      </sidebar-link>
+
+      vv
     </div>
   </div>
 </template>
 <script>
 import axios from "axios";
+import  EventBus  from "../../eventBus";
+
 export default {
   components: {},
   props: {
@@ -142,7 +157,7 @@ export default {
   },
   data() {
     return {
-      img: "/jpeg/mjpeg_latest.jpg",
+      img: this.$cam_image,
     };
   },
   methods: {
@@ -165,13 +180,15 @@ export default {
       this.rotate("right");
     },
     btn_cap() {
-      console.log("ass");
       this.capture();
     },
+    toggleSidebar() {
+       EventBus.$emit("toggleSidebar");
+    }
   },
   created() {
     setInterval(() => {
-      this.img = "/jpeg/mjpeg_latest.jpg?rnd=" + Math.random();
+      this.img = this.$cam_image + "?rnd=" + Math.random();
     }, 4000);
   },
 };
@@ -181,11 +198,6 @@ export default {
   .nav-mobile-menu {
     display: none;
   }
-}
-#video {
-  background-color: black;
-  height: 120px;
-  margin: 0px 20px 0px 20px;
 }
 .dokme {
   text-align: center;

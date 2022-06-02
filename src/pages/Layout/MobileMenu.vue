@@ -4,7 +4,7 @@
       <drop-down>
         <a slot="title" class="dropdown-toggle">
           <i class="material-icons">notifications</i>
-          <span class="notification">5</span>
+          <span class="notification"></span>
           <p>Notifications</p>
         </a>
       </drop-down>
