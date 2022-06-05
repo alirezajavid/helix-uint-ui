@@ -4,7 +4,6 @@
     :data-color="sidebarItemColor"
     :data-image="sidebarBackgroundImage"
     :style="sidebarStyle"
-    @click="toggleSidebar"
   >
     <div class="logo">
       <a class="simple-text logo-mini">
@@ -77,39 +76,31 @@
         <div class="logo" />
         <!--By default vue-router adds an active class to each route link. This way the links are colored when clicked-->
       </md-list>
-      <sidebar-link to="/live">
-        <md-icon>auto_graph</md-icon>
-        <p>Live</p>
-      </sidebar-link>
-      <sidebar-link to="/configuration">
-        <md-icon>settings</md-icon>
-        <p>Configuration</p>
-      </sidebar-link>
-      <sidebar-link to="/stats">
-        <md-icon>settings</md-icon>
-        <p>Stats</p>
-      </sidebar-link>
-      <sidebar-link to="/history">
-        <md-icon>analytics</md-icon>
-        <p>History</p>
-      </sidebar-link>
 
-      dd
-      <sidebar-link
-        v-for="(link, index) in sidebarLinks"
-        :key="link.name + index"
-        :to="link.path"
-        :link="link"
-      >
-      </sidebar-link>
-
-      vv
+      <md-list>
+        <sidebar-link to="/live">
+          <md-icon>tv</md-icon>
+          <p class="jmen">Live</p>
+        </sidebar-link>
+        <sidebar-link to="/configuration">
+          <md-icon>settings</md-icon>
+          <p class="jmen">Configuration</p>
+        </sidebar-link>
+        <sidebar-link to="/stats">
+          <md-icon>assessment</md-icon>
+          <p class="jmen">Stats</p>
+        </sidebar-link>
+        <sidebar-link to="/history">
+          <md-icon>trending_up</md-icon>
+          <p class="jmen">History</p>
+        </sidebar-link>
+      </md-list>
     </div>
   </div>
 </template>
 <script>
 import axios from "axios";
-import  EventBus  from "../../eventBus";
+import EventBus  from "../../eventBus";
 
 export default {
   components: {},
@@ -136,7 +127,10 @@ export default {
     },
     sidebarLinks: {
       type: Array,
-      default: () => [],
+      default: () => [{
+        name: 'Live',
+        path:'live'
+      }],
     },
     autoClose: {
       type: Boolean,
@@ -207,5 +201,8 @@ export default {
 }
 .jdok {
   padding-left: 8px !important;
+}
+.jmen {
+  color: white
 }
 </style>

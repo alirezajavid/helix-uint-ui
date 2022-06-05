@@ -2,7 +2,7 @@
   <div class="player">
     <video-player
       ref="videoPlayer"
-      style="border: solid 1px red"
+      style="border: none 1px red"
       class="vjs-custom-skin"
       :options="playerOptions"
       @play="onPlayerPlay($event)"

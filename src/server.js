@@ -26,7 +26,7 @@ export function makeServer({ environment = "development" } = {}) {
 					HARDWARE: 'FA',
 					HARDWARE_VERSION: '12',
 					MAIN_STORAGE: '',
-					EXTRA_STORAGE: '',
+					EXTRA_STORAGE: ''
 				}
 			});
 			this.post("configs", () => {
@@ -41,6 +41,19 @@ export function makeServer({ environment = "development" } = {}) {
 				}
 			});
 			this.get('status_quo', () => {
+				return {
+					armed: true,
+					camera: false,
+					cpu: 20,
+					load_current: 22,
+					memory: 33,
+					primary_disk: 44,
+					temperature: 44,
+					uptime: 432234 
+				}
+			})
+			this.namespace = "";
+			this.get('maintenance', () => {
 				return {
 					armed: true,
 					camera: false,

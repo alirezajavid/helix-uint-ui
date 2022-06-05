@@ -8,7 +8,7 @@
       <div class="md-list-item-content md-ripple">
         <slot>
           <md-icon>{{ link.icon }}</md-icon>
-          <p>{{ link.name }} vvvvvvvvvvvvvvvvvvvvvv</p>
+          <p>{{ link.name }} </p>
         </slot>
       </div>
     </router-link>
@@ -16,6 +16,8 @@
 </template>
 <script>
 export default {
+  created () {
+  },
   inject: {
     autoClose: {
       default: true,
@@ -37,8 +39,14 @@ export default {
       default: "router-link",
     },
   },
+  watch: {
+    $route(to, from) {
+      this.hideSidebar();
+    }
+  },
   methods: {
     hideSidebar() {
+      
       if (
         this.autoClose &&
         this.$sidebar &&

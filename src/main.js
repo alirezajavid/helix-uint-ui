@@ -33,7 +33,6 @@ import Chartist from "chartist";
 import axios from "axios";
 import { makeServer } from "./server";
 import VueConfirmDialog from "vue-confirm-dialog"
-
 if (process.env.NODE_ENV === "development") {
   makeServer();
 }
@@ -55,7 +54,7 @@ Vue.use(MaterialDashboard);
 Vue.use(GlobalComponents);
 Vue.use(GlobalDirectives);
 Vue.use(Notifications);
-Vue.use(VueConfirmDialog)
+Vue.use(VueConfirmDialog);
 Vue.component('vue-confirm-dialog', VueConfirmDialog.default)
 
 axios.get("/api/unit_id").then((r) => {

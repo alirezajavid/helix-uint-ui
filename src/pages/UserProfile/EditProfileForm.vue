@@ -45,10 +45,29 @@
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-50 md-size-50">
-            <md-button @click="save_clicked" class="md-info">Save</md-button>
+            <ProgressButton 
+              @click="save_clicked"
+              ref="save_button"
+              name="bottom" class="btn btn-warning mr-1 mb-1" 
+              :height="10" 
+              :duration="1000"
+              position="top">
+              
+               <md-icon>save</md-icon>
+               Save
+            </ProgressButton>
           </div>
           <div class="md-layout-item md-small-size-50 md-size-50">
-            <md-button @click="reboot_clicked" class="md-info">Reboot</md-button>
+            <ProgressButton 
+              @click="reboot_clicked"
+              ref="reboot_button"
+              name="bottom" class="btn btn-warning mr-1 mb-1" 
+              :height="10" 
+              :duration="20000"
+              position="top">
+              <md-icon>restart_alt</md-icon>
+              Reboot
+            </ProgressButton>
           </div>
         </div>
       </md-card-content>
@@ -58,9 +77,13 @@
 <script>
 import axios from "axios";
 import "vue-select/dist/vue-select.css";
+import ProgressButton from "../../components/ProgressButton"
 
 export default {
   name: "edit-profile-form",
+  components: {
+    ProgressButton
+  },
   props: {
     dataBackgroundColor: {
       type: String,
@@ -121,7 +144,7 @@ export default {
             horizontalAlign: "center" ,
             verticalAlign: "top",
             type: "success",
-            timeout: 7000
+            timeout: 12000
           });
         })
         .catch((e) => {
@@ -132,7 +155,7 @@ export default {
             horizontalAlign: "right" ,
             verticalAlign: "top",
             type: "danger",
-            timeout: 7000
+            timeout: 12000
           });
         });
     },
@@ -148,6 +171,7 @@ export default {
             },
             callback: confirm => {
               if (confirm) {
+                this.$refs.reboot_button.start()
                 this.reboot();
               }
             }
@@ -165,6 +189,7 @@ export default {
           },
           callback: confirm => {
             if (confirm) {
+              this.$refs.save_button.start()
               this.save();
             }
           }
@@ -186,7 +211,7 @@ export default {
             horizontalAlign: "right" ,
             verticalAlign: "top",
             type: "danger",
-            timeout: 7000
+            timeout: 12000
           });
       });
     axios
@@ -208,7 +233,7 @@ export default {
             horizontalAlign: "right" ,
             verticalAlign: "top",
             type: "danger",
-            timeout: 7000
+            timeout: 12000
           });
       });
   },
@@ -222,8 +247,33 @@ export default {
       MAIN_STORAGE: "",
       EXTRA_STORAGE: "",
       CAMERA_TYPES: [],
+      progressv: 50,
     };
   },
+  mounted() {
+  }
 };
 </script>
-<style></style>
+<style>
+.__progress-button {
+    border-radius: 3px;
+    position: relative;
+    margin: 10px 1px;
+    height: 40px;
+    width: 120px;
+    line-height: 1.42857;
+    font-size: 12px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0;
+    will-change: box-shadow, transform;
+    -webkit-transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1);
+    transition: background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1);
+    transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), -webkit-box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1);
+    color: #FFFFFF !important;
+    background-color: #00bcd4 !important;
+    box-shadow: 0 2px 2px 0 rgba(0, 188, 212, 0.14), 0 3px 1px -2px rgba(0, 188, 212, 0.2), 0 1px 5px 0 rgba(0, 188, 212, 0.12);
+    border: none;
+}
+</style>

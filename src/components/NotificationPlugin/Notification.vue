@@ -41,7 +41,7 @@ export default {
     },
     timeout: {
       type: Number,
-      default: 2500,
+      default: 7000,
     },
     timestamp: {
       type: Date,

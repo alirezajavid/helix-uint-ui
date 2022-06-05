@@ -18,12 +18,17 @@
 
           <template slot="footer">
             <div class="stats">
-              <md-button
-                class="md-danger md-round md-sm"
-                @click="action('restart', 'camera')"
-              >
-                <md-icon>restart_alt</md-icon> Restart
-              </md-button>
+              <ProgressButton 
+              @click="restart_camera"
+              ref="reboot_camera_button"
+              name="bottom" 
+              class="md-danger md-round md-sm" 
+              :height="10" 
+              :duration="4000"
+              position="top">
+              <md-icon>restart_alt</md-icon>
+              Reboot
+            </ProgressButton>
             </div>
           </template>
         </stats-card>
@@ -44,20 +49,36 @@
 
           <template slot="footer">
             <div class="stats">
-              <md-button
+              
+
+              <ProgressButton 
                 v-if="!obj.armed"
-                class="md-danger md-round md-sm"
                 @click="action('armed', 'on')"
-              >
-                <md-icon>gps_fixed</md-icon> Arm
-              </md-button>
-              <md-button
+                ref="arm_on_button"
+                name="bottom" 
+                class="md-danger md-round md-sm" 
+                :height="10" 
+                :duration="4000"
+                position="top">
+                <md-icon>gps_fixed</md-icon>
+                Arm
+              </ProgressButton>
+
+
+              <ProgressButton 
                 v-if="obj.armed"
-                class="md-success md-round md-sm"
                 @click="action('armed', 'off')"
-              >
-                <md-icon>gps_off</md-icon> Disarm
-              </md-button>
+                ref="arm_off_button"
+                name="bottom" 
+                class="md-success md-round md-sm" 
+                :height="10" 
+                :duration="4000"
+                position="top">
+                <md-icon>gps_off</md-icon>
+                Disarm
+              </ProgressButton>
+
+
             </div>
           </template>
         </stats-card>
@@ -196,13 +217,16 @@
 <script>
 import axios from "axios";
 import { StatsCard } from "@/components";
+import ProgressButton from "@/components/ProgressButton"
 
 export default {
   components: {
     StatsCard,
+    ProgressButton
   },
   created() {
     this.getstats();
+    setInterval(this.getstats, 4000);
   },
   computed: {
     huptime() {
@@ -216,19 +240,40 @@ export default {
     },
   },
   methods: {
+    restart_camera() {
+      this.$refs.reboot_camera_button.start()
+      this.action("restart", "camera");
+      this.show_progress();
+    },
+    show_progress() {
+      if (this.progress < 100) {
+        this.progress++;
+        setTimeout(this.show_progress, 250);
+      } else {
+        this.progress = 0;
+      }
+    },
     getstats() {
       axios.get("/api/status_quo").then((r) => {
         this.obj = r.data;
       });
     },
     action(action, _var) {
+      if (action == 'arm') {
+        if (_var = 'off')
+          this.$refs.arm_on_button.start()
+        else
+          this.$refs.arm_off_button.start()
+      }
       axios.get("/maintenance?action=" + action + "&var=" + _var).then((r) => {
         this.obj = r.data;
+        this.getstats();
       });
     },
   },
   data() {
     return {
+      progress: 0,
       obj: {
         armed: null,
         camera: null,

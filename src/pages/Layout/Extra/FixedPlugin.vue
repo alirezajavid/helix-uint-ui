@@ -39,7 +39,6 @@
             >
           </div>
         </li>
-
         <li class="button-container">
           <div class="">
             <md-button
@@ -67,20 +66,20 @@
 </template>
 <script>
 import Vue from "vue";
-import SocialSharing from "vue-social-sharing";
+//import SocialSharing from "vue-social-sharing";
 import VueGitHubButtons from "vue-github-buttons";
 import "vue-github-buttons/dist/vue-github-buttons.css";
 
-Vue.use(SocialSharing);
+//Vue.use(SocialSharing);
 Vue.use(VueGitHubButtons, { useCache: true });
 export default {
   data() {
     return {
       documentationLink:
-        "https://creativetimofficial.github.io/vue-material-dashboard/documentation",
-      shareUrl: "https://www.creative-tim.com/product/vue-material-dashboard",
+        "https://casdb.io/vue-material-dashboard/documentation",
+      shareUrl: "https://www.creative-tweqe/vue-material-dashboard",
       buyUrl: "",
-      freeUrl: "https://www.creative-tim.com/product/vue-material-dashboard",
+      freeUrl: "https://www.creativqweduct/vue-material-dashboard",
       isOpen: false,
       sidebarColors: [
         { color: "purple", active: false },
@@ -90,10 +89,10 @@ export default {
         { color: "red", active: false },
       ],
       sidebarImages: [
-        { image: require("@/assets/img/sidebar-1.jpg"), active: false },
+        //{ image: require("@/assets/img/sidebar-1.jpg"), active: false },
         { image: require("@/assets/img/sidebar-2.jpg"), active: true },
-        { image: require("@/assets/img/sidebar-3.jpg"), active: false },
-        { image: require("@/assets/img/sidebar-4.jpg"), active: false },
+        // { image: require("@/assets/img/sidebar-3.jpg"), active: false },
+        // { image: require("@/assets/img/sidebar-4.jpg"), active: false },
       ],
     };
   },
