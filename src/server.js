@@ -1,35 +1,30 @@
 import { Server, Model } from "miragejs";
 
-export function makeServer({ environment = "development" } = {}) {
+export function makeServer ({ environment = "development" } = {})
+{
 	let server = new Server({
 		environment,
 		models: {
 			todo: Model,
 		},
-		seeds(server) {
+		seeds (server)
+		{
 			server.create("todo", { content: "Learn Mirage JS" });
 			server.create("todo", { content: "Integrate With Vue.js" });
 		},
-		routes() {
+		routes ()
+		{
 			this.namespace = "api";
-			this.get("unit_id", () => {
-				return { unit_id : 323103 };
+			this.get("unit_id", () =>
+			{
+				return { unit_id: 323103 };
 			});
-			this.get("camera_types", () => {
-				return { camera_types: ['1', '2']}
+			this.get("camera_types", () =>
+			{
+				return { camera_types: ['1', '2'] }
 			});
-			this.get("configs", () => {
-				return {
-					HUMANID: '303',
-					IOT_DEVICE_ID: '123',
-					CAMERA_TYPE: 'QWE',
-					HARDWARE: 'FA',
-					HARDWARE_VERSION: '12',
-					MAIN_STORAGE: '',
-					EXTRA_STORAGE: ''
-				}
-			});
-			this.post("configs", () => {
+			this.get("configs", () =>
+			{
 				return {
 					HUMANID: '303',
 					IOT_DEVICE_ID: '123',
@@ -40,7 +35,20 @@ export function makeServer({ environment = "development" } = {}) {
 					EXTRA_STORAGE: '',
 				}
 			});
-			this.get('status_quo', () => {
+			this.post("configs", () =>
+			{
+				return {
+					HUMANID: '303',
+					IOT_DEVICE_ID: '123',
+					CAMERA_TYPE: 'QWE',
+					HARDWARE: 'FA',
+					HARDWARE_VERSION: '12',
+					MAIN_STORAGE: '',
+					EXTRA_STORAGE: '',
+				}
+			});
+			this.get('status_quo', () =>
+			{
 				return {
 					armed: true,
 					camera: false,
@@ -49,11 +57,13 @@ export function makeServer({ environment = "development" } = {}) {
 					memory: 33,
 					primary_disk: 44,
 					temperature: 44,
-					uptime: 432234 
+					uptime: 432234,
+					allowed_to_configure: false
 				}
 			})
 			this.namespace = "";
-			this.get('maintenance', () => {
+			this.get('maintenance', () =>
+			{
 				return {
 					armed: true,
 					camera: false,
@@ -62,12 +72,12 @@ export function makeServer({ environment = "development" } = {}) {
 					memory: 33,
 					primary_disk: 44,
 					temperature: 44,
-					uptime: 432234 
+					uptime: 432234
 				}
 			})
 
 		},
 	});
-   // console.log(server)
+	// console.log(server)
 	return server;
 }

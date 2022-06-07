@@ -1,13 +1,19 @@
 <template>
-  <md-button :class="{active: isActivated}" :disabled="isActive" class="md-info __progress-button" data-progress-style="fill-back" @click="click">
-    <div :style="styling" class="__progress" style="width:100%"/>
+  <md-button
+    :class="{ active: isActivated }"
+    :disabled="isActive && disabled"
+    class="md-info __progress-button"
+    data-progress-style="fill-back"
+    @click="click"
+  >
+    <div :style="styling" class="__progress" style="width: 100%" />
     <div class="__progress-button-content"><slot /></div>
   </md-button>
 </template>
 
 <style lang="sass" scoped>
-  .__progress-button
-    position: relative
+.__progress-button
+  position: relative
 
   .__progress-button:not(.active)
     cursor: pointer
@@ -29,100 +35,106 @@
   .__progress-button.active .__progress
     opacity: 1
     transition-timing-function: ease
-
 </style>
 <script>
 export default {
-  name: 'ProgressButton',
+  name: "ProgressButton",
   props: {
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
     fillColor: {
       type: String,
-      default: '#555'
+      default: "#555",
     },
     duration: {
       type: Number,
-      default: 2000
+      default: 2000,
     },
     height: {
       type: Number,
-      default: 100
+      default: 100,
     },
     position: {
       type: String,
-      default: 'fill'
-    }
+      default: "fill",
+    },
   },
-  data () {
+  data() {
     return {
       isActive: false,
       timer: null,
       percent: 0,
-      steps: 200
-    }
+      steps: 200,
+    };
   },
   computed: {
-    intervalDuration () {
-      return this.duration / this.steps
+    intervalDuration() {
+      return this.duration / this.steps;
     },
     isActivated: function () {
-      return this.isActive
+      return this.isActive;
     },
-    styling () {
+    styling() {
       let styling = {
-        width: this.percent + '%',
-        'background-color': this.fillColor
-      }
+        width: this.percent + "%",
+        "background-color": this.fillColor,
+      };
 
       switch (this.position) {
-        case 'top':
-          styling['height'] = this.height + 'px'
-          styling['top'] = 0
-          break
-        case 'bottom':
-          styling['height'] = this.height + 'px'
-          styling['bottom'] = 0
-          break
+        case "top":
+          styling["height"] = this.height + "px";
+          styling["top"] = 0;
+          break;
+        case "bottom":
+          styling["height"] = this.height + "px";
+          styling["bottom"] = 0;
+          break;
         default:
-          styling['top'] = 0
-          styling['bottom'] = 0
+          styling["top"] = 0;
+          styling["bottom"] = 0;
       }
 
-      return styling
-    }
+      return styling;
+    },
   },
   methods: {
-    click (event) {
-      this.$emit('click', event)
+    click(event) {
+      this.$emit("click", event);
     },
-    start () {
-      this.isActive = true
+    start() {
+      this.isActive = true;
       this.timer = setInterval(() => {
-        this.increase(Math.random())
+        this.increase(Math.random());
         if (this.percent >= 100) {
-          this.end()
+          this.end();
         }
-      }, this.intervalDuration)
+      }, this.intervalDuration);
     },
-    set (percent) {
-      this.percent = Math.round(percent)
+    set(percent) {
+      this.percent = Math.round(percent);
     },
-    increase (amount) {
-      this.set(this.percent + amount)
+    increase(amount) {
+      this.set(this.percent + amount);
     },
-    decrease (amount) {
-      this.set(this.percent - amount)
+    decrease(amount) {
+      this.set(this.percent - amount);
     },
-    end () {
-      this.set(100)
+    end() {
+      this.set(100);
       setTimeout(() => {
-        this.isActive = false
-        clearTimeout(this.timer)
-        this.set(0)
-      }, 250)
-    }
+        this.isActive = false;
+        clearTimeout(this.timer);
+        this.set(0);
+      }, 250);
+    },
   },
   mounted() {
-    this.$el.querySelector('div.md-ripple > div.md-button-content').style.position='revert'
-  }
-}
+    this.$el.querySelector(
+      "div.md-ripple > div.md-button-content"
+    ).style.position = "revert";
+    this.isActive = this.disabled;
+  },
+};
 </script>

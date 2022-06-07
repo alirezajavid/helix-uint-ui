@@ -23,7 +23,8 @@
     "vue-toasted": "^1.1.28",
     "vue-video-player": "^5.0.2",
     "vue-videojs7": "^1.0.2",
-    "vue-vjs-hls": "^1.0.0"
+    "vue-vjs-hls": "^1.0.0",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "4.5.15",
