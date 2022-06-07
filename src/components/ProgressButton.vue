@@ -1,7 +1,7 @@
 <template>
   <md-button
     :class="{ active: isActivated }"
-    :disabled="isActive && disabled"
+    :disabled="isActive || disabled"
     class="md-info __progress-button"
     data-progress-style="fill-back"
     @click="click"
@@ -134,7 +134,6 @@ export default {
     this.$el.querySelector(
       "div.md-ripple > div.md-button-content"
     ).style.position = "revert";
-    this.isActive = this.disabled;
   },
 };
 </script>

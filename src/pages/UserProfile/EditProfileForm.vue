@@ -123,6 +123,7 @@ export default {
           this.HARDWARE_VERSION = r.data.HARDWARE_VERSION;
           this.MAIN_STORAGE = r.data.MAIN_STORAGE;
           this.EXTRA_STORAGE = r.data.EXTRA_STORAGE;
+          this.active_save = false;
         })
         .catch((e) => {
           this.$notify({
