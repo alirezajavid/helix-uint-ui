@@ -84,7 +84,7 @@
         </sidebar-link>
         <sidebar-link to="/configuration">
           <md-icon>settings</md-icon>
-          <p class="jmen">Configuration</p>
+          <p class="jm10.220.66.101en">Configuration</p>
         </sidebar-link>
         <sidebar-link to="/stats">
           <md-icon>assessment</md-icon>
