@@ -32,6 +32,11 @@ const routes = [
         name: "Configuration",
         component: Configuration,
       },
+      {
+        path: "notifications",
+        name: "Notifications",
+        component: Notifications,
+      },
     ],
   },
 ];

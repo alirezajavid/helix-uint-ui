@@ -3,140 +3,71 @@
     <div class="md-layout">
       <div class="md-layout-item">
         <md-card>
-          <md-card-header data-background-color="green">
+          <md-card-header data-background-color="orange">
             <h4 class="title">Notifications</h4>
-            <p class="category">
-              Handcrafted by us with <i class="fa fa-heart heart"></i>
-            </p>
           </md-card-header>
           <md-card-content>
             <div class="md-layout">
-              <div class="md-layout-item md-medium-size-100">
-                <h5>Notifications Style</h5>
-                <div class="alert alert-info">
-                  <span>This is a plain notification</span>
-                </div>
-                <div class="alert alert-info">
-                  <button type="button" aria-hidden="true" class="close">
-                    ×
-                  </button>
-                  <span>This is a notification with close button.</span>
-                </div>
-                <div
-                  class="alert alert-info alert-with-icon"
-                  data-notify="container"
+              <div class="md-layout-item md-medium-size-100 player">
+                <h5>Notifications</h5>
+                <video-player
+                  ref="videoPlayer"
+                  style="border: none 1px red"
+                  class="vjs-custom-skin"
+                  :options="playerOptions"
+                  @play="onPlayerPlay($event)"
+                  @ready="onPlayerReady($event)"
                 >
-                  <button type="button" aria-hidden="true" class="close">
-                    ×
-                  </button>
-                  <i data-notify="icon" class="material-icons">add_alert</i>
-                  <span data-notify="message"
-                    >This is a notification with close button and icon.</span
-                  >
-                </div>
-                <div
-                  class="alert alert-info alert-with-icon"
-                  data-notify="container"
-                >
-                  <button type="button" aria-hidden="true" class="close">
-                    ×
-                  </button>
-                  <i data-notify="icon" class="material-icons">add_alert</i>
-                  <span data-notify="message"
-                    >This is a notification with close button and icon and have
-                    many lines. You can see that the icon and the close button
-                    are always vertically aligned. This is a beautiful
-                    notification. So you don't have to worry about the
-                    style.</span
-                  >
+                </video-player>
+                <div>
+                  <md-button class="md-just-icon-javid"
+                    v-for="i in cPageCount"
+                    :key="i"
+                    @click="setRecords(i)"
+                    :class="'md-just-icon md-sm' + (i == currentPage ? '': ' md-primary')">
+                    <span style="font-size:13px">{{ i }}</span>
+                  </md-button>
                 </div>
               </div>
               <div class="md-layout-item md-medium-size-100">
-                <h5>Notification states</h5>
-                <div class="alert alert-info">
-                  <button type="button" aria-hidden="true" class="close">
-                    ×
-                  </button>
-                  <span
-                    ><b> Info - </b> This is a regular notification made with
-                    ".alert-info"</span
-                  >
-                </div>
-                <div class="alert alert-success">
-                  <button type="button" aria-hidden="true" class="close">
-                    ×
-                  </button>
-                  <span
-                    ><b> Success - </b> This is a regular notification made with
-                    ".alert-success"</span
-                  >
-                </div>
-                <div class="alert alert-warning">
-                  <button type="button" aria-hidden="true" class="close">
-                    ×
-                  </button>
-                  <span
-                    ><b> Warning - </b> This is a regular notification made with
-                    ".alert-warning"</span
-                  >
-                </div>
-                <div class="alert alert-danger">
-                  <button type="button" aria-hidden="true" class="close">
-                    ×
-                  </button>
-                  <span
-                    ><b> Danger - </b> This is a regular notification made with
-                    ".alert-danger"</span
-                  >
-                </div>
-                <div class="alert alert-primary">
-                  <button type="button" aria-hidden="true" class="close">
-                    ×
-                  </button>
-                  <span
-                    ><b> Primary - </b> This is a regular notification made with
-                    ".alert-primary"</span
-                  >
-                </div>
-              </div>
 
-              <div class="md-layout-item md-size-100">
-                <div class="places-buttons text-center">
-                  <h5 class="text-center">
-                    Notifications Places
-                    <p class="category">Click to view notifications</p>
-                  </h5>
-                  <md-button
-                    class="md-primary"
-                    @click="notifyVue('top', 'left')"
-                    >Top Left</md-button
-                  >
-                  <md-button
-                    class="md-primary"
-                    @click="notifyVue('top', 'center')"
-                    >Top Center</md-button
-                  >
-                  <md-button
-                    class="md-primary"
-                    @click="notifyVue('top', 'right')"
-                    >Top Right</md-button
-                  >
-                  <md-button
-                    class="md-primary"
-                    @click="notifyVue('bottom', 'left')"
-                    >Bottom Left</md-button
-                  >
-                  <md-button
-                    class="md-primary"
-                    @click="notifyVue('bottom', 'center')"
-                    >Bottom Center</md-button
-                  >
-                  <md-button
-                    class="md-primary"
-                    @click="notifyVue('bottom', 'right')"
-                    >Bottom Right</md-button
-                  >
-                </div>
+
+                <h5>Notifications</h5>
+                <md-table v-model="alarms">
+                  <md-table-row slot="md-table-row" slot-scope="{ item }">
+                    <md-table-cell md-label="#">{{ item.id }}</md-table-cell>
+                    <md-table-cell md-label="Time">{{ item.name }}</md-table-cell>
+                    <md-table-cell md-label="Action">
+
+
+                      <span
+                        @click="playVideo(item)"
+                        style="cursor: pointer;"
+                      >
+                        <md-icon>video_camera_front</md-icon>
+                      </span> 
+
+                      <span
+                        @click="downloadVideo(item)"
+                        style="cursor: pointer;"
+                      >
+                        <md-icon>download</md-icon>
+                      </span> 
+
+<span
+                        @click="delVideo(item)"
+                        style="cursor: pointer;"
+                      >
+                        <md-icon>delete</md-icon>
+                      </span> 
+
+
+                    </md-table-cell>
+
+                  </md-table-row>
+                </md-table>
+                
+                    
               </div>
             </div>
           </md-card-content>
@@ -147,27 +78,119 @@
 </template>
 
 <script>
+import VideoPlayer from "vue-videojs7/src/components/VideoPlayer.vue";
+import axios from "axios";
+
+
 export default {
+  watch: {
+    pageCounts (newValue) { 
+      this.cPageCount = []
+      let s = this.currentPage < 2 ? 1: this.currentPage - 2
+      let e = this.currentPage + 2 < newValue ? this.currentPage  + 3 : newValue
+
+
+      s = 1
+      e = this.pageCounts
+      for(let i=s ; i <= e; i++)
+        this.cPageCount.push(i)
+    },
+    currentPage (newValue) { 
+      this.cPageCount = []
+      let s = newValue <= 2 ? 1: newValue - 2
+      let e = newValue + 2 < this.pageCounts ? this.currentPage  + 3 : this.pageCounts
+      s = 1
+      e = this.pageCounts
+      for(let i=s ; i <= e; i++)
+        this.cPageCount.push(i)
+    },
+  },
+  created() {
+    this.get_alarms();
+  },
+  components: {
+    VideoPlayer,
+  },
   data() {
     return {
-      type: ["", "info", "success", "warning", "danger"],
-      notifications: {
-        topCenter: false,
+      rawAlarms: {alarms:[]},
+      cPageCount: [],
+      PAGE_SIZE: 20,
+      pageCounts: 0,
+      currentPage: 1,
+      playerOptions: {
+        autoplay: true,
+        controls: true,
+        controlBar: {
+          timeDivider: false,
+          durationDisplay: false,
+        },
+        width: "300px",
+        // poster: 'https://surmon-china.github.io/vue-quill-editor/static/images/surmon-5.jpg'
       },
     };
   },
+  computed: {
+    player() {
+      return this.$refs.videoPlayer.player;
+    },
+    alarms() {
+      let start = (this.currentPage - 1) * this.PAGE_SIZE;
+      let end = this.currentPage * this.PAGE_SIZE
+      if (start < this.rawAlarms.alarms.length)
+        return this.rawAlarms.alarms.slice(start, end);
+      else {
+        return this.rawAlarms.alarms;
+      }
+    }
+  },
+
   methods: {
-    notifyVue(verticalAlign, horizontalAlign) {
-      var color = Math.floor(Math.random() * 4 + 1);
-      this.$notify({
-        message:
-          "Welcome to <b>Material Dashboard</b> - a beautiful freebie for every web developer.",
-        icon: "add_alert",
-        horizontalAlign: horizontalAlign,
-        verticalAlign: verticalAlign,
-        type: this.type[color],
+    setRecords(index) {
+      this.currentPage = index;
+    },
+    onPlayerPlay(player) {},
+    onPlayerReady(player) {
+      this.player.play();
+    },
+    delVideo: function (source) {
+      axios.delete("/api/alarms/" + source.name).then((r) => {
+        this.get_alarms();
+      });
+    },    
+    downloadVideo: function (source) {
+      window.open(source.download);
+    },
+    playVideo: function (source) {
+      const video = {
+        withCredentials: false,
+        type: "application/x-mpegurl",
+        src: source.href,
+      };
+      this.player.reset(); // in IE11 (mode IE10) direct usage of src() when <src> is already set, generated errors,
+      this.player.src(source.href);
+      this.player.load();
+      this.player.play();
+    },
+    get_alarms() {
+      axios.get("/api/alarms").then((r) => {
+        this.rawAlarms = r.data;
+        var keys = 1;
+        this.rawAlarms.alarms.forEach(function (element) {
+          element.id = keys++;
+        });
+        this.pageCounts = Math.ceil(r.data.alarms.length / this.PAGE_SIZE);
       });
     },
   },
 };
 </script>
+
+<style>
+ .md-just-icon-javid1 {
+    height: 30px !important;
+    min-width: 30px !important;
+    width: 30px !important;
+    padding: 0px;
+ }  
+</style>>

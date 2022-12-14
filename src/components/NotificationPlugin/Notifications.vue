@@ -3,19 +3,15 @@
     <transition-group name="list">
       <notification
         v-for="notification in notifications"
-        :key="notification.timestamp.getTime()"
+        :key="notification.name"
         :message="notification.message"
-        :icon="notification.icon"
-        :type="notification.type"
-        :timestamp="notification.timestamp"
-        :vertical-align="notification.verticalAlign"
-        :horizontal-align="notification.horizontalAlign"
         @on-close="removeNotification"
       >
       </notification>
     </transition-group>
   </div>
 </template>
+
 <script>
 import Notification from "./Notification.vue";
 export default {
@@ -24,7 +20,7 @@ export default {
   },
   data() {
     return {
-      notifications: this.$notifications.state,
+      notifications: [],
     };
   },
   methods: {
@@ -34,6 +30,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss">
 .list-move {
   transition: transform 0.3s, opacity 0.4s;

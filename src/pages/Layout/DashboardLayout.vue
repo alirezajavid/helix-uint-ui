@@ -7,23 +7,23 @@
       :sidebar-background-image="sidebarBackgroundImage"
     >
       <mobile-menu slot="content"></mobile-menu>
-        <sidebar-link to="/live">
-          <md-icon>tv</md-icon>
-          <p>Live</p>
-        </sidebar-link>
-        <sidebar-link to="/configuration">
-          <md-icon>settings</md-icon>
-          <p>Configuration</p>
-        </sidebar-link>
-        <sidebar-link to="/stats">
-          <md-icon>assessment</md-icon>
-          <p>Stats</p>
-        </sidebar-link>
-        <sidebar-link to="/history">
-          <md-icon>trending_up</md-icon>
-          <p>History</p>
-        </sidebar-link>
-      </side-bar>
+      <sidebar-link to="/live">
+        <md-icon>tv</md-icon>
+        <p>Live</p>
+      </sidebar-link>
+      <sidebar-link to="/configuration">
+        <md-icon>settings</md-icon>
+        <p>Configuration</p>
+      </sidebar-link>
+      <sidebar-link to="/stats">
+        <md-icon>assessment</md-icon>
+        <p>Stats</p>
+      </sidebar-link>
+      <sidebar-link to="/history">
+        <md-icon>trending_up</md-icon>
+        <p>History</p>
+      </sidebar-link>
+    </side-bar>
 
     <div class="main-panel">
       <top-navbar></top-navbar>

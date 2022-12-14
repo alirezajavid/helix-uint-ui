@@ -32,7 +32,7 @@ import MaterialDashboard from "./material-dashboard";
 import Chartist from "chartist";
 import axios from "axios";
 import { makeServer } from "./server";
-import VueConfirmDialog from "vue-confirm-dialog"
+import VueConfirmDialog from "vue-confirm-dialog";
 if (process.env.NODE_ENV === "development") {
   makeServer();
 }
@@ -48,14 +48,16 @@ Vue.prototype.$unitid = "...";
 Vue.prototype.$dev_mode =
   window.location.hostname === "127.0.0.1" ||
   window.location.hostname === "localhost";
-Vue.prototype.$cam_image = Vue.prototype.$dev_mode ? "https://www.entekhab.ir/files/fa/news/1401/3/10/1268200_267.jpg" : "/jpeg/mjpeg_latest.jpg";
+Vue.prototype.$cam_image = Vue.prototype.$dev_mode
+  ? "https://www.entekhab.ir/files/fa/news/1401/3/10/1268200_267.jpg"
+  : "/jpeg/mjpeg_latest.jpg";
 Vue.use(VueRouter);
 Vue.use(MaterialDashboard);
 Vue.use(GlobalComponents);
 Vue.use(GlobalDirectives);
 Vue.use(Notifications);
 Vue.use(VueConfirmDialog);
-Vue.component('vue-confirm-dialog', VueConfirmDialog.default)
+Vue.component("vue-confirm-dialog", VueConfirmDialog.default);
 
 axios.get("/api/unit_id").then((r) => {
   Vue.prototype.$unitid = r.data.unit_id;

@@ -13,7 +13,7 @@
       </a>
 
       <a
-      @click="toggleSidebar"
+        @click="toggleSidebar"
         target="_blank"
         class="simple-text logo-normal"
         style="text-transform: none"
@@ -84,7 +84,7 @@
         </sidebar-link>
         <sidebar-link to="/configuration">
           <md-icon>settings</md-icon>
-          <p class="jm10.220.66.101en">Configuration</p>
+          <p class="jmen">Configuration</p>
         </sidebar-link>
         <sidebar-link to="/stats">
           <md-icon>assessment</md-icon>
@@ -100,7 +100,7 @@
 </template>
 <script>
 import axios from "axios";
-import EventBus  from "../../eventBus";
+import EventBus from "../../eventBus";
 
 export default {
   components: {},
@@ -127,10 +127,12 @@ export default {
     },
     sidebarLinks: {
       type: Array,
-      default: () => [{
-        name: 'Live',
-        path:'live'
-      }],
+      default: () => [
+        {
+          name: "Live",
+          path: "live",
+        },
+      ],
     },
     autoClose: {
       type: Boolean,
@@ -183,7 +185,7 @@ export default {
     },
     setImage() {
       this.img = this.$cam_image + "?rnd=" + Math.random();
-    }
+    },
   },
   created() {
     setInterval(() => this.setImage(), 6000);
@@ -203,6 +205,6 @@ export default {
   padding-left: 8px !important;
 }
 .jmen {
-  color: white
+  color: white;
 }
 </style>
