@@ -78,9 +78,9 @@
       </md-list>
 
       <md-list>
-        <sidebar-link to="/live">
-          <md-icon>tv</md-icon>
-          <p class="jmen">Live</p>
+        <sidebar-link to="/stats">
+          <md-icon>assessment</md-icon>
+          <p class="jmen">Stats</p>
         </sidebar-link>
         <sidebar-link to="/configuration">
           <md-icon>settings</md-icon>
@@ -103,9 +103,9 @@
           <md-icon>build_circle</md-icon>
           <p class="jmen">Tools</p>
         </sidebar-link>
-        <sidebar-link to="/stats">
-          <md-icon>assessment</md-icon>
-          <p class="jmen">Stats</p>
+        <sidebar-link to="/live">
+          <md-icon>tv</md-icon>
+          <p class="jmen">Live</p>
         </sidebar-link>
         <sidebar-link to="/history">
           <md-icon>trending_up</md-icon>

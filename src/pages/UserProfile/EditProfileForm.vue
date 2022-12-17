@@ -47,14 +47,14 @@
 
           <div class="md-layout-item md-small-size-100 md-size-100">
             <label>Solar Control Mode:</label>
-            <md-radio v-model="SOLAR_CONTROL_MODE" value="0">Manual</md-radio>
-            <md-radio v-model="SOLAR_CONTROL_MODE" value="1">Training</md-radio>
+            <md-radio v-model="SOLAR_CTRL_LOAD_MODE" value="0">Manual</md-radio>
+            <md-radio v-model="SOLAR_CTRL_LOAD_MODE" value="1">Timing</md-radio>
           </div>
 
           <div class="md-layout-item md-small-size-100 md-size-100">
             <md-field>
-              <label>Keep Record Duration (hours)</label>
-              <md-input v-model="KEEP_DURATION" type="text"></md-input>
+              <label>Minimum Keeping Record Duration (hours)</label>
+              <md-input v-model="MIN_CHUNKS_LIFETIME_IN_HOUR" type="text"></md-input>
             </md-field>
           </div>
 
@@ -119,7 +119,8 @@ export default {
           HARDWARE_VERSION: this.HARDWARE_VERSION,
           MAIN_STORAGE: this.MAIN_STORAGE,
           EXTRA_STORAGE: this.EXTRA_STORAGE,
-          SOLAR_CONTROL_MODE: this.SOLAR_CONTROL_MODE,
+          SOLAR_CTRL_LOAD_MODE: this.SOLAR_CTRL_LOAD_MODE,
+          MIN_CHUNKS_LIFETIME_IN_HOUR: this.MIN_CHUNKS_LIFETIME_IN_HOUR
         })
         .then((r) => {
           this.$notify({
@@ -138,6 +139,8 @@ export default {
           this.HARDWARE_VERSION = r.data.HARDWARE_VERSION;
           this.MAIN_STORAGE = r.data.MAIN_STORAGE;
           this.EXTRA_STORAGE = r.data.EXTRA_STORAGE;
+          this.SOLAR_CTRL_LOAD_MODE = r.data.SOLAR_CTRL_LOAD_MODE;
+          this.MIN_CHUNKS_LIFETIME_IN_HOUR = r.data.MIN_CHUNKS_LIFETIME_IN_HOUR;
           this.active_save = false;
         })
         .catch((e) => {
@@ -242,6 +245,8 @@ export default {
         this.HARDWARE_VERSION = r.data.HARDWARE_VERSION;
         this.MAIN_STORAGE = r.data.MAIN_STORAGE;
         this.EXTRA_STORAGE = r.data.EXTRA_STORAGE;
+        this.SOLAR_CTRL_LOAD_MODE = r.data.SOLAR_CTRL_LOAD_MODE;
+        this.MIN_CHUNKS_LIFETIME_IN_HOUR = r.data.MIN_CHUNKS_LIFETIME_IN_HOUR;
       })
       .catch((e) => {
         this.$notify({
@@ -266,7 +271,8 @@ export default {
       CAMERA_TYPES: [],
       progressv: 50,
       active_save: false,
-      SOLAR_CONTROL_MODE: "manual",
+      SOLAR_CTRL_LOAD_MODE: "0",
+      MIN_CHUNKS_LIFETIME_IN_HOUR: 10
     };
   },
   mounted() {},
