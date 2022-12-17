@@ -34,7 +34,7 @@
 export default {
   data () {
     return {
-        time:'12:00',
+        time:'12:00:00',
         date: new Date(),
         length: 20
     }
