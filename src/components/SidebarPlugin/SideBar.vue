@@ -86,6 +86,23 @@
           <md-icon>settings</md-icon>
           <p class="jmen">Configuration</p>
         </sidebar-link>
+
+        <sidebar-link to="/notifications">
+          <md-icon>notifications</md-icon>
+          <p class="jmen">
+            <table>
+              <tr>
+                <td>Notifications</td>
+                <td><md-badge :md-content="notifCount" /></td>
+              </tr>
+            </table>
+          </p>
+        </sidebar-link>
+
+        <sidebar-link to="/tools">
+          <md-icon>build_circle</md-icon>
+          <p class="jmen">Tools</p>
+        </sidebar-link>
         <sidebar-link to="/stats">
           <md-icon>assessment</md-icon>
           <p class="jmen">Stats</p>
@@ -154,6 +171,7 @@ export default {
   data() {
     return {
       img: this.$cam_image,
+      notifCount: 10
     };
   },
   methods: {
@@ -186,9 +204,20 @@ export default {
     setImage() {
       this.img = this.$cam_image + "?rnd=" + Math.random();
     },
+    get_alarms_count() {
+      axios.get("/api/alarms?detail=false").then((r) => {
+        this.notifCount = r.data.total;
+      });
+    },
+
   },
   created() {
-    setInterval(() => this.setImage(), 6000);
+    this.get_alarms_count();
+    this.setImage();
+    setInterval(() => {
+      this.setImage();
+      this.get_alarms_count();
+    }, 5000);
   },
 };
 </script>
@@ -207,4 +236,5 @@ export default {
 .jmen {
   color: white;
 }
+
 </style>

@@ -5,6 +5,7 @@ import Configuration from "@/pages/Configuration.vue";
 import Stats from "@/pages/Stats.vue";
 import History from "@/pages/History.vue";
 import Notifications from "@/pages/Notifications.vue";
+import Tools from "@/pages/Tools.vue";
 
 const routes = [
   {
@@ -36,6 +37,11 @@ const routes = [
         path: "notifications",
         name: "Notifications",
         component: Notifications,
+      },
+      {
+        path: "tools",
+        name: "Tools",
+        component: Tools,
       },
     ],
   },

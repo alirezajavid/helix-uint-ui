@@ -44,6 +44,20 @@
               <md-input v-model="EXTRA_STORAGE" type="text"></md-input>
             </md-field>
           </div>
+
+          <div class="md-layout-item md-small-size-100 md-size-100">
+            <label>Solar Control Mode:</label>
+            <md-radio v-model="SOLAR_CONTROL_MODE" value="0">Manual</md-radio>
+            <md-radio v-model="SOLAR_CONTROL_MODE" value="1">Training</md-radio>
+          </div>
+
+          <div class="md-layout-item md-small-size-100 md-size-100">
+            <md-field>
+              <label>Keep Record Duration (hours)</label>
+              <md-input v-model="KEEP_DURATION" type="text"></md-input>
+            </md-field>
+          </div>
+
           <div class="md-layout-item md-small-size-50 md-size-50">
             <ProgressButton
               @click="save_clicked"
@@ -105,6 +119,7 @@ export default {
           HARDWARE_VERSION: this.HARDWARE_VERSION,
           MAIN_STORAGE: this.MAIN_STORAGE,
           EXTRA_STORAGE: this.EXTRA_STORAGE,
+          SOLAR_CONTROL_MODE: this.SOLAR_CONTROL_MODE,
         })
         .then((r) => {
           this.$notify({
@@ -251,6 +266,7 @@ export default {
       CAMERA_TYPES: [],
       progressv: 50,
       active_save: false,
+      SOLAR_CONTROL_MODE: "manual",
     };
   },
   mounted() {},
