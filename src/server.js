@@ -40,9 +40,17 @@ export function makeServer ({ environment = "development" } = {})
         }
 
       });
+      this.get("capture_snapshot", () =>
+      {
+        return { success: true, token: 'TOKEN' };
+      });
       this.get("footage_demand", () =>
       {
         return { success: true, token: 'TOKEN' };
+      });
+      this.get("snapshot_inquiry", () =>
+      {
+        return { state: 'end', result: 'http://120.157.72.86/frames/074_202212161200_20.mp4' };
       });
       this.get("footage_inquiry", () =>
       {

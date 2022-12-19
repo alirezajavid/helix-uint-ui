@@ -7,7 +7,11 @@
                 <td width="50%">
 
                     <div class="md-layout-item md-small-size-50 md-size-50">
-                        <md-button class="md-primary md-raised" @click="showDialog = true">Create Footage</md-button>
+                        <md-button  :disabled="in_progress" class="md-primary md-raised" @click="showDialog = true">
+                            <md-icon v-show="!in_progress">camera</md-icon>
+                            <md-progress-spinner class="md-accent" v-show="in_progress" :md-diameter="15" :md-stroke="3" md-mode="indeterminate"></md-progress-spinner>
+                            Create Footage
+                        </md-button>
                     </div>
 
                     <md-table md-card>
@@ -69,7 +73,9 @@
                     <tr>
                         <td>
                             <md-button class="md-primary" @click=" capture ">
-                                <md-icon>camera</md-icon>Create Footage
+                                <md-progress-spinner class="md-accent" v-show="in_progress" :md-diameter="15" :md-stroke="3" md-mode="indeterminate"></md-progress-spinner>
+                                <md-icon v-show="!in_progress">camera</md-icon>
+                                Create Footage
                             </md-button>
                         </td>
                     </tr>
@@ -90,7 +96,8 @@ export default {
             length: 20,
             src: '',
             footages: [],
-            showDialog: false
+            showDialog: false,
+            in_progress: false
 
         }
     },
@@ -114,6 +121,7 @@ export default {
             .then( r => {
                 if (r.data.success == true)
                 {
+                    this.in_progress = true;
                     this.token = r.data.token
                     setTimeout(this.pooler, 5000)
                 }
@@ -140,6 +148,7 @@ export default {
                         this.src = r.data.result;
                         this.fetch_footages()
                     }
+                    this.in_progress = r.data.state == 'pending'
                 })
         },
         fetch_footages ()
