@@ -4,8 +4,9 @@
             <tr>
                 <td>
                     <div class="md-layout-item md-small-size-50 md-size-50">
-                        <md-button @click="capture">
-                            <md-icon>camera</md-icon>
+                        <md-button @click="capture" :disabled="in_progress" class="md-primary md-raised">
+                            <md-icon v-show="!in_progress">camera</md-icon>
+                            <md-progress-spinner class="md-accent" v-show="in_progress" :md-diameter="15" :md-stroke="3" md-mode="indeterminate"></md-progress-spinner>
                             Create Snapshot
                         </md-button>
                     </div>
@@ -20,12 +21,13 @@
 
 <script>
 import axios from "axios";
-    
+
 export default {
     data () {
         return {
             token: '',
-            src : ''
+            src : '',
+            in_progress: false
         }
     },
     methods: {
@@ -36,7 +38,8 @@ export default {
                     if (r.data.success == true)
                     {
                         this.token = r.data.token
-                        setTimeout(this.pooler, 5000)
+                        this.in_progress = true;
+                        setTimeout(this.pooler, 3000)
                     }
                 })
         },
@@ -45,11 +48,12 @@ export default {
                 .get('/api/snapshot_inquiry?token=' + this.token)
                 .then( r => {
                     if (r.data.state == 'pending')
-                        setTimeout(this.pooler, 5000)
+                        setTimeout(this.pooler, 3000)
                     if (r.data.state == 'failed')
-                        alert(r.data.result)
+                        this.$notification.error(r.data.message, {  timer: 10 });
                     if (r.data.state == 'end')
                         this.src = r.data.result
+                    this.in_progress = r.data.state == 'pending'
                 })
         }
     }

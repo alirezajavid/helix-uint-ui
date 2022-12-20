@@ -1,24 +1,26 @@
 <template>
-    
     <div class="md-layout">
-        
         <table width="100%" border="0">
             <tr>
                 <td width="50%">
 
                     <div class="md-layout-item md-small-size-50 md-size-50">
-                        <md-button class="md-primary md-raised" @click="showDialog = true">Create Footage</md-button>
+                        <md-button  :disabled="in_progress" class="md-primary md-raised" @click="showDialog = true">
+                            <md-icon v-show="!in_progress">camera</md-icon>
+                            <md-progress-spinner class="md-accent" v-show="in_progress" :md-diameter="15" :md-stroke="3" md-mode="indeterminate"></md-progress-spinner>
+                            Create Footage
+                        </md-button>
                     </div>
 
                     <md-table md-card>
                         <md-table-row>
                             <md-table-head>Footage</md-table-head>
-                            <md-table-head>URL</md-table-head>
+                            <md-table-head>Play</md-table-head>
                         </md-table-row>
                         <md-table-row v-for="footage in footages" :key="footage.name">
                             <md-table-cell md-label="Footage">{{ footage.name }} </md-table-cell>
-                            <md-table-cell md-label="URL">
-                                <span @click=" show( footage.href ) " style="cursor: pointer">
+                            <md-table-cell md-label="Play">
+                                <span @click=" show( footage.href, footage.name ) " style="cursor: pointer">
                                     <md-icon>video_camera_front</md-icon>
                                 </span>
                             </md-table-cell>
@@ -29,7 +31,8 @@
                 </td>
                 <td width="50%">
                     <div class="player">
-                        <video width="100%" :src="src">
+                        <h5> <b>Time:</b> {{datetime}}</h5>
+                        <video width="100%" :src="src" controls>
                         </video>
                     </div>
                 </td>
@@ -69,7 +72,9 @@
                     <tr>
                         <td>
                             <md-button class="md-primary" @click=" capture ">
-                                <md-icon>camera</md-icon>Create Footage
+                                <md-progress-spinner class="md-accent" v-show="in_progress" :md-diameter="15" :md-stroke="3" md-mode="indeterminate"></md-progress-spinner>
+                                <md-icon v-show="!in_progress">camera</md-icon>
+                                Create Footage
                             </md-button>
                         </td>
                     </tr>
@@ -82,6 +87,7 @@
 <script>
 import axios from "axios";
 
+
 export default {
     data () {
         return {
@@ -90,8 +96,9 @@ export default {
             length: 20,
             src: '',
             footages: [],
-            showDialog: false
-
+            showDialog: false,
+            in_progress: false,
+            datetime: ''
         }
     },
     watch: {
@@ -114,6 +121,7 @@ export default {
             .then( r => {
                 if (r.data.success == true)
                 {
+                    this.in_progress = true;
                     this.token = r.data.token
                     setTimeout(this.pooler, 5000)
                 }
@@ -128,18 +136,14 @@ export default {
                     if (r.data.state == 'pending')
                         setTimeout(this.pooler, 5000)
                     if (r.data.state == 'failed')
-                        this.$notify({
-                            message:r.data.result,
-                            icon: "add_alert",
-                            horizontalAlign: "center",
-                            verticalAlign: "top",
-                            type: "danger",
-                            timeout: 7000,
-                        });
+                    this.$notification.error(r.data.message, {  timer: 10 });
+                    
+                        
                     if (r.data.state == 'end') {
                         this.src = r.data.result;
                         this.fetch_footages()
                     }
+                    this.in_progress = r.data.state == 'pending'
                 })
         },
         fetch_footages ()
@@ -152,8 +156,9 @@ export default {
                         this.footages = r.data.footages
                 })
         },
-        show (href)
+        show (href, filename)
         {
+            this.datetime=filename
             this.src = href
         }
     },
