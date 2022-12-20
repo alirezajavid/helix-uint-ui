@@ -4,7 +4,10 @@
             <tr>
                 <td>
                     <div class="md-layout-item md-small-size-50 md-size-50">
-                        <md-button @click="capture" :disabled="in_progress" class="md-primary md-raised">
+                        <md-button 
+                            @click="capture" 
+                            :disabled="in_progress" 
+                            class="md-warning">
                             <md-icon v-show="!in_progress">camera</md-icon>
                             <md-progress-spinner class="md-accent" v-show="in_progress" :md-diameter="15" :md-stroke="3" md-mode="indeterminate"></md-progress-spinner>
                             Create Snapshot

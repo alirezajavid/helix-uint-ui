@@ -46,8 +46,9 @@
           </div>
 
           <div class="md-layout-item md-small-size-100 md-size-100">
-            <label>Solar Control Mode:</label>
+            <label>Solar Control Mode:</label> &nbsp;&nbsp;
             <md-radio v-model="SOLAR_CTRL_LOAD_MODE" value="0">Manual</md-radio>
+            &nbsp;
             <md-radio v-model="SOLAR_CTRL_LOAD_MODE" value="1">Timing</md-radio>
           </div>
 
@@ -122,61 +123,27 @@ export default {
           SOLAR_CTRL_LOAD_MODE: this.SOLAR_CTRL_LOAD_MODE,
           MIN_CHUNKS_LIFETIME_IN_HOUR: this.MIN_CHUNKS_LIFETIME_IN_HOUR
         })
-        .then((r) => {
-          this.$notify({
-            message:
-              "New Configuration saved. The installation process take about one minute...",
-            icon: "add_alert",
-            horizontalAlign: "center",
-            verticalAlign: "top",
-            type: "success",
-            timeout: 7000,
-          });
-          this.HUMANID = r.data.HUMANID;
-          this.IOT_DEVICE_ID = r.data.IOT_DEVICE_ID;
-          this.CAMERA_TYPE = r.data.CAMERA_TYPE;
-          this.HARDWARE = r.data.HARDWARE;
-          this.HARDWARE_VERSION = r.data.HARDWARE_VERSION;
-          this.MAIN_STORAGE = r.data.MAIN_STORAGE;
-          this.EXTRA_STORAGE = r.data.EXTRA_STORAGE;
-          this.SOLAR_CTRL_LOAD_MODE = r.data.SOLAR_CTRL_LOAD_MODE;
-          this.MIN_CHUNKS_LIFETIME_IN_HOUR = r.data.MIN_CHUNKS_LIFETIME_IN_HOUR;
-          this.active_save = false;
+        .then((r) =>
+        {
+          this.active_save = false
+          this.check_configurable_interval = setInterval(() => this.check_configurable(), 6000);
         })
-        .catch((e) => {
-          this.$notify({
-            message: "<big>Error in connection. </big><br>" + e.message,
-            icon: "signal_wifi_off",
-            horizontalAlign: "right",
-            verticalAlign: "top",
-            type: "danger",
-            timeout: 7000,
-          });
+        .catch((e) =>
+        {
+          this.$notification.error(e.message, { timer: 10 });
         });
     },
 
     reboot() {
       axios
         .get("/maintenance?action=restart&var=pi")
-        .then((r) => {
-          this.$notify({
-            message: "Send reboot signal.",
-            icon: "restart",
-            horizontalAlign: "center",
-            verticalAlign: "top",
-            type: "success",
-            timeout: 12000,
-          });
+        .then((r) =>
+        {
+          this.$notification.info("Send reboot signal.", { timer: 10 });
         })
-        .catch((e) => {
-          this.$notify({
-            message: "<big>Error in connection. </big><br>" + e.message,
-            icon: "signal_wifi_off",
-            horizontalAlign: "right",
-            verticalAlign: "top",
-            type: "danger",
-            timeout: 12000,
-          });
+        .catch((e) =>
+        {
+          this.$notification.error("Error in connection.", { timer: 10 });
         });
     },
 
@@ -211,29 +178,28 @@ export default {
       });
     },
 
-    getstats() {
-      axios.get("/api/status_quo").then((r) => {
-        this.active_save = r.data.allowed_to_configure;
+    check_configurable() {
+      axios.get("/api/allowed_to_configure").then((r) => {
+        this.active_save = r.data.state === true
+        if (this.check_configurable_interval && r.data.state === true)
+          clearInterval(this.check_configurable_interval)
       });
     },
   },
-  created() {
-    setInterval(() => this.getstats(), 3000);
+  created ()
+  {
+    this.check_configurable()
+    
+    
 
     axios
       .get("/api/camera_types")
       .then((r) => {
         this.CAMERA_TYPES = r.data.camera_types;
       })
-      .catch((e) => {
-        this.$notify({
-          message: "<big>Error in connection. </big><br>" + e.message,
-          icon: "signal_wifi_off",
-          horizontalAlign: "right",
-          verticalAlign: "top",
-          type: "danger",
-          timeout: 12000,
-        });
+      .catch((e) =>
+      {
+        this.$notification.error("Error in connection.", { timer: 10 });
       });
     axios
       .get("/api/configs")
@@ -247,22 +213,10 @@ export default {
         this.EXTRA_STORAGE = r.data.EXTRA_STORAGE;
         this.SOLAR_CTRL_LOAD_MODE = r.data.SOLAR_CTRL_LOAD_MODE;
         this.MIN_CHUNKS_LIFETIME_IN_HOUR = r.data.MIN_CHUNKS_LIFETIME_IN_HOUR;
-
-
-        `
-        
-        
-        `
       })
-      .catch((e) => {
-        this.$notify({
-          message: "<big>Error in connection. </big><br>" + e.message,
-          icon: "signal_wifi_off",
-          horizontalAlign: "right",
-          verticalAlign: "top",
-          type: "danger",
-          timeout: 12000,
-        });
+      .catch((e) =>
+      {
+        this.$notification.error("Error in connection.", { timer: 10 });
       });
   },
   data() {
@@ -276,9 +230,10 @@ export default {
       EXTRA_STORAGE: "",
       CAMERA_TYPES: [],
       progressv: 50,
-      active_save: false,
       SOLAR_CTRL_LOAD_MODE: "0",
-      MIN_CHUNKS_LIFETIME_IN_HOUR: 10
+      MIN_CHUNKS_LIFETIME_IN_HOUR: 10,
+      active_save: true,
+      check_configurable_interval: null
     };
   },
   mounted() {},

@@ -5,17 +5,19 @@
                 <td width="50%">
 
                     <div class="md-layout-item md-small-size-50 md-size-50">
-                        <md-button  :disabled="in_progress" class="md-primary md-raised" @click="showDialog = true">
-                            <md-icon v-show="!in_progress">camera</md-icon>
+                        <md-button  :disabled="in_progress" 
+                            class="md-warning"
+                            @click="showDialog = true">
+                            <md-icon v-show="!in_progress">emergency_recording</md-icon>
                             <md-progress-spinner class="md-accent" v-show="in_progress" :md-diameter="15" :md-stroke="3" md-mode="indeterminate"></md-progress-spinner>
                             Create Footage
                         </md-button>
                     </div>
 
                     <md-table md-card>
-                        <md-table-row>
-                            <md-table-head>Footage</md-table-head>
-                            <md-table-head>Play</md-table-head>
+                        <md-table-row style="height:42px">
+                            <md-table-head><b>Footage</b></md-table-head>
+                            <md-table-head><b>Play</b></md-table-head>
                         </md-table-row>
                         <md-table-row v-for="footage in footages" :key="footage.name">
                             <md-table-cell md-label="Footage">{{ footage.name }} </md-table-cell>
@@ -41,7 +43,6 @@
         </table>
         <md-dialog :md-active.sync="showDialog">
             <md-dialog-title>Create Footage</md-dialog-title>
-        
             <md-dialog-actions>
                 <table>
                     <tr>
@@ -71,9 +72,12 @@
                     </tr>
                     <tr>
                         <td>
-                            <md-button class="md-primary" @click=" capture ">
+                            <md-button 
+                                class="md-warning"
+                                @click="capture"
+                            >
                                 <md-progress-spinner class="md-accent" v-show="in_progress" :md-diameter="15" :md-stroke="3" md-mode="indeterminate"></md-progress-spinner>
-                                <md-icon v-show="!in_progress">camera</md-icon>
+                                <md-icon v-show="!in_progress">emergency_recording</md-icon>
                                 Create Footage
                             </md-button>
                         </td>
