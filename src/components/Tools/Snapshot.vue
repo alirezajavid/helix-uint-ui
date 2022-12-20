@@ -50,7 +50,7 @@ export default {
                     if (r.data.state == 'pending')
                         setTimeout(this.pooler, 3000)
                     if (r.data.state == 'failed')
-                        alert(r.data.result)
+                        this.$notification.error(r.data.message, {  timer: 10 });
                     if (r.data.state == 'end')
                         this.src = r.data.result
                     this.in_progress = r.data.state == 'pending'

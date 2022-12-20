@@ -1,7 +1,5 @@
 <template>
-    
     <div class="md-layout">
-        
         <table width="100%" border="0">
             <tr>
                 <td width="50%">
@@ -17,12 +15,12 @@
                     <md-table md-card>
                         <md-table-row>
                             <md-table-head>Footage</md-table-head>
-                            <md-table-head>URL</md-table-head>
+                            <md-table-head>Play</md-table-head>
                         </md-table-row>
                         <md-table-row v-for="footage in footages" :key="footage.name">
                             <md-table-cell md-label="Footage">{{ footage.name }} </md-table-cell>
-                            <md-table-cell md-label="URL">
-                                <span @click=" show( footage.href ) " style="cursor: pointer">
+                            <md-table-cell md-label="Play">
+                                <span @click=" show( footage.href, footage.name ) " style="cursor: pointer">
                                     <md-icon>video_camera_front</md-icon>
                                 </span>
                             </md-table-cell>
@@ -33,7 +31,8 @@
                 </td>
                 <td width="50%">
                     <div class="player">
-                        <video width="100%" :src="src">
+                        <h5> <b>Time:</b> {{datetime}}</h5>
+                        <video width="100%" :src="src" controls>
                         </video>
                     </div>
                 </td>
@@ -88,6 +87,7 @@
 <script>
 import axios from "axios";
 
+
 export default {
     data () {
         return {
@@ -97,8 +97,8 @@ export default {
             src: '',
             footages: [],
             showDialog: false,
-            in_progress: false
-
+            in_progress: false,
+            datetime: ''
         }
     },
     watch: {
@@ -136,14 +136,9 @@ export default {
                     if (r.data.state == 'pending')
                         setTimeout(this.pooler, 5000)
                     if (r.data.state == 'failed')
-                        this.$notify({
-                            message:r.data.result,
-                            icon: "add_alert",
-                            horizontalAlign: "center",
-                            verticalAlign: "top",
-                            type: "danger",
-                            timeout: 7000,
-                        });
+                    this.$notification.error(r.data.message, {  timer: 10 });
+                    
+                        
                     if (r.data.state == 'end') {
                         this.src = r.data.result;
                         this.fetch_footages()
@@ -161,8 +156,9 @@ export default {
                         this.footages = r.data.footages
                 })
         },
-        show (href)
+        show (href, filename)
         {
+            this.datetime=filename
             this.src = href
         }
     },
