@@ -247,6 +247,12 @@ export default {
         this.EXTRA_STORAGE = r.data.EXTRA_STORAGE;
         this.SOLAR_CTRL_LOAD_MODE = r.data.SOLAR_CTRL_LOAD_MODE;
         this.MIN_CHUNKS_LIFETIME_IN_HOUR = r.data.MIN_CHUNKS_LIFETIME_IN_HOUR;
+
+
+        `
+        
+        
+        `
       })
       .catch((e) => {
         this.$notify({
