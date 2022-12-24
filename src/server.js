@@ -15,6 +15,73 @@ export function makeServer ({ environment = "development" } = {})
     routes ()
     {
       this.namespace = "api";
+
+      this.namespace = "api";
+      this.get("services", (schema, request) =>
+      {
+        if (request.queryParams.action == 'list')
+          return {
+            success: true,
+            services: [
+              {
+                name: "capture_main_stream",
+                status: true
+              },
+              {
+                name: "capture_sub_stream",
+                status: false
+              },
+              {
+                name: "capture_still_image",
+                status: true
+              },
+              {
+                name: "alarm_controller",
+                status: true
+              },
+              {
+                name: "heartbeat",
+                status: true
+              },
+              {
+                name: "dynamic_dns",
+                status: true
+              },
+              {
+                name: "disk_manager",
+                status: true
+              },
+              {
+                name: "update",
+                status: false
+              },
+              {
+                name: "system_monitoring",
+                status: true
+              },
+              {
+                name: "watchdog",
+                status: true
+              },
+              {
+                name: "monitor_solarctrl",
+                status: true
+              },
+              {
+                name: "configure_battery",
+                status: false
+              }
+            ]
+          }
+        return {
+          success: false,
+          message: "invalid parameters"
+        }
+
+      });
+
+
+
       this.get("footages", () =>
       {
         return {
@@ -50,7 +117,7 @@ export function makeServer ({ environment = "development" } = {})
       });
       this.get("snapshot_inquiry", () =>
       {
-        return {"success": true, "state": "failed", "message": "There is an error. The camera may have problem or misconfigured"};
+        return { "success": true, "state": "failed", "message": "There is an error. The camera may have problem or misconfigured" };
         return { state: 'end', result: 'http://120.157.72.86/frames/074_202212161200_20.mp4' };
       });
       this.get("footage_inquiry", () =>
