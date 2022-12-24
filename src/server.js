@@ -124,6 +124,14 @@ export function makeServer ({ environment = "development" } = {})
       });
       this.get("capture_snapshot", () =>
       {
+        return {
+          success: true,
+          creation_date: "2022-12-22 12:00:00",
+          href: "http://103.solar.helixsec.live/frames/snapshot_latest.jpg"
+        }
+      });
+      this.get("capture_snapshot", () =>
+      {
         return { success: true, token: 'TOKEN' };
       });
       this.get("footage_demand", () =>

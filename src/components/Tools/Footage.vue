@@ -181,13 +181,17 @@ export default {
         },
         human_time (s)
         {
+            function _p (n)
+            {
+                return n < 10 ? '0' + n : n
+            }
             let r = ""
             if (s >= 3600)
-                return Math.floor(s / 3600) + ':' + Math.floor((s % 3600) / 60) + ':' + (s % 60)
+                return _p(Math.floor(s / 3600)) + ':' + _p(Math.floor((s % 3600) / 60)) + ':' + _p(s % 60)
             if (s >= 60)
-                return '00:' + Math.floor((s % 3600) / 60) + ':' + (s % 60)
+                return '00:' + _p(Math.floor((s % 3600) / 60)) + ':' + _p(s % 60)
                 
-            return '00:00:' + s
+            return '00:00:' + _p(s)
         },
         del (footage)
         { 

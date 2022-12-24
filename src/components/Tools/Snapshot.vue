@@ -33,7 +33,11 @@ export default {
         return {
             token: '',
             src : '',
-            in_progress: false
+            in_progress: false,
+            last_snapshot: {
+                creation_date: "",
+                href: ""
+            }
         }
     },
     methods: {
@@ -61,8 +65,28 @@ export default {
                         this.src = r.data.result
                     this.in_progress = r.data.state == 'pending'
                 })
+        },
+        get_last_snapshot ()
+        {
+            axios
+                .get('/api/snapshots')
+                .then(r =>
+                {
+                    if (r.data.success == true) {
+                        this.last_snapshot = r.data
+                        this.src = r.data.href
+                    }
+                    if (r.data.success == false) {
+                        this.$notification.error(r.data.message, { timer: 10 });
+                    }
+                })
         }
+    },
+    created ()
+    {
+        this.get_last_snapshot()
     }
+    
 }
 </script>
 
