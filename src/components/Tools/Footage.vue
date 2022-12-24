@@ -1,29 +1,38 @@
 <template>
     <div class="md-layout">
+        <table width="100%" border=0>
+            <tr>
+                <td>
+                    <md-button :disabled="in_progress" class="btn btn-warning mr-1 mb-1 jj" @click="showDialog = true">
+                        <md-icon v-show="!in_progress">emergency_recording</md-icon>
+                        <md-progress-spinner class="md-accent" v-show="in_progress" :md-diameter="15" :md-stroke="3"
+                            md-mode="indeterminate"></md-progress-spinner>
+                        Create Footage
+                    </md-button>
+                </td>
+                <td><b>Oldest Record:</b>{{ oldest_record }}</td>
+                <td><b>Latest Record:</b>{{ latest_record }}</td>
+            </tr>
+        </table>
         <table width="100%" border="0">
             <tr>
                 <td width="50%">
-
-                    <div class="md-layout-item md-small-size-50 md-size-50">
-                        <md-button  :disabled="in_progress" 
-                            class="btn btn-warning mr-1 mb-1 jj"
-                            @click="showDialog = true">
-                            <md-icon v-show="!in_progress">emergency_recording</md-icon>
-                            <md-progress-spinner class="md-accent" v-show="in_progress" :md-diameter="15" :md-stroke="3" md-mode="indeterminate"></md-progress-spinner>
-                            Create Footage
-                        </md-button>
-                    </div>
-
                     <md-table md-card>
                         <md-table-row style="height:42px">
-                            <md-table-head><b>Footage</b></md-table-head>
-                            <md-table-head><b>Play</b></md-table-head>
+                            <md-table-head><b>Datetime</b></md-table-head>
+                            <md-table-head><b>Length</b></md-table-head>
+                            <md-table-head><b>Action</b></md-table-head>
                         </md-table-row>
                         <md-table-row v-for="footage in footages" :key="footage.name">
-                            <md-table-cell md-label="Footage">{{ footage.name }} </md-table-cell>
-                            <md-table-cell md-label="Play">
+                            <md-table-cell>{{ footage.name }}  </md-table-cell>
+                            <md-table-cell>{{ human_time(footage.length) }} </md-table-cell>
+                            <md-table-cell>
                                 <span @click=" show( footage.href, footage.name ) " style="cursor: pointer">
                                     <md-icon>video_camera_front</md-icon>
+                                </span>
+
+                                <span @click="del(footage) " style="cursor: pointer">
+                                    <md-icon>delete</md-icon>
                                 </span>
                             </md-table-cell>
                         </md-table-row>
@@ -102,7 +111,9 @@ export default {
             footages: [],
             showDialog: false,
             in_progress: false,
-            datetime: ''
+            datetime: '',
+            oldest_record: '',
+            latest_record: ''
         }
     },
     watch: {
@@ -156,14 +167,38 @@ export default {
                 .get('/api/footages')
                 .then(r =>
                 {
-                    if (r.data.success == true)
+                    if (r.data.success == true) {
                         this.footages = r.data.footages
+                        this.oldest_record = r.data.oldest_record
+                        this.latest_record = r.data.latest_record
+                    }
                 })
         },
         show (href, filename)
         {
             this.datetime=filename
             this.src = href
+        },
+        human_time (s)
+        {
+            let r = ""
+            if (s >= 3600)
+                return Math.floor(s / 3600) + ':' + Math.floor((s % 3600) / 60) + ':' + (s % 60)
+            if (s >= 60)
+                return '00:' + Math.floor((s % 3600) / 60) + ':' + (s % 60)
+                
+            return '00:00:' + s
+        },
+        del (footage)
+        { 
+            axios
+                .get('/api/footages_delete?name=' + footage.name + '&len=' +  footage.len)
+                .then(r =>
+                {
+                    if (r.data.success == true)
+                        this.fetch_footages()
+                })
+
         }
     },
     created ()
