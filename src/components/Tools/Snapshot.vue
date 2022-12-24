@@ -5,13 +5,16 @@
                 <td>
                     <div class="md-layout-item md-small-size-50 md-size-50">
                         <md-button 
+                            class="btn btn-warning mr-1 mb-1 jj"
                             @click="capture" 
                             :disabled="in_progress" 
-                            class="md-warning">
+                        >
                             <md-icon v-show="!in_progress">camera</md-icon>
                             <md-progress-spinner class="md-accent" v-show="in_progress" :md-diameter="15" :md-stroke="3" md-mode="indeterminate"></md-progress-spinner>
                             Create Snapshot
                         </md-button>
+
+                        
                     </div>
                 </td>
                 <td>
@@ -62,3 +65,13 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.jj {
+    color: #ffffff !important;
+  background-color: #00bcd4 !important;
+  box-shadow: 0 2px 2px 0 rgba(0, 188, 212, 0.14),
+    0 3px 1px -2px rgba(0, 188, 212, 0.2), 0 1px 5px 0 rgba(0, 188, 212, 0.12);
+  border: none;
+}
+</style>

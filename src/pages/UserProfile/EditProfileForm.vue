@@ -1,8 +1,9 @@
 <template>
   <form>
     <md-card>
-      <md-card-header :data-background-color="dataBackgroundColor">
-        <h4 class="title">Configuration</h4>
+      <md-card-header data-background-color="naghmeh2">
+        
+        <h4><md-icon style="color:white">settings</md-icon>&nbsp;<B>Configuration</B></h4>
         <p class="category">Device properties</p>
       </md-card-header>
 

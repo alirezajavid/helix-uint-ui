@@ -1,14 +1,27 @@
 <template>
-  <div class="player">
-    <video-player
-      ref="videoPlayer"
-      style="border: none 1px red"
-      class="vjs-custom-skin"
-      :options="playerOptions"
-      @play="onPlayerPlay($event)"
-      @ready="onPlayerReady($event)"
-    >
-    </video-player>
+  <div class="content">
+    <div class="md-layout">
+      <div class="md-layout-item">
+        <md-card>
+          <md-card-header data-background-color="naghmeh2">
+            <h4><md-icon style="color:white">tv</md-icon> &nbsp;<b>Live</b></h4>
+          </md-card-header>
+          <md-card-content>
+            <div class="player">
+              <video-player
+                ref="videoPlayer"
+                style="border: none 1px red"
+                class="vjs-custom-skin"
+                :options="playerOptions"
+                @play="onPlayerPlay($event)"
+                @ready="onPlayerReady($event)"
+              >
+              </video-player>
+            </div>
+          </md-card-content>
+        </md-card>
+      </div>
+    </div>
   </div>
 </template>
 

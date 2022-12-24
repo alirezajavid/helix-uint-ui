@@ -3,13 +3,13 @@
     <div class="md-layout">
       <div class="md-layout-item">
         <md-card>
-          <md-card-header data-background-color="orange">
-            <h4 class="title">Notifications</h4>
+          <md-card-header data-background-color="naghmeh2">
+            <h4><md-icon style="color:white">notifications</md-icon> &nbsp;<b>Notifications</b></h4>
           </md-card-header>
           <md-card-content>
             <div class="md-layout">
               <div class="md-layout-item md-medium-size-100 player">
-                <h5>Notifications</h5>
+                <h5>Video</h5>
                 <video-player
                   ref="videoPlayer"
                   style="border: none 1px red"

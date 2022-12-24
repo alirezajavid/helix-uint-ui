@@ -107,10 +107,10 @@
           <md-icon>tv</md-icon>
           <p class="jmen">Live</p>
         </sidebar-link>
-        <sidebar-link to="/history">
+        <!--sidebar-link to="/history">
           <md-icon>trending_up</md-icon>
           <p class="jmen">History</p>
-        </sidebar-link>
+        </sidebar-link-->
       </md-list>
     </div>
   </div>

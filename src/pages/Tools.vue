@@ -3,16 +3,18 @@
     <div class="md-layout">
       <div class="md-layout-item">
         <md-card>
-          <md-card-header data-background-color="naghmeh1">
-            <h4>Tools</h4>
+          <md-card-header data-background-color="naghmeh2">
+            <h4><md-icon style="color:white">build_circle</md-icon>&nbsp;<b>Tools</b></h4>
           </md-card-header>
-          <md-card data-background-color="naghmeh1" >
-            <md-tabs class="md-transparent" @md-changed="tabChange">
-              <md-tab id="tab_footage" md-label="Footage"></md-tab>
-              <md-tab id="tab_snapshot" md-label="Snapshot"></md-tab>
-              <md-tab id="tab_service" md-label="Services"></md-tab>
-            </md-tabs>
-          </md-card>
+          
+          <md-card-content>
+            <md-bottom-bar @md-changed="tabChange" data-background-color="naghmeh2" >
+              <md-bottom-bar-item md-mini id="tab_footage" data-background-color="naghmeh2"  md-label="Footage" md-icon="emergency_recording"></md-bottom-bar-item>
+              <md-bottom-bar-item md-mini id="tab_snapshot" data-background-color="naghmeh2" md-label="Snapshot" md-icon="camera"></md-bottom-bar-item>
+              <md-bottom-bar-item md-mini id="tab_service" data-background-color="naghmeh2" md-label="Services" md-icon="settings_suggest"></md-bottom-bar-item>
+            </md-bottom-bar>
+          </md-card-content>
+
           <md-card-content>
             <Footage v-if="current_tab=='tab_footage'" />
             <Services v-if="current_tab=='tab_service'" />
