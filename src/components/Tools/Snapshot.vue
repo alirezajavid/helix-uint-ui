@@ -1,9 +1,13 @@
 <template>
     <div class="md-layout">
+        <b>Last snapshot: </b> &nbsp;{{ this.last_snapshot.creation_date }} <br />
         <table>
             <tr>
-                <td>
+                <td valign="top">
+                    
                     <div class="md-layout-item md-small-size-50 md-size-50">
+            
+                        
                         <md-button 
                             class="btn btn-warning mr-1 mb-1 jj"
                             @click="capture" 
