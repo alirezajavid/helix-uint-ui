@@ -35,7 +35,7 @@ import { makeServer } from "./server";
 import VueConfirmDialog from "vue-confirm-dialog";
 import VueNotification from "@kugatsu/vuenotification";
 Vue.use(VueNotification, {
-  timer: 8
+  timer: 8,
 });
 if (process.env.NODE_ENV === "development") {
   makeServer();

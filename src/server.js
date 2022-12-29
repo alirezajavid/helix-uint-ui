@@ -1,89 +1,81 @@
 import { Server, Model } from "miragejs";
 
-export function makeServer ({ environment = "development" } = {})
-{
+export function makeServer({ environment = "development" } = {}) {
   let server = new Server({
     environment,
     models: {
       todo: Model,
     },
-    seeds (server)
-    {
+    seeds(server) {
       server.create("todo", { content: "Learn Mirage JS" });
       server.create("todo", { content: "Integrate With Vue.js" });
     },
-    routes ()
-    {
+    routes() {
       this.namespace = "api";
 
       this.namespace = "api";
-      this.get("services", (schema, request) =>
-      {
-        if (request.queryParams.action == 'list')
+      this.get("services", (schema, request) => {
+        if (request.queryParams.action == "list")
           return {
             success: true,
             services: [
               {
                 name: "capture_main_stream",
-                status: true
+                status: true,
               },
               {
                 name: "capture_sub_stream",
-                status: false
+                status: false,
               },
               {
                 name: "capture_still_image",
-                status: true
+                status: true,
               },
               {
                 name: "alarm_controller",
-                status: true
+                status: true,
               },
               {
                 name: "heartbeat",
-                status: true
+                status: true,
               },
               {
                 name: "dynamic_dns",
-                status: true
+                status: true,
               },
               {
                 name: "disk_manager",
-                status: true
+                status: true,
               },
               {
                 name: "update",
-                status: false
+                status: false,
               },
               {
                 name: "system_monitoring",
-                status: true
+                status: true,
               },
               {
                 name: "watchdog",
-                status: true
+                status: true,
               },
               {
                 name: "monitor_solarctrl",
-                status: true
+                status: true,
               },
               {
                 name: "configure_battery",
-                status: false
-              }
-            ]
-          }
+                status: false,
+              },
+            ],
+          };
         return {
           success: false,
-          message: "invalid parameters"
-        }
-
+          message: "invalid parameters",
+        };
       });
 
-
-
-      this.get("footages", () =>
-      {
+      this.get("footages", () => {
         return {
           success: true,
           oldest_record: "2022-12-22 12:00:00",
@@ -92,79 +84,84 @@ export function makeServer ({ environment = "development" } = {})
             {
               name: "2022-12-16 16:00",
               length: "20",
-              href: "http://103.solar.helixsec.live/frames/103_202212161600_20.mp4"
+              href: "http://103.solar.helixsec.live/frames/103_202212161600_20.mp4",
             },
             {
               name: "2022-12-16 15:00",
               length: "30",
-              href: "http://103.solar.helixsec.live/frames/103_202212161500_30.mp4"
+              href: "http://103.solar.helixsec.live/frames/103_202212161500_30.mp4",
             },
             {
               name: "2022-12-16 14:00",
               length: "20",
-              href: "http://103.solar.helixsec.live/frames/103_202212161400_20.mp4"
+              href: "http://103.solar.helixsec.live/frames/103_202212161400_20.mp4",
             },
             {
               name: "2022-12-16 12:00",
               length: "20",
-              href: "http://103.solar.helixsec.live/frames/103_202212161200_20.mp4"
+              href: "http://103.solar.helixsec.live/frames/103_202212161200_20.mp4",
             },
             {
               name: "2022-12-16 03:00",
               length: "20",
-              href: "http://103.solar.helixsec.live/frames/103_202212160300_20.mp4"
+              href: "http://103.solar.helixsec.live/frames/103_202212160300_20.mp4",
             },
             {
               name: "2022-12-16 01:00",
               length: "20",
-              href: "http://103.solar.helixsec.live/frames/103_202212160100_20.mp4"
-            }
-          ]
-        }
+              href: "http://103.solar.helixsec.live/frames/103_202212160100_20.mp4",
+            },
+          ],
+        };
       });
-      this.get("capture_snapshot", () =>
-      {
+      this.get("capture_snapshot", () => {
         return {
           success: true,
           creation_date: "2022-12-22 12:00:00",
-          href: "http://103.solar.helixsec.live/frames/snapshot_latest.jpg"
-        }
+          href: "http://103.solar.helixsec.live/frames/snapshot_latest.jpg",
+        };
       });
-      this.get("snapshots", () =>
-      {
-        return { "success": true, "creation_date": "2022-12-22 12:00:00", "href": "http://101.solar.helixsec.live/jpeg/snapshot_latest.jpg" };
+      this.get("snapshots", () => {
+        return {
+          success: true,
+          creation_date: "2022-12-22 12:00:00",
+          href: "http://101.solar.helixsec.live/jpeg/snapshot_latest.jpg",
+        };
       });
-      this.get("capture_snapshot", () =>
-      {
-        return { success: true, token: 'TOKEN' };
+      this.get("capture_snapshot", () => {
+        return { success: true, token: "TOKEN" };
       });
-      this.get("footage_demand", () =>
-      {
-        return { success: true, token: 'TOKEN' };
+      this.get("footage_demand", () => {
+        return { success: true, token: "TOKEN" };
       });
-      this.get("snapshot_inquiry", () =>
-      {
-        return { "success": true, "state": "failed", "message": "There is an error. The camera may have problem or misconfigured" };
-        return { state: 'end', result: 'http://120.157.72.86/frames/074_202212161200_20.mp4' };
+      this.get("snapshot_inquiry", () => {
+        return {
+          success: true,
+          state: "failed",
+          message:
+            "There is an error. The camera may have problem or misconfigured",
+        };
+        return {
+          state: "end",
+          result: "http://120.157.72.86/frames/074_202212161200_20.mp4",
+        };
       });
-      this.get("footage_inquiry", () =>
-      {
-        return { state: 'end', result: 'http://120.157.72.86/frames/074_202212161200_20.mp4' };
+      this.get("footage_inquiry", () => {
+        return {
+          state: "end",
+          result: "http://120.157.72.86/frames/074_202212161200_20.mp4",
+        };
       });
-      this.get("unit_id", () =>
-      {
+      this.get("unit_id", () => {
         return { unit_id: 323103 };
       });
-      this.delete("alarms", () =>
-      {
+      this.delete("alarms", () => {
         return { success: true };
       });
-      this.get("camera_types", () =>
-      {
+      this.get("camera_types", () => {
         return { camera_types: ["1", "2"] };
       });
-      this.get("configs", () =>
-      {
+      this.get("configs", () => {
         return {
           HUMANID: "303",
           IOT_DEVICE_ID: "123",
@@ -176,8 +173,7 @@ export function makeServer ({ environment = "development" } = {})
           SOLAR_CTRL_LOAD_MODE: "0",
         };
       });
-      this.post("configs", () =>
-      {
+      this.post("configs", () => {
         return {
           HUMANID: "303",
           IOT_DEVICE_ID: "123",
@@ -189,8 +185,7 @@ export function makeServer ({ environment = "development" } = {})
           SOLAR_CTRL_LOAD_MODE: "0",
         };
       });
-      this.get("status_quo", () =>
-      {
+      this.get("status_quo", () => {
         return {
           armed: true,
           camera: false,
@@ -203,8 +198,7 @@ export function makeServer ({ environment = "development" } = {})
           allowed_to_configure: false,
         };
       });
-      this.get("alarms", (i, d) =>
-      {
+      this.get("alarms", (i, d) => {
         if (d.queryParams != undefined && d.queryParams.detail == "false") {
           return { success: true, total: 625 };
         } else
@@ -245,8 +239,7 @@ export function makeServer ({ environment = "development" } = {})
           };
       });
       this.namespace = "";
-      this.get("maintenance", () =>
-      {
+      this.get("maintenance", () => {
         return {
           armed: true,
           camera: false,
