@@ -21,31 +21,31 @@ export function makeServer({ environment = "development" } = {}) {
             services: [
               {
                 name: "capture_main_stream",
-                status: true,
+                status: "stop",
               },
               {
                 name: "capture_sub_stream",
-                status: false,
+                status: "running",
               },
               {
                 name: "capture_still_image",
-                status: true,
+                status: "pending",
               },
               {
                 name: "alarm_controller",
-                status: true,
+                status: "running",
               },
               {
                 name: "heartbeat",
-                status: true,
+                status: "pending",
               },
               {
                 name: "dynamic_dns",
-                status: true,
+                status: "stop",
               },
               {
                 name: "disk_manager",
-                status: true,
+                status: "stop",
               },
               {
                 name: "update",
@@ -53,19 +53,19 @@ export function makeServer({ environment = "development" } = {}) {
               },
               {
                 name: "system_monitoring",
-                status: true,
+                status: "pending",
               },
               {
                 name: "watchdog",
-                status: true,
+                status: "running",
               },
               {
                 name: "monitor_solarctrl",
-                status: true,
+                status: "running",
               },
               {
                 name: "configure_battery",
-                status: false,
+                status: "running",
               },
             ],
           };

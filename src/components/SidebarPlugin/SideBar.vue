@@ -25,54 +25,32 @@
       <slot name="content"></slot>
       <md-list class="nav">
         <img :src="img" width="100%" />
-        <table border="0">
+        <table>
           <tr>
-            <td class="dokme">&nbsp;</td>
-            <td class="dokme">
-              <md-button
-                class="md-warning md-sm md-just-icon jdok"
-                @click="btn_up"
-              >
+            <td align="center">
+              <md-button class="md-warning md-sm md-just-icon jdok" @click="btn_up">
                 <md-icon>keyboard_double_arrow_up</md-icon>
               </md-button>
             </td>
-            <td class="dokme"></td>
-          </tr>
-          <tr>
-            <td class="dokme">
-              <md-button
-                class="md-warning md-sm md-just-icon jdok"
-                @click="btn_left"
-                ><md-icon>keyboard_double_arrow_left</md-icon></md-button
-              >
+            <td align="center">
+              <md-button class="md-warning md-sm md-just-icon jdok" @click="btn_left" >
+                <md-icon>keyboard_double_arrow_left</md-icon>
+              </md-button>  
             </td>
-            <td class="dokme">
-              <md-button
-                class="md-warning md-sm md-just-icon jdok"
-                @click="btn_cap"
-                ><md-icon>camera</md-icon></md-button
-              >
+            <td align="center">
+              <md-button class="md-warning md-sm md-just-icon jdok" @click="btn_right">
+                <md-icon>keyboard_double_arrow_right</md-icon>
+              </md-button>
             </td>
-            <td class="dokme">
-              <md-button
-                class="md-warning md-sm md-just-icon jdok"
-                @click="btn_right"
-                ><md-icon>keyboard_double_arrow_right</md-icon></md-button
-              >
+            <td align="center">
+              <md-button class="md-warning md-sm md-just-icon jdok" @click="btn_down">
+                <md-icon>keyboard_double_arrow_down</md-icon>
+              </md-button>
             </td>
-          </tr>
-          <tr>
-            <td class="dokme"></td>
-            <td class="dokme">
-              <md-button
-                class="md-warning md-sm md-just-icon jdok"
-                @click="btn_down"
-                ><md-icon>keyboard_double_arrow_down</md-icon></md-button
-              >
-            </td>
-            <td class="dokme"></td>
           </tr>
         </table>
+
+
         <div class="logo" />
         <!--By default vue-router adds an active class to each route link. This way the links are colored when clicked-->
       </md-list>
@@ -196,7 +174,7 @@ export default {
       this.rotate("right");
     },
     btn_cap() {
-      this.capture();
+      //this.capture();
     },
     toggleSidebar() {
       EventBus.$emit("toggleSidebar");

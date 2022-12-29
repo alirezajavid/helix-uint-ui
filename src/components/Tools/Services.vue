@@ -8,8 +8,15 @@
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="Name">{{ item.name }}</md-table-cell>
         <md-table-cell md-label="Status">
-          <md-icon v-show="item.status">done</md-icon>
-          <md-icon v-show="!item.status">error</md-icon>
+          <span :style="{
+              color: item.status == 'pending' ? 'black' : 'gray',
+              fontWeight: item.status == 'pending' ? 'bold' : ''}">pending </span> &nbsp; | &nbsp;
+          <span :style="{
+              color: item.status == 'running' ? 'black' : 'gray',
+              fontWeight: item.status == 'running' ? 'bold' : ''}">running </span> &nbsp; | &nbsp;
+          <span :style="{
+              color: item.status == 'stop' ? 'black' : 'gray',
+              fontWeight: item.status == 'stop' ? 'bold' : ''}">stop </span>
         </md-table-cell>
         <md-table-cell md-label="Action" width="140px">
           <md-button class="md-icon-button" @click="play(item.name)">
@@ -81,6 +88,10 @@ export default {
   created ()
   {
     this.fetch()
+    this.intervaller = setInterval(() => this.fetch(), 3000)
+  },
+  beforeDestroy() {
+    clearInterval(this.intervaller)
   }
 }
 </script>
