@@ -24,7 +24,7 @@
           </md-button>
           
           <md-button class="md-icon-button" @click="pause(item.name)">
-            <md-icon>pause</md-icon>
+            <md-icon>stop</md-icon>
           </md-button>
 
           <md-button class="md-icon-button" @click="restart(item.name)">
@@ -54,7 +54,8 @@ export default {
           if (r.data.success && r.data.message)
             this.$notification.success(r.data.message, { timer: 10 });
           else
-            this.$notification.success(action + ' ' + service_name, { timer: 10 });
+            this.$notification.info(action + ' ' + service_name, { timer: 10 });
+          this.fetch()
         })
         .catch(() =>
         {
@@ -88,7 +89,7 @@ export default {
   created ()
   {
     this.fetch()
-    this.intervaller = setInterval(() => this.fetch(), 3000)
+    this.intervaller = setInterval(() => this.fetch(), 10000)
   },
   beforeDestroy() {
     clearInterval(this.intervaller)
