@@ -51,11 +51,17 @@ export default {
         .get('/api/services?action=' + action + '&name=' + service_name)
         .then((r) =>
         { 
+          if (r.data.success && r.data.services) {
+            this.mdData = r.data.services
+            clearInterval(this.intervaller)
+            this.intervaller = setInterval(() => this.fetch(), 10000)
+          }
+
           if (r.data.success && r.data.message)
             this.$notification.success(r.data.message, { timer: 10 });
           else
             this.$notification.info(action + ' ' + service_name, { timer: 10 });
-          this.fetch()
+          
         })
         .catch(() =>
         {
