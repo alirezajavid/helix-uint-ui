@@ -1,31 +1,22 @@
 <template>
-    <div class="md-layout">
-        <b>Last snapshot: </b> &nbsp;{{ this.last_snapshot.creation_date }} <br />
-        <table>
-            <tr>
-                <td valign="top">
-                    
-                    <div class="md-layout-item md-small-size-50 md-size-50">
-            
-                        
-                        <md-button 
-                            class="btn btn-warning mr-1 mb-1 jj"
-                            @click="capture" 
-                            :disabled="in_progress" 
-                        >
-                            <md-icon v-show="!in_progress">camera</md-icon>
-                            <md-progress-spinner class="md-accent" v-show="in_progress" :md-diameter="15" :md-stroke="3" md-mode="indeterminate"></md-progress-spinner>
-                            Create Snapshot
-                        </md-button>
-
-                        
-                    </div>
-                </td>
-                <td>
-                    <img :src="src" v-if="src != ''"/>
-                </td>
-            </tr>
-        </table>
+    <div class="md-layout md-gutter" >
+        <div class="md-layout-item md-small-size-100 md-xsmall-size-100">
+            <md-button 
+                class="btn btn-warning mr-1 mb-1 jj"
+                @click="capture" 
+                :disabled="in_progress" 
+            >
+                <md-icon v-show="!in_progress">camera</md-icon>
+                <md-progress-spinner class="md-accent" v-show="in_progress" :md-diameter="15" :md-stroke="3" md-mode="indeterminate"></md-progress-spinner>
+                Create Snapshot
+            </md-button>
+        </div>
+        <div class="md-layout-item md-small-size-100 md-xsmall-size-100">
+            <b>Last snapshot: </b> &nbsp;{{ this.last_snapshot.creation_date }} 
+        </div>
+        <div class="md-layout-item md-small-size-100 md-xsmall-size-100">
+            <img :src="src" v-if="src != ''"/>
+        </div>
     </div>
 </template>
 

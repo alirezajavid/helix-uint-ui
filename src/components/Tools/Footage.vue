@@ -1,55 +1,53 @@
 <template>
-    <div class="md-layout">
-        <table width="100%" border=0>
-            <tr>
-                <td>
-                    <md-button :disabled="in_progress" class="btn btn-warning mr-1 mb-1 jj" @click="showDialog = true">
-                        <md-icon v-show="!in_progress">emergency_recording</md-icon>
-                        <md-progress-spinner class="md-accent" v-show="in_progress" :md-diameter="15" :md-stroke="3"
-                            md-mode="indeterminate"></md-progress-spinner>
-                        Create Footage
-                    </md-button>
-                </td>
-                <td><b>Oldest Record:</b>{{ oldest_record }}</td>
-                <td><b>Latest Record:</b>{{ latest_record }}</td>
-            </tr>
-        </table>
-        <table width="100%" border="0">
-            <tr>
-                <td width="50%">
-                    <md-table md-card>
-                        <md-table-row style="height:42px">
-                            <md-table-head><b>Datetime</b></md-table-head>
-                            <md-table-head><b>Length</b></md-table-head>
-                            <md-table-head><b>Action</b></md-table-head>
-                        </md-table-row>
-                        <md-table-row v-for="footage in footages" :key="footage.name">
-                            <md-table-cell>{{ footage.name }}  </md-table-cell>
-                            <md-table-cell>{{ human_time(footage.length) }} </md-table-cell>
-                            <md-table-cell>
-                                <span @click=" show( footage.href, footage.name ) " style="cursor: pointer">
-                                    <md-icon>video_camera_front</md-icon>
-                                </span>
-
-                                <span @click="del(footage) " style="cursor: pointer">
-                                    <md-icon>delete</md-icon>
-                                </span>
-                            </md-table-cell>
-                        </md-table-row>
-                    </md-table>
-
-
-                </td>
-                <td width="50%">
-                    <div class="player">
-                        <h5> <b>Time:</b> {{datetime}}</h5>
-                        <video width="100%" :src="src" controls>
-                        </video>
-                    </div>
-                </td>
-            </tr>
-
-        </table>
+    <div>
+        <div class="md-layout md-gutter" >
+            <div class="md-layout-item md-small-size-100 md-xsmall-size-100">
+                <md-button :disabled="in_progress" class="btn btn-warning mr-1 mb-1 jj" @click="showDialog = true">
+                    <md-icon v-show="!in_progress">emergency_recording</md-icon>
+                    <md-progress-spinner class="md-accent" v-show="in_progress" :md-diameter="15" :md-stroke="3"
+                        md-mode="indeterminate"></md-progress-spinner>
+                    Create Footage
+                </md-button>
+            </div>
+            <div class="md-layout-item md-small-size-100 md-xsmall-size-100">
+                <b>Oldest Record:</b>{{ oldest_record }}
+            </div>
+            <div class="md-layout-item md-small-size-100 md-xsmall-size-100">
+                <b>Latest Record:</b>{{ latest_record }}
+            </div>
+        </div>
+        
+        <div class="md-layout md-gutter md-alignment-center">
+            <div class="md-layout-item md-medium-size-50 md-small-size-100 md-xsmall-size-100">
+                <div class="player">
+                    <h5> <b>Time:</b> {{datetime}}</h5>
+                    <video width="100%" :src="src" controls>
+                    </video>
+                </div>
+            </div>
+            <div class="md-layout-item md-medium-size-50 md-small-size-100 md-xsmall-size-100">
+                <md-table md-card>
+                    <md-table-row style="height:42px">
+                        <md-table-head><b>Datetime</b></md-table-head>
+                        <md-table-head><b>Length</b></md-table-head>
+                        <md-table-head><b>Action</b></md-table-head>
+                    </md-table-row>
+                    <md-table-row v-for="footage in footages" :key="footage.name">
+                        <md-table-cell>{{ footage.name }}  </md-table-cell>
+                        <md-table-cell>{{ human_time(footage.length) }} </md-table-cell>
+                        <md-table-cell>
+                            <span @click=" show( footage.href, footage.name ) " style="cursor: pointer">
+                                <md-icon>video_camera_front</md-icon>
+                            </span>
+                            <span @click="del(footage) " style="cursor: pointer">
+                                <md-icon>delete</md-icon>
+                            </span>
+                        </md-table-cell>
+                    </md-table-row>
+                </md-table>
+            </div>
+        </div>
+       
         <md-dialog :md-active.sync="showDialog">
             <md-dialog-title>Create Footage</md-dialog-title>
             <md-dialog-actions>

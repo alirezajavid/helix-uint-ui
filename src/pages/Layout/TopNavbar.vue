@@ -1,7 +1,7 @@
 <template>
-  <md-toolbar md-elevation="0" class="md-transparent" v-if="false">
-    <div class="md-toolbar-row">
-      <div class="md-toolbar-section-end">
+    <md-toolbar md-elevation="0" class="md-transparent" v-if="vis">
+      <div class="md-toolbar-row">
+        <div class="md-toolbar-section-end">
         <md-button
           class="md-just-icon md-simple md-toolbar-toggle"
           :class="{ toggled: $sidebar.showSidebar }"
@@ -29,7 +29,13 @@ export default {
       this.$sidebar.displaySidebar(!this.$sidebar.showSidebar);
     },
   },
+  computed: {
+    vis() {
+      return window.innerWidth < 960
+    }
+  },
   mounted() {
+    
     EventBus.$on("toggleSidebar", () => {
       this.toggleSidebar();
     });

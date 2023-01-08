@@ -11,7 +11,7 @@
               <video-player
                 ref="videoPlayer"
                 style="border: none 1px red"
-                class="vjs-custom-skin"
+                clasds="vjs-custom-skin"
                 :options="playerOptions"
                 @play="onPlayerPlay($event)"
                 @ready="onPlayerReady($event)"
@@ -77,8 +77,8 @@ export default {
 
 <style scoped>
 .player {
-  width: 640px;
-  height: 480px;
+  widt1h: 640px;
+  height1: 480px;
 }
 .vjs-custom-skin {
   height: 460px !important;
