@@ -14,9 +14,9 @@
                     <md-card-media>
                         <img :src="snapshot.href" />
                     </md-card-media>
-                    <md-card-header>
-                        <div class="md-subhead">{{ snapshot.name }}</div>
-                    </md-card-header>
+                    
+                        <div class=""><small>{{ snapshot.name }}</small></div>
+                    
                 </md-card-area>
             </md-card>
 
