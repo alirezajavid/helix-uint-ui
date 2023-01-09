@@ -64,7 +64,7 @@ export default {
         get_last_snapshot ()
         {
             axios
-                .get('/api/snapshots')
+                .get('/api/latest_snapshots')
                 .then(r =>
                 {
                     if (r.data.success == true) {

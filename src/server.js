@@ -12,8 +12,165 @@ export function makeServer({ environment = "development" } = {}) {
     },
     routes() {
       this.namespace = "api";
-
-      this.namespace = "api";
+      this.get("snapshots", (schema, request) => {
+        return {
+          success: true,
+          snapshots: [
+            {
+              name: "2023-01-08 20:06:33",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673168457.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:33",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673167780.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:32",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673167126.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:32",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673166451.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:32",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673165776.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:32",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673165310.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:32",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673164653.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:32",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673163990.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:31",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673163331.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:31",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673162668.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:31",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673161999.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:31",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673161324.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:31",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673160650.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:30",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673159960.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:30",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673159300.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:30",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673158631.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:30",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673157970.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:29",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673157304.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:29",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673156646.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:29",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673155981.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:29",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673155324.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:29",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673154664.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:28",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673153975.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:28",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673153319.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:28",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673152660.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:28",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673152000.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:27",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673151326.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:27",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673150624.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:27",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673149938.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:27",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673149236.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:26",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673148536.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:26",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673147784.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:26",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673147052.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:26",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673146295.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:25",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673145526.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:25",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673144777.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:25",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673144045.jpg?rnd=1673210619",
+            },
+            {
+              name: "2023-01-08 20:06:25",
+              href: "http://103.solar.helixsec.live/jpeg/22-1673143321.jpg?rnd=1673210619",
+            },
+          ],
+        };
+      });
       this.get("services", (schema, request) => {
         if (request.queryParams.action == "list")
           return {
@@ -121,11 +278,11 @@ export function makeServer({ environment = "development" } = {}) {
           href: "http://103.solar.helixsec.live/frames/snapshot_latest.jpg",
         };
       });
-      this.get("snapshots", () => {
+      this.get("latest_snapshots", () => {
         return {
           success: true,
           creation_date: "2022-12-22 12:00:00",
-          href: "http://101.solar.helixsec.live/jpeg/snapshot_latest.jpg",
+          href: "https://www.entekhab.ir/files/fa/news/1401/3/10/1268200_267.jpg",
         };
       });
       this.get("capture_snapshot", () => {
@@ -133,6 +290,9 @@ export function makeServer({ environment = "development" } = {}) {
       });
       this.get("footage_demand", () => {
         return { success: true, token: "TOKEN" };
+      });
+      this.get("footage_upload", () => {
+        return { success: true, href: "href" };
       });
       this.get("snapshot_inquiry", () => {
         return {

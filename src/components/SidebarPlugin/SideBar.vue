@@ -195,7 +195,7 @@ export default {
     setInterval(() => {
       this.setImage();
       this.get_alarms_count();
-    }, 5000);
+    }, 8000);
   },
 };
 </script>
