@@ -197,7 +197,7 @@ export default {
         del (footage)
         { 
             axios
-                .get('/api/footage_delete?name=' + footage.name + '&len=' +  footage.len)
+                .get('/api/footage_delete?name=' + footage.name + '&len=' + footage.length)
                 .then(r =>
                 {
                     if (r.data.success == true)
@@ -208,7 +208,7 @@ export default {
         upload (footage)
         { 
             axios
-                .get('/api/footage_upload?name=' + footage.name + '&len=' +  footage.len)
+                .get('/api/footage_upload?name=' + footage.name + '&len=' + footage.length)
                 .then(r =>
                 {
                     if (r.data.success == true)

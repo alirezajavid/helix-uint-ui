@@ -9,25 +9,17 @@
                    md-small-size-50 
                    md-xsmall-size-100">
 
-
             <md-card>
-                <md-card-media-cover>
-                    <md-card-media md-ratio="4:3">
-                    <img :src="snapshot.href" >
+                <md-card-area>
+                    <md-card-media>
+                        <img :src="snapshot.href" />
                     </md-card-media>
-
-                    <md-card-area>
-                        <md-card-header>
-                            <span class="md-subhead">{{ snapshot.name }}</span>
-                        </md-card-header>
-                    </md-card-area>
-                </md-card-media-cover>
+                    <md-card-header>
+                        <div class="md-subhead">{{ snapshot.name }}</div>
+                    </md-card-header>
+                </md-card-area>
             </md-card>
 
-
-
-
-            <img  />
             
         </div>
     </div>
