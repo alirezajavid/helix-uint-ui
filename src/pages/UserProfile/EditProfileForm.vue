@@ -2,8 +2,11 @@
   <form>
     <md-card>
       <md-card-header data-background-color="naghmeh2">
-        
-        <h4><md-icon style="color:white">settings</md-icon>&nbsp;<B>Configuration</B></h4>
+        <h4>
+          <md-icon style="color: white">settings</md-icon>&nbsp;<B
+            >Configuration</B
+          >
+        </h4>
         <p class="category">Device properties</p>
       </md-card-header>
 
@@ -56,7 +59,10 @@
           <div class="md-layout-item md-small-size-100 md-size-100">
             <md-field>
               <label>Minimum Keeping Record Duration (hours)</label>
-              <md-input v-model="MIN_CHUNKS_LIFETIME_IN_HOUR" type="text"></md-input>
+              <md-input
+                v-model="MIN_CHUNKS_LIFETIME_IN_HOUR"
+                type="text"
+              ></md-input>
             </md-field>
           </div>
 
@@ -122,15 +128,16 @@ export default {
           MAIN_STORAGE: this.MAIN_STORAGE,
           EXTRA_STORAGE: this.EXTRA_STORAGE,
           SOLAR_CTRL_LOAD_MODE: this.SOLAR_CTRL_LOAD_MODE,
-          MIN_CHUNKS_LIFETIME_IN_HOUR: this.MIN_CHUNKS_LIFETIME_IN_HOUR
+          MIN_CHUNKS_LIFETIME_IN_HOUR: this.MIN_CHUNKS_LIFETIME_IN_HOUR,
         })
-        .then((r) =>
-        {
-          this.active_save = false
-          this.check_configurable_interval = setInterval(() => this.check_configurable(), 6000);
+        .then((r) => {
+          this.active_save = false;
+          this.check_configurable_interval = setInterval(
+            () => this.check_configurable(),
+            6000
+          );
         })
-        .catch((e) =>
-        {
+        .catch((e) => {
           this.$notification.error(e.message, { timer: 10 });
         });
     },
@@ -138,12 +145,10 @@ export default {
     reboot() {
       axios
         .get("/maintenance?action=restart&var=pi")
-        .then((r) =>
-        {
+        .then((r) => {
           this.$notification.info("Send reboot signal.", { timer: 10 });
         })
-        .catch((e) =>
-        {
+        .catch((e) => {
           this.$notification.error("Error in connection.", { timer: 10 });
         });
     },
@@ -181,25 +186,21 @@ export default {
 
     check_configurable() {
       axios.get("/api/allowed_to_configure").then((r) => {
-        this.active_save = r.data.state === true
+        this.active_save = r.data.state === true;
         if (this.check_configurable_interval && r.data.state === true)
-          clearInterval(this.check_configurable_interval)
+          clearInterval(this.check_configurable_interval);
       });
     },
   },
-  created ()
-  {
-    this.check_configurable()
-    
-    
+  created() {
+    this.check_configurable();
 
     axios
       .get("/api/camera_types")
       .then((r) => {
         this.CAMERA_TYPES = r.data.camera_types;
       })
-      .catch((e) =>
-      {
+      .catch((e) => {
         this.$notification.error("Error in connection.", { timer: 10 });
       });
     axios
@@ -215,8 +216,7 @@ export default {
         this.SOLAR_CTRL_LOAD_MODE = r.data.SOLAR_CTRL_LOAD_MODE;
         this.MIN_CHUNKS_LIFETIME_IN_HOUR = r.data.MIN_CHUNKS_LIFETIME_IN_HOUR;
       })
-      .catch((e) =>
-      {
+      .catch((e) => {
         this.$notification.error("Error in connection.", { timer: 10 });
       });
   },
@@ -234,7 +234,7 @@ export default {
       SOLAR_CTRL_LOAD_MODE: "0",
       MIN_CHUNKS_LIFETIME_IN_HOUR: 10,
       active_save: true,
-      check_configurable_interval: null
+      check_configurable_interval: null,
     };
   },
   mounted() {},

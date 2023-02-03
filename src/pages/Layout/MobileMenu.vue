@@ -15,8 +15,7 @@
 <script>
 import axios from "axios";
 export default {
-  watch: {
-  },
+  watch: {},
   data() {
     return {
       notifCount: 10,

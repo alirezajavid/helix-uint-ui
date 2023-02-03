@@ -4,7 +4,9 @@
       <div class="md-layout-item">
         <md-card>
           <md-card-header data-background-color="naghmeh2">
-            <h4><md-icon style="color:white">tv</md-icon> &nbsp;<b>Live</b></h4>
+            <h4>
+              <md-icon style="color: white">tv</md-icon> &nbsp;<b>Live</b>
+            </h4>
           </md-card-header>
           <md-card-content>
             <div class="player">

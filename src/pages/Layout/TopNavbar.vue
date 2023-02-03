@@ -1,7 +1,7 @@
 <template>
-    <md-toolbar md-elevation="0" class="md-transparent" v-if="vis">
-      <div class="md-toolbar-row">
-        <div class="md-toolbar-section-end">
+  <md-toolbar md-elevation="0" class="md-transparent" v-if="vis">
+    <div class="md-toolbar-row">
+      <div class="md-toolbar-section-end">
         <md-button
           class="md-just-icon md-simple md-toolbar-toggle"
           :class="{ toggled: $sidebar.showSidebar }"
@@ -21,8 +21,7 @@ import EventBus from "../../eventBus";
 
 export default {
   data() {
-    return {
-    };
+    return {};
   },
   methods: {
     toggleSidebar() {
@@ -31,11 +30,10 @@ export default {
   },
   computed: {
     vis() {
-      return window.innerWidth < 960
-    }
+      return window.innerWidth < 960;
+    },
   },
   mounted() {
-    
     EventBus.$on("toggleSidebar", () => {
       this.toggleSidebar();
     });

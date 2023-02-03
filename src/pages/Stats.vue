@@ -227,7 +227,7 @@ export default {
     this.intervaller = setInterval(this.getstats, 4000);
   },
   beforeDestroy() {
-    clearInterval(this.intervaller)
+    clearInterval(this.intervaller);
   },
   computed: {
     huptime() {
@@ -272,7 +272,7 @@ export default {
   },
   data() {
     return {
-      intervaller: null, 
+      intervaller: null,
       progress: 0,
       obj: {
         armed: null,
