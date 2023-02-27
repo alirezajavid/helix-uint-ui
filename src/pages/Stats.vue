@@ -4,7 +4,7 @@
       <div
         class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
       >
-        <stats-card :data-background-color="obj.camera == 0 ? 'red' : 'green'">
+        <stats-card :data-background-color="['red', 'gray', 'green'][obj.camera]">
           <template slot="header">
             <md-icon>video_camera_front</md-icon>
           </template>
@@ -12,24 +12,52 @@
           <template slot="content">
             <p class="category">Camera Status</p>
             <h4 class="title">
-              {{ obj.camera == 0 ? "Disconnected" : "Connected" }}
+              {{
+                ((status) => {
+                  if (status == 0) return "Disconnected";
+                  if (status == 1) return "Problem";
+                  if (status == 2) return "Connected";
+                  return status
+                })(obj.camera)
+              }} 
             </h4>
           </template>
-
           <template slot="footer">
             <div class="stats">
+            
+              <select v-model="CAMERA_TYPE" style="width: 100%; border: solid 1px #111">
+                  <option v-for="i in CAMERA_TYPES" :key="i" :selected="i== CAMERA_TYPE ">{{  i  }}</option>
+              </select>
+              <br />
               <ProgressButton
-                @click="restart_camera"
+                @click=" restart_camera "
                 ref="reboot_camera_button"
                 name="bottom"
                 class="md-danger md-round md-sm"
-                :height="10"
-                :duration="4000"
+                :height=" 10 "
+                :duration=" 4000 "
                 position="top"
               >
                 <md-icon>restart_alt</md-icon>
                 Reboot
               </ProgressButton>
+              &nbsp;
+              <ProgressButton
+                @click=" restart_camera "
+                ref="reboot_camera_button"
+                name="bottom"
+                class="md-danger md-round md-sm"
+                :height=" 10 "
+                :duration=" 4000 "
+                position="top"
+              >
+                <md-icon>update</md-icon>
+                Update
+              </ProgressButton>
+
+
+
+
             </div>
           </template>
         </stats-card>
@@ -225,6 +253,16 @@ export default {
   created() {
     this.getstats();
     this.intervaller = setInterval(this.getstats, 4000);
+    axios
+      .get("/api/camera_types")
+      .then((r) => {
+        this.CAMERA_TYPES = r.data.camera_types;
+        this.CAMERA_TYPE = r.data.current;
+      })
+      .catch((e) => {
+        this.$notification.error("Error in connection.", { timer: 10 });
+      });
+
   },
   beforeDestroy() {
     clearInterval(this.intervaller);
@@ -274,6 +312,8 @@ export default {
     return {
       intervaller: null,
       progress: 0,
+      CAMERA_TYPES: [],
+      CAMERA_TYPE: "",
       obj: {
         armed: null,
         camera: null,

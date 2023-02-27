@@ -38,6 +38,11 @@
               </md-button>  
             </td>
             <td align="center">
+                <md-button class="md-warning md-sm md-just-icon1 jdok" @click=" place_holder" >
+                  Place Holder
+                </md-button>  
+            </td>
+            <td align="center">
               <md-button class="md-warning md-sm md-just-icon jdok" @click="btn_right">
                 <md-icon>keyboard_double_arrow_right</md-icon>
               </md-button>
@@ -160,6 +165,14 @@ export default {
       axios.get("/maintenance?action=capture&var=still").then((r) => {
         this.setImage();
       });
+    },
+    place_holder ()
+    {
+      axios.get("/api/place_holder").then((r) =>
+      {
+        this.setImage();
+      });
+      
     },
     btn_up() {
       this.rotate("up");
