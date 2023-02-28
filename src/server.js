@@ -375,6 +375,9 @@ export function makeServer ({ environment = "development" } = {})
           temperature: 44,
           uptime: 432234,
           allowed_to_configure: false,
+          carrier: 1,
+          ethernet: 1,
+          ping: 0.390
         };
       });
       this.get("alarms", (i, d) =>

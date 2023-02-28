@@ -24,13 +24,15 @@
           </template>
           <template slot="footer">
             <div class="stats">
-            
+              <span style="color:#111">Carrier:</span><md-icon :style="{color: obj.carrier?'green':'red'}">circle</md-icon> &nbsp;&nbsp;
+              <span style="color:#111">Ethernet:</span><md-icon :style="{color: obj.ethernet?'green':'red'}">circle</md-icon>&nbsp;&nbsp;
+              <span style="color:#111">Ping: {{ obj.ping }} ms</span>  <br />
               <select v-model="CAMERA_TYPE" style="width: 100%; border: solid 1px #111">
                   <option v-for="i in CAMERA_TYPES" :key="i" :selected="i== CAMERA_TYPE ">{{  i  }}</option>
               </select>
               <br />
               <ProgressButton
-                @click=" restart_camera "
+                @click="restart_camera"
                 ref="reboot_camera_button"
                 name="bottom"
                 class="md-danger md-round md-sm"
@@ -43,8 +45,8 @@
               </ProgressButton>
               &nbsp;
               <ProgressButton
-                @click=" restart_camera "
-                ref="reboot_camera_button"
+                @click="set_camera_type"
+                ref="update_camera_button"
                 name="bottom"
                 class="md-danger md-round md-sm"
                 :height=" 10 "
@@ -253,16 +255,7 @@ export default {
   created() {
     this.getstats();
     this.intervaller = setInterval(this.getstats, 4000);
-    axios
-      .get("/api/camera_types")
-      .then((r) => {
-        this.CAMERA_TYPES = r.data.camera_types;
-        this.CAMERA_TYPE = r.data.current;
-      })
-      .catch((e) => {
-        this.$notification.error("Error in connection.", { timer: 10 });
-      });
-
+    this.get_types();
   },
   beforeDestroy() {
     clearInterval(this.intervaller);
@@ -279,10 +272,30 @@ export default {
     },
   },
   methods: {
+    get_types () {
+      axios
+        .get("/api/camera_types")
+        .then((r) =>
+        {
+          this.CAMERA_TYPES = r.data.camera_types;
+          this.CAMERA_TYPE = r.data.current;
+        })
+        .catch((e) =>
+        {
+          this.$notification.error("Error in connection.", { timer: 10 });
+        });
+    },
     restart_camera() {
       this.$refs.reboot_camera_button.start();
       this.action("restart", "camera");
       this.show_progress();
+    },
+    set_camera_type ()
+    {
+      axios
+        .post("/api/camera_types?camera=" + this.CAMERA_TYPE)
+        .then(() => this.get_types())
+      
     },
     show_progress() {
       if (this.progress < 100) {
@@ -323,6 +336,9 @@ export default {
         primary_disk: null,
         temperature: null,
         uptime: null,
+        carrier: '',
+        ethernet: '',
+        ping: '',
       },
     };
   },
