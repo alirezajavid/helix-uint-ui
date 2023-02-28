@@ -377,7 +377,8 @@ export function makeServer ({ environment = "development" } = {})
           allowed_to_configure: false,
           carrier: 1,
           ethernet: 1,
-          ping: 0.390
+          ping: 0.390,
+          provisioning: true
         };
       });
       this.get("alarms", (i, d) =>

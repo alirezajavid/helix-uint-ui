@@ -56,10 +56,6 @@
                 <md-icon>update</md-icon>
                 Update
               </ProgressButton>
-
-
-
-
             </div>
           </template>
         </stats-card>
