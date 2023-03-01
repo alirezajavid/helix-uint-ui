@@ -18,15 +18,15 @@
                   if (status == 1) return "Problem";
                   if (status == 2) return "Connected";
                   return status
-                })(obj.camera)
+                })(obj.camera.status)
               }} 
             </h4>
           </template>
           <template slot="footer">
             <div class="stats">
-              <span style="color:#111">Carrier:</span><md-icon :style="{color: obj.carrier?'green':'red'}">circle</md-icon> &nbsp;&nbsp;
-              <span style="color:#111">Ethernet:</span><md-icon :style="{color: obj.ethernet?'green':'red'}">circle</md-icon>&nbsp;&nbsp;
-              <span style="color:#111">Ping: {{ obj.ping }} ms</span>  <br />
+              <span style="color:#111">Carrier:</span><md-icon :style="{color: obj.camera.carrier?'green':'red'}">circle</md-icon> &nbsp;&nbsp;
+              <span style="color:#111">Ethernet:</span><md-icon :style="{color: obj.camera.ethernet?'green':'red'}">circle</md-icon>&nbsp;&nbsp;
+              <span style="color:#111">Ping: {{ obj.camera.ping }} ms</span>  <br />
               <select v-model="CAMERA_TYPE" style="width: 100%; border: solid 1px #111">
                   <option v-for="i in CAMERA_TYPES" :key="i" :selected="i== CAMERA_TYPE ">{{  i  }}</option>
               </select>
@@ -36,6 +36,7 @@
                 ref="reboot_camera_button"
                 name="bottom"
                 class="md-danger md-round md-sm"
+                style="width:100px"
                 :height=" 10 "
                 :duration=" 4000 "
                 position="top"
@@ -49,6 +50,7 @@
                 ref="update_camera_button"
                 name="bottom"
                 class="md-danger md-round md-sm"
+                style="width:100px"
                 :height=" 10 "
                 :duration=" 4000 "
                 position="top"
@@ -324,17 +326,21 @@ export default {
       CAMERA_TYPES: [],
       CAMERA_TYPE: "",
       obj: {
-        armed: null,
-        camera: null,
-        cpu: null,
-        load_current: null,
-        memory: null,
-        primary_disk: null,
-        temperature: null,
-        uptime: null,
-        carrier: '',
-        ethernet: '',
-        ping: '',
+        "cpu": null,
+        "memory": null,
+        "primary_disk": null,
+        "temperature": null,
+        "uptime": null,
+        "load_current": null,
+        "armed": null,
+        "allowed_to_configure": null,
+        "provisioning": null,
+        "camera": {
+          "status": null,
+          "carrier": null,
+          "ethernet": null,
+          "ping": null
+        }
       },
     };
   },

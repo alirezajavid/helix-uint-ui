@@ -366,20 +366,22 @@ export function makeServer ({ environment = "development" } = {})
       this.get("status_quo", () =>
       {
         return {
-          armed: true,
-          camera: 2,
-          cpu: 20,
-          load_current: 22,
-          memory: 33,
-          primary_disk: 44,
-          temperature: 44,
-          uptime: 432234,
-          allowed_to_configure: false,
-          carrier: 1,
-          ethernet: 1,
-          ping: 0.390,
-          provisioning: true
-        };
+            "cpu": 6.8,
+            "memory": 23.6186,
+            "primary_disk": 64.0,
+            "temperature": 46.2,
+            "uptime": 38518.0,
+            "load_current": 0.0,
+            "armed": false,
+            "allowed_to_configure": true,
+            "provisioning": false,
+            "camera": {
+              "status": 2,
+              "carrier": 1,
+              "ethernet": 1,
+              "ping": 0.32
+            }
+          }
       });
       this.get("alarms", (i, d) =>
       {

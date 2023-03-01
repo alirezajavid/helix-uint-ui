@@ -39,7 +39,7 @@
             </td>
             <td align="center">
                 <md-button class="md-warning md-sm md-just-icon1 jdok" @click=" place_holder" >
-                  Place Holder
+                  provisioning
                 </md-button>  
             </td>
             <td align="center">
@@ -168,7 +168,7 @@ export default {
     },
     place_holder ()
     {
-      axios.get("/api/place_holder").then((r) =>
+      axios.get("/api/provisioning?action=").then((r) =>
       {
         this.setImage();
       });
