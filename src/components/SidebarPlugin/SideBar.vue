@@ -1,10 +1,19 @@
 <template>
   <div
     class="sidebar"
+  >
+
+
+
+  <!-- 
+    
     :data-color="sidebarItemColor"
     :data-image="sidebarBackgroundImage"
     :style="sidebarStyle"
-  >
+
+    
+
+
     <div class="logo">
       <a class="simple-text logo-mini">
         <div class="logo-img">
@@ -54,10 +63,7 @@
             </td>
           </tr>
         </table>
-
-
         <div class="logo" />
-        <!--By default vue-router adds an active class to each route link. This way the links are colored when clicked-->
       </md-list>
 
       <md-list>
@@ -90,12 +96,8 @@
           <md-icon>tv</md-icon>
           <p class="jmen">Live</p>
         </sidebar-link>
-        <!--sidebar-link to="/history">
-          <md-icon>trending_up</md-icon>
-          <p class="jmen">History</p>
-        </sidebar-link-->
       </md-list>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -107,7 +109,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: "Helix Security",
+      default: "",
     },
     sidebarBackgroundImage: {
       type: String,

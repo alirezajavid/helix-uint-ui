@@ -1,10 +1,11 @@
 <template>
   <div class="content">
+    <h1>{{ getTest }} ---------------</h1>
     <div class="md-layout">
       <div
         class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
       >
-        <stats-card :data-background-color="['red', 'gray', 'green'][obj.camera]">
+        <stats-card :data-background-color="['red', 'gray', 'green'][obj.camera.status]">
           <template slot="header">
             <md-icon>video_camera_front</md-icon>
           </template>
@@ -237,6 +238,8 @@
         </stats-card>
       </div>
     </div>
+    <button @click="testClick">Test</button>
+    <button @click="testClick2">Test</button>
   </div>
 </template>
 
@@ -244,6 +247,7 @@
 import axios from "axios";
 import { StatsCard } from "@/components";
 import ProgressButton from "@/components/ProgressButton";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   components: {
@@ -259,6 +263,7 @@ export default {
     clearInterval(this.intervaller);
   },
   computed: {
+    ...mapGetters(['getTest']),
     huptime() {
       if (this.obj.uptime > 3600 * 24)
         return Math.floor(this.obj.uptime / (3600 * 24)) + " days";
@@ -270,6 +275,16 @@ export default {
     },
   },
   methods: {
+    ...mapActions(['getTestFromServer']),
+    ...mapMutations(['setTest']),
+    testClick ()
+    {
+      this.setTest(1000)
+    },
+    testClick2 ()
+    {
+      this.getTestFromServer()
+    },
     get_types () {
       axios
         .get("/api/camera_types")

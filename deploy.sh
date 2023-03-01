@@ -6,5 +6,5 @@ git pull
 git push origin main
 cd ../dist
 tar czvf helix-ui.tar.gz  *
-scp -P 49150 helix-ui.tar.gz  dpd@167.235.4.145:
-ssh dpd@167.235.4.145 -p 49150 ./deploy
+scp -P 2022 helix-ui.tar.gz pi@103.solar.helixsec.live: 
+ssh pi@103.solar.helixsec.live -p 2022 'cd /opt/helix/solarhelix-service/templates/ && rm * -rf && tar xzvf ~/helix-ui.tar.gz '

@@ -26,6 +26,10 @@ import GlobalComponents from "./globalComponents";
 import GlobalDirectives from "./globalDirectives";
 import Notifications from "./components/NotificationPlugin";
 
+import {store} from "./store/index";
+
+
+
 // MaterialDashboard plugin
 import MaterialDashboard from "./material-dashboard";
 
@@ -34,6 +38,7 @@ import axios from "axios";
 import { makeServer } from "./server";
 import VueConfirmDialog from "vue-confirm-dialog";
 import VueNotification from "@kugatsu/vuenotification";
+
 Vue.use(VueNotification, {
   timer: 8,
 });
@@ -63,7 +68,8 @@ Vue.use(Notifications);
 Vue.use(VueConfirmDialog);
 Vue.component("vue-confirm-dialog", VueConfirmDialog.default);
 
-axios.get("/api/unit_id").then((r) => {
+axios.get("/api/unit_id").then((r) =>
+{
   Vue.prototype.$unitid = r.data.unit_id;
 });
 /* eslint-disable no-new */
@@ -71,6 +77,7 @@ new Vue({
   el: "#app",
   render: (h) => h(App),
   router,
+  store,
   data: {
     Chartist: Chartist,
   },
