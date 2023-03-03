@@ -1,19 +1,10 @@
 <template>
   <div
     class="sidebar"
-  >
-
-
-
-  <!-- 
-    
     :data-color="sidebarItemColor"
     :data-image="sidebarBackgroundImage"
     :style="sidebarStyle"
-
-    
-
-
+  >
     <div class="logo">
       <a class="simple-text logo-mini">
         <div class="logo-img">
@@ -47,8 +38,8 @@
               </md-button>  
             </td>
             <td align="center">
-                <md-button class="md-warning md-sm md-just-icon1 jdok" @click=" place_holder" >
-                  provisioning
+                <md-button :class="(getStat.provisioning ? 'md-success' : 'md-warning') + ' md-sm md-just-icon1 jdok'" @click=" place_holder" >
+                  provisioning 
                 </md-button>  
             </td>
             <td align="center">
@@ -82,7 +73,7 @@
             <table>
               <tr>
                 <td>Notifications</td>
-                <td><md-badge :md-content="notifCount" /></td>
+                <td><md-badge :md-content="getAlarmsCounts" /></td>
               </tr>
             </table>
           </p>
@@ -97,12 +88,12 @@
           <p class="jmen">Live</p>
         </sidebar-link>
       </md-list>
-    </div> -->
+    </div> 
   </div>
 </template>
 <script>
-import axios from "axios";
 import EventBus from "../../eventBus";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   components: {},
@@ -147,6 +138,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['getStat', 'getAlarmsCounts']),
     sidebarStyle() {
       return {
         backgroundImage: `url(${this.sidebarBackgroundImage})`,
@@ -156,62 +148,55 @@ export default {
   data() {
     return {
       img: this.$cam_image,
-      notifCount: 10
+      intervaller: null
     };
   },
   methods: {
-    rotate(arrow) {
-      axios.get("/maintenance?action=rotate&var=" + arrow).then((r) => {});
-    },
+    ...mapActions(['getAlaramCountFromServer', 'getStatsFromServer', 'sendChangeProvisioning', 'sendCapture', 'sendRotate']),
     capture() {
-      axios.get("/maintenance?action=capture&var=still").then((r) => {
-        this.setImage();
-      });
+      this.sendCapture()
+      setTimeout(this.setImage, 1000); 
     },
     place_holder ()
     {
-      axios.get("/api/provisioning?action=").then((r) =>
-      {
-        this.setImage();
-      });
-      
+      this.sendChangeProvisioning()
+      setTimeout(this.getStatsFromServer, 1000);      
+      setTimeout(this.setImage, 8000);      
     },
     btn_up() {
-      this.rotate("up");
+      this.sendRotate("up");
     },
     btn_down() {
-      this.rotate("down");
+      this.sendRotate("down");
     },
     btn_left() {
-      this.rotate("left");
+      this.sendRotate("left");
     },
     btn_right() {
-      this.rotate("right");
-    },
-    btn_cap() {
-      //this.capture();
+      this.sendRotate("right");
     },
     toggleSidebar() {
       EventBus.$emit("toggleSidebar");
     },
     setImage() {
       this.img = this.$cam_image + "?rnd=" + Math.random();
-    },
-    get_alarms_count() {
-      axios.get("/api/alarms?detail=false").then((r) => {
-        this.notifCount = r.data.total;
-      });
-    },
-
+    }
   },
   created() {
-    this.get_alarms_count();
+    this.getAlaramCountFromServer()
+    this.getStatsFromServer()
     this.setImage();
-    setInterval(() => {
-      this.setImage();
-      this.get_alarms_count();
-    }, 8000);
+    if (!this.intervaller)
+      this.intervaller = 
+        setInterval(() => {
+          this.setImage();
+          this.getAlaramCountFromServer()
+        }, 8000);
   },
+  beforeDestroy() {
+    if (this.intervaller)
+      clearInterval(this.intervaller);
+  }
 };
 </script>
 <style>

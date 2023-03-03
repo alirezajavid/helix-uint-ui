@@ -1,11 +1,10 @@
 <template>
   <div class="content">
-    <h1>{{ getTest }} ---------------</h1>
     <div class="md-layout">
       <div
         class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
       >
-        <stats-card :data-background-color="['red', 'gray', 'green'][obj.camera.status]">
+        <stats-card :data-background-color="['red', 'gray', 'green'][getStat.camera.status]">
           <template slot="header">
             <md-icon>video_camera_front</md-icon>
           </template>
@@ -19,17 +18,17 @@
                   if (status == 1) return "Problem";
                   if (status == 2) return "Connected";
                   return status
-                })(obj.camera.status)
+                })(getStat.camera.status)
               }} 
             </h4>
           </template>
           <template slot="footer">
             <div class="stats">
-              <span style="color:#111">Carrier:</span><md-icon :style="{color: obj.camera.carrier?'green':'red'}">circle</md-icon> &nbsp;&nbsp;
-              <span style="color:#111">Ethernet:</span><md-icon :style="{color: obj.camera.ethernet?'green':'red'}">circle</md-icon>&nbsp;&nbsp;
-              <span style="color:#111">Ping: {{ obj.camera.ping }} ms</span>  <br />
-              <select v-model="CAMERA_TYPE" style="width: 100%; border: solid 1px #111">
-                  <option v-for="i in CAMERA_TYPES" :key="i" :selected="i== CAMERA_TYPE ">{{  i  }}</option>
+              <span style="color:#111">Carrier:</span><md-icon :style="{color: getStat.camera.carrier?'green':'red'}">circle</md-icon> &nbsp;&nbsp;
+              <span style="color:#111">Ethernet:</span><md-icon :style="{color: getStat.camera.ethernet?'green':'red'}">circle</md-icon>&nbsp;&nbsp;
+              <span style="color:#111">Ping: {{ getStat.camera.ping }} ms</span>  <br />
+              <select v-model="camera_type" style="width: 100%; border: solid 1px #111">
+                  <option v-for="i in getCameraTypes" :key="i" :selected="i == getCameraType ">{{  i  }}</option>
               </select>
               <br />
               <ProgressButton
@@ -67,20 +66,20 @@
       <div
         class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
       >
-        <stats-card :data-background-color="obj.armed ? 'red' : 'blue'">
+        <stats-card :data-background-color="getStat.armed ? 'red' : 'blue'">
           <template slot="header">
             <md-icon>album</md-icon>
           </template>
 
           <template slot="content">
             <p class="category">Arm Status</p>
-            <h4 class="title">{{ obj.armed ? "Active" : "Deactive" }}</h4>
+            <h4 class="title">{{ getStat.armed ? "Active" : "Deactive" }}</h4>
           </template>
 
           <template slot="footer">
             <div class="stats">
               <ProgressButton
-                v-if="!obj.armed"
+                v-if="!getStat.armed"
                 @click="action('armed', 'on')"
                 ref="arm_on_button"
                 name="bottom"
@@ -94,7 +93,7 @@
               </ProgressButton>
 
               <ProgressButton
-                v-if="obj.armed"
+                v-if="getStat.armed"
                 @click="action('armed', 'off')"
                 ref="arm_off_button"
                 name="bottom"
@@ -121,7 +120,7 @@
 
           <template slot="content">
             <p class="category">CPU</p>
-            <h4 class="title">{{ obj.cpu }} %</h4>
+            <h4 class="title">{{ getStat.cpu }} %</h4>
           </template>
 
           <template slot="footer">
@@ -143,7 +142,7 @@
           <template slot="content">
             <p class="category">Load</p>
             <h4 class="title">
-              {{ obj.load_current }}
+              {{ getStat.load_current }}
               <small></small>
             </h4>
           </template>
@@ -163,7 +162,7 @@
 
           <template slot="content">
             <p class="category">Memory</p>
-            <h4 class="title">{{ Math.round(obj.memory) }} %</h4>
+            <h4 class="title">{{ Math.round(getStat.memory) }} %</h4>
           </template>
 
           <template slot="footer">
@@ -181,7 +180,7 @@
 
           <template slot="content">
             <p class="category">Disk Usage</p>
-            <h4 class="title">{{ obj.primary_disk }} %</h4>
+            <h4 class="title">{{ getStat.primary_disk }} %</h4>
           </template>
 
           <template slot="footer">
@@ -197,7 +196,7 @@
         class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
       >
         <stats-card
-          :data-background-color="obj.temperature > 70 ? 'red' : 'green'"
+          :data-background-color="getStat.temperature > 70 ? 'red' : 'green'"
         >
           <template slot="header">
             <md-icon>device_thermostat</md-icon>
@@ -205,7 +204,7 @@
 
           <template slot="content">
             <p class="category">Temperature</p>
-            <h4 class="title">{{ obj.temperature }} <small>&#8451;</small></h4>
+            <h4 class="title">{{ getStat.temperature }} <small>&#8451;</small></h4>
           </template>
 
           <template slot="footer">
@@ -238,18 +237,20 @@
         </stats-card>
       </div>
     </div>
-    <button @click="testClick">Test</button>
-    <button @click="testClick2">Test</button>
   </div>
 </template>
 
 <script>
-import axios from "axios";
 import { StatsCard } from "@/components";
 import ProgressButton from "@/components/ProgressButton";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
+  watch: {
+    getCameraType (newValue) { 
+      this.camera_type = newValue
+    }
+  },
   components: {
     StatsCard,
     ProgressButton,
@@ -257,47 +258,26 @@ export default {
   created() {
     this.getstats();
     this.intervaller = setInterval(this.getstats, 4000);
-    this.get_types();
+    this.getCameraTypesFromServer();
   },
   beforeDestroy() {
     clearInterval(this.intervaller);
   },
   computed: {
-    ...mapGetters(['getTest']),
+    ...mapGetters(['getStat', 'getCameraTypes', 'getCameraType']),
     huptime() {
-      if (this.obj.uptime > 3600 * 24)
-        return Math.floor(this.obj.uptime / (3600 * 24)) + " days";
-      if (this.obj.uptime > 3600)
-        return Math.floor(this.obj.uptime / 3600) + " hours";
-      if (this.obj.uptime > 60)
-        return Math.floor(this.obj.uptime / 60) + " min";
-      return this.obj.uptime + "seconds";
+      if (this.getStat.uptime > 3600 * 24)
+        return Math.floor(this.getStat.uptime / (3600 * 24)) + " days";
+      if (this.getStat.uptime > 3600)
+        return Math.floor(this.getStat.uptime / 3600) + " hours";
+      if (this.getStat.uptime > 60)
+        return Math.floor(this.getStat.uptime / 60) + " min";
+      return this.getStat.uptime + "seconds";
     },
   },
   methods: {
-    ...mapActions(['getTestFromServer']),
+    ...mapActions(['getStatsFromServer', 'getCameraTypesFromServer', 'sendCameraTypeToServer', 'sendCameraActionToServer']),
     ...mapMutations(['setTest']),
-    testClick ()
-    {
-      this.setTest(1000)
-    },
-    testClick2 ()
-    {
-      this.getTestFromServer()
-    },
-    get_types () {
-      axios
-        .get("/api/camera_types")
-        .then((r) =>
-        {
-          this.CAMERA_TYPES = r.data.camera_types;
-          this.CAMERA_TYPE = r.data.current;
-        })
-        .catch((e) =>
-        {
-          this.$notification.error("Error in connection.", { timer: 10 });
-        });
-    },
     restart_camera() {
       this.$refs.reboot_camera_button.start();
       this.action("restart", "camera");
@@ -305,10 +285,7 @@ export default {
     },
     set_camera_type ()
     {
-      axios
-        .post("/api/camera_types?camera=" + this.CAMERA_TYPE)
-        .then(() => this.get_types())
-      
+      this.sendCameraTypeToServer(this.camera_type, 'ff')
     },
     show_progress() {
       if (this.progress < 100) {
@@ -319,44 +296,21 @@ export default {
       }
     },
     getstats() {
-      axios.get("/api/status_quo").then((r) => {
-        this.obj = r.data;
-      });
+      this.getStatsFromServer();
     },
     action(action, _var) {
       if (action == "arm") {
         if ((_var = "off")) this.$refs.arm_on_button.start();
         else this.$refs.arm_off_button.start();
       }
-      axios.get("/maintenance?action=" + action + "&var=" + _var).then((r) => {
-        this.obj = r.data;
-        this.getstats();
-      });
+      this.sendCameraActionToServer({action: action, var: _var});
     },
   },
   data() {
     return {
       intervaller: null,
       progress: 0,
-      CAMERA_TYPES: [],
-      CAMERA_TYPE: "",
-      obj: {
-        "cpu": null,
-        "memory": null,
-        "primary_disk": null,
-        "temperature": null,
-        "uptime": null,
-        "load_current": null,
-        "armed": null,
-        "allowed_to_configure": null,
-        "provisioning": null,
-        "camera": {
-          "status": null,
-          "carrier": null,
-          "ethernet": null,
-          "ping": null
-        }
-      },
+      camera_type: ''
     };
   },
 };

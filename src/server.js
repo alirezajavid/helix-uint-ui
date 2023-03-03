@@ -337,6 +337,10 @@ export function makeServer ({ environment = "development" } = {})
       {
         return { camera_types: ["1", "2"], current: "1" };
       });
+      this.post("camera_types", () =>
+      {
+        return {  };
+      });
       this.get("configs", () =>
       {
         return {
@@ -363,6 +367,8 @@ export function makeServer ({ environment = "development" } = {})
           SOLAR_CTRL_LOAD_MODE: "0",
         };
       });
+      this.get("allowed_to_configure", () => false)
+      this.get("provisioning", () => {});
       this.get("status_quo", () =>
       {
         return {
@@ -374,7 +380,7 @@ export function makeServer ({ environment = "development" } = {})
             "load_current": 0.0,
             "armed": false,
             "allowed_to_configure": true,
-            "provisioning": false,
+            "provisioning": true,
             "camera": {
               "status": 2,
               "carrier": 1,
@@ -385,44 +391,48 @@ export function makeServer ({ environment = "development" } = {})
       });
       this.get("alarms", (i, d) =>
       {
+        var samples = [
+          {
+            name: "2022-08-09 19:02:31",
+            href: "http://120.157.118.37/alarms/103-1660035751.mp4",
+            download:
+              "http://120.157.118.37/alarms/103-1660035751-main.mp4",
+          },
+          {
+            name: "2022-08-09 18:51:03",
+            href: "http://120.157.118.37/alarms/103-1660035063.mp4",
+            download:
+              "http://120.157.118.37/alarms/103-1660035063-main.mp4",
+          },
+          {
+            name: "2022-08-09 18:34:35",
+            href: "http://120.157.118.37/alarms/103-1660034075.mp4",
+            download:
+              "http://120.157.118.37/alarms/103-1660034075-main.mp4",
+          },
+          {
+            name: "2022-08-09 18:33:53",
+            href: "http://120.157.118.37/alarms/103-1660034033.mp4",
+            download:
+              "http://120.157.118.37/alarms/103-1660034033-main.mp4",
+          },
+          {
+            name: "2022-08-05 16:16:17",
+            href: "http://120.157.118.37/alarms/103-1659680177.mp4",
+            download:
+              "http://120.157.118.37/alarms/103-1659680177-main.mp4",
+          },
+        ]
+        for (let i=0; i<10; i++)
+          samples = samples.concat(samples)
         if (d.queryParams != undefined && d.queryParams.detail == "false") {
-          return { success: true, total: 625 };
-        } else
+          return { success: true, total: samples.length };
+        } else {
           return {
             success: true,
-            alarms: [
-              {
-                name: "2022-08-09 19:02:31",
-                href: "http://120.157.118.37/alarms/103-1660035751.mp4",
-                download:
-                  "http://120.157.118.37/alarms/103-1660035751-main.mp4",
-              },
-              {
-                name: "2022-08-09 18:51:03",
-                href: "http://120.157.118.37/alarms/103-1660035063.mp4",
-                download:
-                  "http://120.157.118.37/alarms/103-1660035063-main.mp4",
-              },
-              {
-                name: "2022-08-09 18:34:35",
-                href: "http://120.157.118.37/alarms/103-1660034075.mp4",
-                download:
-                  "http://120.157.118.37/alarms/103-1660034075-main.mp4",
-              },
-              {
-                name: "2022-08-09 18:33:53",
-                href: "http://120.157.118.37/alarms/103-1660034033.mp4",
-                download:
-                  "http://120.157.118.37/alarms/103-1660034033-main.mp4",
-              },
-              {
-                name: "2022-08-05 16:16:17",
-                href: "http://120.157.118.37/alarms/103-1659680177.mp4",
-                download:
-                  "http://120.157.118.37/alarms/103-1659680177-main.mp4",
-              },
-            ],
-          };
+            alarms: samples ,
+          }
+        }
       });
       this.namespace = "";
       this.get("maintenance", () =>

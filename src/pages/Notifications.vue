@@ -26,12 +26,12 @@
                 <div>
                   <md-button
                     class="md-just-icon-javid"
-                    v-for="i in cPageCount"
+                    v-for="i in pageCounts"
                     :key="i"
                     @click="setRecords(i)"
                     :class="
                       'md-just-icon md-sm' +
-                      (i == currentPage ? '' : ' md-primary')
+                      (i == currentPage ? ' md-success' : ' md-primary')
                     "
                   >
                     <span style="font-size: 13px">{{ i }}</span>
@@ -75,39 +75,23 @@
 
 <script>
 import VideoPlayer from "vue-videojs7/src/components/VideoPlayer.vue";
-import axios from "axios";
+import { mapActions, mapGetters } from "vuex"
 
 export default {
   watch: {
-    pageCounts(newValue) {
-      this.cPageCount = [];
-      let s = this.currentPage < 2 ? 1 : this.currentPage - 2;
-      let e = this.currentPage + 2 < newValue ? this.currentPage + 3 : newValue;
-
-      s = 1;
-      e = this.pageCounts;
-      for (let i = s; i <= e; i++) this.cPageCount.push(i);
-    },
-    currentPage(newValue) {
-      this.cPageCount = [];
-      let s = newValue <= 2 ? 1 : newValue - 2;
-      let e =
-        newValue + 2 < this.pageCounts ? this.currentPage + 3 : this.pageCounts;
-      s = 1;
-      e = this.pageCounts;
-      for (let i = s; i <= e; i++) this.cPageCount.push(i);
-    },
+    getAlarms() {
+      this.pageCounts= Math.ceil(this.getAlarmsCounts / this.PAGE_SIZE)
+    }
   },
   created() {
-    this.get_alarms();
-  },
+    this.getAlaramsFromServer();
+    },
   components: {
     VideoPlayer,
   },
   data() {
     return {
       rawAlarms: { alarms: [] },
-      cPageCount: [],
       PAGE_SIZE: 20,
       pageCounts: 0,
       currentPage: 1,
@@ -124,21 +108,23 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['getAlarms', 'getAlarmsCounts']),
     player() {
       return this.$refs.videoPlayer.player;
     },
     alarms() {
       let start = (this.currentPage - 1) * this.PAGE_SIZE;
       let end = this.currentPage * this.PAGE_SIZE;
-      if (start < this.rawAlarms.alarms.length)
-        return this.rawAlarms.alarms.slice(start, end);
+      if (start < this.getAlarmsCounts)
+        return this.getAlarms.slice(start, end);
       else {
-        return this.rawAlarms.alarms;
+        return this.getAlarms;
       }
-    },
+    }
   },
 
   methods: {
+    ...mapActions(['getAlaramsFromServer', 'getAlaramCountFromServer', 'sendDelAlarm']),
     setRecords(index) {
       this.currentPage = index;
     },
@@ -147,9 +133,7 @@ export default {
       this.player.play();
     },
     delVideo: function (source) {
-      axios.delete("/api/alarms/" + source.name).then((r) => {
-        this.get_alarms();
-      });
+      this.sendDelAlarm(source.name)
     },
     downloadVideo: function (source) {
       window.open(source.download);
@@ -164,17 +148,7 @@ export default {
       this.player.src(source.href);
       this.player.load();
       this.player.play();
-    },
-    get_alarms() {
-      axios.get("/api/alarms").then((r) => {
-        this.rawAlarms = r.data;
-        var keys = 1;
-        this.rawAlarms.alarms.forEach(function (element) {
-          element.id = keys++;
-        });
-        this.pageCounts = Math.ceil(r.data.alarms.length / this.PAGE_SIZE);
-      });
-    },
+    }
   },
 };
 </script>
