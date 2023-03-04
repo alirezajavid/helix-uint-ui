@@ -38,8 +38,8 @@
               </md-button>  
             </td>
             <td align="center">
-                <md-button :class="(getStat.provisioning ? 'md-success' : 'md-warning') + ' md-sm md-just-icon1 jdok'" @click=" place_holder" >
-                  provisioning 
+                <md-button :class="(getStat.provisioning.state ? 'md-success' : 'md-warning') + ' md-sm md-just-icon1 jdok'" @click=" place_holder" >
+                  provisioning {{ getStat.provisioning.state }}
                 </md-button>  
             </td>
             <td align="center">

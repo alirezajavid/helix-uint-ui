@@ -15,7 +15,10 @@ export const store = new Vuex.Store({
             "load_current": null,
             "armed": null,
             "allowed_to_configure": null,
-            "provisioning": null,
+            "provisioning": {
+                state: true,
+                allowed_to_change: false
+            },
             "camera": {
                 "status": null,
                 "carrier": null,
@@ -25,26 +28,28 @@ export const store = new Vuex.Store({
         },
         camera_types: [],
         camera_type: "",
-        alarm_count:0,
-        alarms:[]
+        alarm_count: 0,
+        alarms: []
     },
     getters: {
         getStat (state)
         {
             return state.stat
         },
-        getCameraTypes(state)
+        getCameraTypes (state)
         {
             return state.camera_types
         },
-        getCameraType(state)
+        getCameraType (state)
         {
             return state.camera_type
         },
-        getAlarms(state) {
+        getAlarms (state)
+        {
             return state.alarms
         },
-        getAlarmsCounts (state) {
+        getAlarmsCounts (state)
+        {
             return state.alarm_count
         }
     },
@@ -61,39 +66,48 @@ export const store = new Vuex.Store({
         {
             state.camera_type = v.current;
         },
-        setAlarms(state, v) {
+        setAlarms (state, v)
+        {
             let key = 1;
-            state.alarms = v.alarms.map((i) => {
+            state.alarms = v.alarms.map((i) =>
+            {
                 return { ...i, id: key++ }
             });
         },
-        setAlarmCount(state, v) {
+        setAlarmCount (state, v)
+        {
             state.alarm_count = v
         }
     },
     actions: {
-        getAlaramsFromServer({ commit }) {
-            axios.get("/api/alarms").then((r) => {
+        getAlaramsFromServer ({ commit })
+        {
+            axios.get("/api/alarms").then((r) =>
+            {
                 commit("setAlarms", r.data);
             });
         },
-        getAlaramCountFromServer({ commit }) {
-            axios.get("/api/alarms?detail=false").then((r) => {
+        getAlaramCountFromServer ({ commit })
+        {
+            axios.get("/api/alarms?detail=false").then((r) =>
+            {
                 commit("setAlarmCount", r.data.total);
             });
         },
         getStatsFromServer ({ commit })
         {
-            axios.get("/api/status_quo").then((r) => {
+            axios.get("/api/status_quo").then((r) =>
+            {
                 commit("setStats", r.data);
             })
-            
+
         },
-        getCameraTypesFromServer({commit})
+        getCameraTypesFromServer ({ commit })
         {
             axios
                 .get("/api/camera_types")
-                .then((r) => {
+                .then((r) =>
+                {
                     commit("setCameraTypes", r.data);
                     commit("setCameraType", r.data);
                 })
@@ -102,7 +116,8 @@ export const store = new Vuex.Store({
                     this.$notification.error("Error in connection.", { timer: 10 });
                 });
         },
-        sendCameraTypeToServer({dispatch, commit}, camera_type) {
+        sendCameraTypeToServer ({ dispatch, commit }, camera_type)
+        {
             axios
                 .post("/api/camera_types?camera=" + camera_type)
                 .then((r) => 
@@ -110,7 +125,8 @@ export const store = new Vuex.Store({
                     dispatch("getCameraTypesFromServer")
                 })
         },
-        sendCameraActionToServer({dispatch, commit}, payload) {
+        sendCameraActionToServer ({ dispatch, commit }, payload)
+        {
             axios
                 .get("/maintenance?action=" + payload.action + "&var=" + payload.var)
                 .then(() => 
@@ -118,20 +134,25 @@ export const store = new Vuex.Store({
                     dispatch("getStatsFromServer")
                 })
         },
-        sendDelAlarm({dispatch, commit}, payload) {
+        sendDelAlarm ({ dispatch, commit }, payload)
+        {
             axios
                 .delete("/api/alarms/" + payload)
-                .then((r) => {
+                .then((r) =>
+                {
                     dispatch('getAlaramsFromServer')
                 });
         },
-        sendChangeProvisioning({ state }) {
+        sendChangeProvisioning ({ state })
+        {
             axios.get("/api/provisioning?action=" + (state.stat.provisioning ? 'false' : 'true'))
         },
-        sendCapture({ state }) {
+        sendCapture ({ state })
+        {
             axios.get("/api/provisioning?action=" + (state.stat.provisioning ? 'false' : 'true'))
         },
-        sendRotate({state}, arrow) {
+        sendRotate ({ state }, arrow)
+        {
             axios.get("/maintenance?action=rotate&var=" + arrow)
         }
     }

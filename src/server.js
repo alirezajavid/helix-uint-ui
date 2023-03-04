@@ -339,7 +339,7 @@ export function makeServer ({ environment = "development" } = {})
       });
       this.post("camera_types", () =>
       {
-        return {  };
+        return {};
       });
       this.get("configs", () =>
       {
@@ -368,26 +368,30 @@ export function makeServer ({ environment = "development" } = {})
         };
       });
       this.get("allowed_to_configure", () => false)
-      this.get("provisioning", () => {});
+      this.get("provisioning", () => { });
       this.get("status_quo", () =>
       {
         return {
-            "cpu": 6.8,
-            "memory": 23.6186,
-            "primary_disk": 64.0,
-            "temperature": 46.2,
-            "uptime": 38518.0,
-            "load_current": 0.0,
-            "armed": false,
-            "allowed_to_configure": true,
-            "provisioning": true,
-            "camera": {
-              "status": 2,
-              "carrier": 1,
-              "ethernet": 1,
-              "ping": 0.32
-            }
+          "cpu": 6.8,
+          "memory": 23.6186,
+          "primary_disk": 64.0,
+          "temperature": 46.2,
+          "uptime": 38518.0,
+          "load_current": 0.0,
+          "armed": false,
+          "allowed_to_configure": true,
+          alarms: 0,
+          "provisioning": {
+            state: true,
+            allowed_to_change: false
+          },
+          "camera": {
+            "status": 2,
+            "carrier": 1,
+            "ethernet": 1,
+            "ping": 0.32
           }
+        }
       });
       this.get("alarms", (i, d) =>
       {
@@ -423,14 +427,14 @@ export function makeServer ({ environment = "development" } = {})
               "http://120.157.118.37/alarms/103-1659680177-main.mp4",
           },
         ]
-        for (let i=0; i<10; i++)
+        for (let i = 0; i < 10; i++)
           samples = samples.concat(samples)
         if (d.queryParams != undefined && d.queryParams.detail == "false") {
           return { success: true, total: samples.length };
         } else {
           return {
             success: true,
-            alarms: samples ,
+            alarms: samples,
           }
         }
       });
