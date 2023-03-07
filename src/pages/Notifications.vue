@@ -1,25 +1,5 @@
 <template>
   <div class="content">
-
-
-    <md-modal-dialog>
-      <md-dialog-title>Guess a number</md-dialog-title>
-
-      <md-dialog-content>
-        <md-field>
-          <label>A number</label>
-          <md-input type="number" v-model=" number " />
-        </md-field>
-      </md-dialog-content>
-
-      <md-dialog-actions>
-        <md-button @click=" $modal.submit( number ) ">Submit</md-button>
-        <md-button @click=" $modal.cancel() ">Cancel</md-button>  
-      </md-dialog-actions>
-    </md-modal-dialog>
-    <button @click="modal">Modal</button>
-
-
     <div class="md-layout">
       <div class="md-layout-item">
         <md-card>
@@ -98,7 +78,6 @@ import VideoPlayer from "vue-videojs7/src/components/VideoPlayer.vue";
 import { mapActions, mapGetters } from "vuex"
 
 export default {
-  name: 'GuessDialog',
   watch: {
     getAlarms() {
       this.pageCounts= Math.ceil(this.getAlarmsCounts / this.PAGE_SIZE)
@@ -169,20 +148,6 @@ export default {
       this.player.src(source.href);
       this.player.load();
       this.player.play();
-    },
-    modal ()
-    {
-      this.$modal
-        .show(GuessDialog)
-        .then(number =>
-        {
-          // Do something with "number"
-        })
-        .catch(reason =>
-        {
-          // In order to avoid runtime warnings, a catch clause
-          // is required even if "reason" is ignored
-        })
     }
   },
 };

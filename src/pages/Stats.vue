@@ -185,18 +185,7 @@
 
           <template slot="footer">
             <div class="stats">
-                <ProgressButton
-                  @click=" restart_camera "
-                  class="md-danger md-round md-sm"
-                  style="width:160px"
-                  :height=" 10 "
-                  :duration=" 4000 "
-                  position="top"
-                >
-                  <md-icon>delete</md-icon>
-                  Clear storage
-                </ProgressButton>
-
+              <md-icon></md-icon>
               &nbsp;
             </div>
           </template>

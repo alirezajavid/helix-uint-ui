@@ -7,27 +7,27 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
     state: {
         stat: {
-            cpu: null,
-            memory: null,
-            primary_disk: null,
-            temperature: null,
-            uptime: null,
-            load_current: null,
-            armed: null,
-            allowed_to_configure: null,
-            provisioning: {
+            "cpu": null,
+            "memory": null,
+            "primary_disk": null,
+            "temperature": null,
+            "uptime": null,
+            "load_current": null,
+            "armed": null,
+            "allowed_to_configure": null,
+            "provisioning": {
                 state: true,
                 allowed_to_change: false
             },
-            camera: {
-                status: null,
-                carrier: null,
-                ethernet: null,
-                ping: null
+            "camera": {
+                "status": null,
+                "carrier": null,
+                "ethernet": null,
+                "ping": null
             }
         },
         camera_types: [],
-        camera_type: null,
+        camera_type: "",
         alarm_count: 0,
         alarms: []
     },
@@ -145,7 +145,7 @@ export const store = new Vuex.Store({
         },
         sendChangeProvisioning ({ state })
         {
-            axios.get("/api/provisioning?action=" + (state.stat.provisioning.state ? 'false' : 'true'))
+            axios.get("/api/provisioning?action=" + (state.stat.provisioning ? 'false' : 'true'))
         },
         sendCapture ({ state })
         {

@@ -185,7 +185,7 @@ export default {
     },
 
     check_configurable() {
-      axios.get("/api/configs/allowed_to_change").then((r) => {
+      axios.get("/api/allowed_to_configure").then((r) => {
         this.active_save = r.data.state === true;
         if (this.check_configurable_interval && r.data.state === true)
           clearInterval(this.check_configurable_interval);
