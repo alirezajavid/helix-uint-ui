@@ -1,7 +1,13 @@
 <template>
   <div class="content">
     <md-dialog :md-active.sync="show_clear_storage">
-      <md-dialog-title>Clear Storage</md-dialog-title>
+      <md-dialog-title>
+        Clear Storage <br />
+        <div style="font-size: smaller; color:red">
+          files created before this date will be deleted:
+        </div>
+      </md-dialog-title>
+      
 
       <md-dialog-content>
         <div class="md-layout md-gutter">

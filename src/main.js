@@ -35,9 +35,9 @@ import Chartist from "chartist";
 import axios from "axios";
 import { makeServer } from "./server";
 import VueConfirmDialog from "vue-confirm-dialog";
-import VueNotification from "@kugatsu/vuenotification";
+import Toasted from 'vue-toasted';
 
-Vue.use(VueNotification, { timer: 8 });
+Vue.use(Toasted, { duration: 3000 })
 
 if (process.env.NODE_ENV === "development") {
   makeServer();
@@ -57,8 +57,10 @@ Vue.prototype.$dev_mode =
 Vue.prototype.$cam_image = Vue.prototype.$dev_mode
   ? "https://www.entekhab.ir/files/fa/news/1401/3/10/1268200_267.jpg"
   : "/jpeg/mjpeg_latest.jpg";
-Date.prototype.FORMAT = function () {
-  function pad(number, length) {
+Date.prototype.FORMAT = function ()
+{
+  function pad (number, length)
+  {
     var str = "" + number;
     while (str.length < length) {
       str = "0" + str;
@@ -83,7 +85,8 @@ Vue.use(VueConfirmDialog);
 
 Vue.component("vue-confirm-dialog", VueConfirmDialog.default);
 
-axios.get("/api/unit_id").then((r) => {
+axios.get("/api/unit_id").then((r) =>
+{
   Vue.prototype.$unitid = r.data.unit_id;
 });
 /* eslint-disable no-new */
