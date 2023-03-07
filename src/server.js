@@ -383,7 +383,7 @@ export function makeServer ({ environment = "development" } = {})
           alarms: 0,
           "provisioning": {
             state: true,
-            allowed_to_change: false
+            allowed_to_change: true
           },
           "camera": {
             "status": 2,
