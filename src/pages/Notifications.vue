@@ -1,25 +1,5 @@
 <template>
   <div class="content">
-
-
-    <md-modal-dialog>
-      <md-dialog-title>Guess a number</md-dialog-title>
-
-      <md-dialog-content>
-        <md-field>
-          <label>A number</label>
-          <md-input type="number" v-model=" number " />
-        </md-field>
-      </md-dialog-content>
-
-      <md-dialog-actions>
-        <md-button @click=" $modal.submit( number ) ">Submit</md-button>
-        <md-button @click=" $modal.cancel() ">Cancel</md-button>  
-      </md-dialog-actions>
-    </md-modal-dialog>
-    <button @click="modal">Modal</button>
-
-
     <div class="md-layout">
       <div class="md-layout-item">
         <md-card>
@@ -95,18 +75,17 @@
 
 <script>
 import VideoPlayer from "vue-videojs7/src/components/VideoPlayer.vue";
-import { mapActions, mapGetters } from "vuex"
+import { mapActions, mapGetters } from "vuex";
 
 export default {
-  name: 'GuessDialog',
   watch: {
     getAlarms() {
-      this.pageCounts= Math.ceil(this.getAlarmsCounts / this.PAGE_SIZE)
-    }
+      this.pageCounts = Math.ceil(this.getAlarmsCounts / this.PAGE_SIZE);
+    },
   },
   created() {
     this.getAlaramsFromServer();
-    },
+  },
   components: {
     VideoPlayer,
   },
@@ -129,23 +108,26 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['getAlarms', 'getAlarmsCounts']),
+    ...mapGetters(["getAlarms", "getAlarmsCounts"]),
     player() {
       return this.$refs.videoPlayer.player;
     },
     alarms() {
       let start = (this.currentPage - 1) * this.PAGE_SIZE;
       let end = this.currentPage * this.PAGE_SIZE;
-      if (start < this.getAlarmsCounts)
-        return this.getAlarms.slice(start, end);
+      if (start < this.getAlarmsCounts) return this.getAlarms.slice(start, end);
       else {
         return this.getAlarms;
       }
-    }
+    },
   },
 
   methods: {
-    ...mapActions(['getAlaramsFromServer', 'getAlaramCountFromServer', 'sendDelAlarm']),
+    ...mapActions([
+      "getAlaramsFromServer",
+      "getAlaramCountFromServer",
+      "sendDelAlarm",
+    ]),
     setRecords(index) {
       this.currentPage = index;
     },
@@ -154,7 +136,7 @@ export default {
       this.player.play();
     },
     delVideo: function (source) {
-      this.sendDelAlarm(source.name)
+      this.sendDelAlarm(source.name);
     },
     downloadVideo: function (source) {
       window.open(source.download);
@@ -170,20 +152,6 @@ export default {
       this.player.load();
       this.player.play();
     },
-    modal ()
-    {
-      this.$modal
-        .show(GuessDialog)
-        .then(number =>
-        {
-          // Do something with "number"
-        })
-        .catch(reason =>
-        {
-          // In order to avoid runtime warnings, a catch clause
-          // is required even if "reason" is ignored
-        })
-    }
   },
 };
 </script>

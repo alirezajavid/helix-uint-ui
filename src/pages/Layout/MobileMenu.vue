@@ -18,11 +18,10 @@ import { mapGetters } from "vuex";
 export default {
   watch: {},
   data() {
-    return {
-    };
+    return {};
   },
   computed: {
-    ...mapGetters(['getAlarmsCounts'])
-  }
+    ...mapGetters(["getAlarmsCounts"]),
+  },
 };
 </script>

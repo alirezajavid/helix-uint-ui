@@ -28,8 +28,6 @@ import Notifications from "./components/NotificationPlugin";
 
 import { store } from "./store/index";
 
-
-
 // MaterialDashboard plugin
 import MaterialDashboard from "./material-dashboard";
 
@@ -38,7 +36,6 @@ import axios from "axios";
 import { makeServer } from "./server";
 import VueConfirmDialog from "vue-confirm-dialog";
 import VueNotification from "@kugatsu/vuenotification";
-import MdModalDialog from 'vue-material-modal-dialog';
 
 Vue.use(VueNotification, { timer: 8 });
 
@@ -54,21 +51,39 @@ const router = new VueRouter({
 
 Vue.prototype.$Chartist = Chartist;
 Vue.prototype.$unitid = "...";
-Vue.prototype.$dev_mode = window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost";
-Vue.prototype.$cam_image = Vue.prototype.$dev_mode ? "https://www.entekhab.ir/files/fa/news/1401/3/10/1268200_267.jpg" : "/jpeg/mjpeg_latest.jpg";
+Vue.prototype.$dev_mode =
+  window.location.hostname === "127.0.0.1" ||
+  window.location.hostname === "localhost";
+Vue.prototype.$cam_image = Vue.prototype.$dev_mode
+  ? "https://www.entekhab.ir/files/fa/news/1401/3/10/1268200_267.jpg"
+  : "/jpeg/mjpeg_latest.jpg";
+Date.prototype.FORMAT = function () {
+  function pad(number, length) {
+    var str = "" + number;
+    while (str.length < length) {
+      str = "0" + str;
+    }
+    return str;
+  }
+  var yyyy = this.getFullYear().toString();
+  var MM = pad(this.getMonth() + 1, 2);
+  var dd = pad(this.getDate(), 2);
+  var hh = pad(this.getHours(), 2);
+  var mm = pad(this.getMinutes(), 2);
+  var ss = pad(this.getSeconds(), 2);
 
+  return yyyy + "-" + MM + "-" + dd;
+};
 Vue.use(VueRouter);
 Vue.use(MaterialDashboard);
 Vue.use(GlobalComponents);
 Vue.use(GlobalDirectives);
 Vue.use(Notifications);
 Vue.use(VueConfirmDialog);
-Vue.use(MdModalDialog)
 
 Vue.component("vue-confirm-dialog", VueConfirmDialog.default);
 
-axios.get("/api/unit_id").then((r) =>
-{
+axios.get("/api/unit_id").then((r) => {
   Vue.prototype.$unitid = r.data.unit_id;
 });
 /* eslint-disable no-new */

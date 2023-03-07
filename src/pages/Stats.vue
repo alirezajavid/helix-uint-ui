@@ -1,10 +1,54 @@
 <template>
   <div class="content">
+    <md-dialog :md-active.sync="show_clear_storage">
+      <md-dialog-title>Clear Storage</md-dialog-title>
+
+      <md-dialog-content>
+        <div class="md-layout md-gutter">
+          <div class="md-layout-item md-small-size-100">
+            <md-datepicker v-model="clear.date">
+              <label>Select date</label>
+            </md-datepicker>
+          </div>
+
+          <div class="md-layout-item md-small-size-100">
+            <md-field>
+              <md-icon>access_time</md-icon>
+              <label>Time</label>
+              <md-input
+                pattern="[0-9]{2}:[0-9]{2}"
+                v-model="clear.time"
+              ></md-input>
+            </md-field>
+          </div>
+        </div>
+        <div class="md-layout md-gutter">
+          <div class="md-layout-item md-small-size-100">
+            <md-checkbox v-model="clear.main_stream">Main Stream</md-checkbox>
+            <md-checkbox v-model="clear.alarms">Alarms</md-checkbox>
+
+            <md-checkbox v-model="clear.substream">Substream</md-checkbox>
+            <md-checkbox v-model="clear.snapshots">Snapshots</md-checkbox>
+          </div>
+        </div>
+      </md-dialog-content>
+      <md-dialog-actions>
+        <md-button class="md-accent" @click="clear_storage">Clear</md-button>
+        <md-button class="md-accent" @click="show_clear_storage = false"
+          >Cancel</md-button
+        >
+      </md-dialog-actions>
+    </md-dialog>
+
     <div class="md-layout">
       <div
         class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
       >
-        <stats-card :data-background-color="['red', 'gray', 'green'][getStat.camera.status]">
+        <stats-card
+          :data-background-color="
+            ['red', 'gray', 'green'][getStat.camera.status]
+          "
+        >
           <template slot="header">
             <md-icon>video_camera_front</md-icon>
           </template>
@@ -17,18 +61,38 @@
                   if (status == 0) return "Disconnected";
                   if (status == 1) return "Problem";
                   if (status == 2) return "Connected";
-                  return status
+                  return status;
                 })(getStat.camera.status)
-              }} 
+              }}
             </h4>
           </template>
           <template slot="footer">
             <div class="stats">
-              <span style="color:#111">Carrier:</span><md-icon :style="{color: getStat.camera.carrier?'green':'red'}">circle</md-icon> &nbsp;&nbsp;
-              <span style="color:#111">Ethernet:</span><md-icon :style="{color: getStat.camera.ethernet?'green':'red'}">circle</md-icon>&nbsp;&nbsp;
-              <span style="color:#111">Ping: {{ getStat.camera.ping }} ms</span>  <br />
-              <select v-model="camera_type" style="width: 100%; border: solid 1px #111">
-                  <option v-for="i in getCameraTypes" :key="i" :selected="i == getCameraType ">{{  i  }}</option>
+              <span style="color: #111">Carrier:</span
+              ><md-icon
+                :style="{ color: getStat.camera.carrier ? 'green' : 'red' }"
+                >circle</md-icon
+              >
+              &nbsp;&nbsp; <span style="color: #111">Ethernet:</span
+              ><md-icon
+                :style="{ color: getStat.camera.ethernet ? 'green' : 'red' }"
+                >circle</md-icon
+              >&nbsp;&nbsp;
+              <span style="color: #111"
+                >Ping: {{ getStat.camera.ping }} ms</span
+              >
+              <br />
+              <select
+                v-model="camera_type"
+                style="width: 100%; border: solid 1px #111"
+              >
+                <option
+                  v-for="i in getCameraTypes"
+                  :key="i"
+                  :selected="i == getCameraType"
+                >
+                  {{ i }}
+                </option>
               </select>
               <br />
               <ProgressButton
@@ -36,9 +100,9 @@
                 ref="reboot_camera_button"
                 name="bottom"
                 class="md-danger md-round md-sm"
-                style="width:100px"
-                :height=" 10 "
-                :duration=" 4000 "
+                style="width: 100px"
+                :height="10"
+                :duration="4000"
                 position="top"
               >
                 <md-icon>restart_alt</md-icon>
@@ -50,9 +114,9 @@
                 ref="update_camera_button"
                 name="bottom"
                 class="md-danger md-round md-sm"
-                style="width:100px"
-                :height=" 10 "
-                :duration=" 4000 "
+                style="width: 100px"
+                :height="10"
+                :duration="4000"
                 position="top"
               >
                 <md-icon>update</md-icon>
@@ -120,7 +184,7 @@
 
           <template slot="content">
             <p class="category">CPU</p>
-            <h4 class="title">{{ getStat.cpu }} %</h4>
+            <h4 class="title">({{ getStat.cpu }} %)</h4>
           </template>
 
           <template slot="footer">
@@ -180,22 +244,27 @@
 
           <template slot="content">
             <p class="category">Disk Usage</p>
-            <h4 class="title">{{ getStat.primary_disk }} %</h4>
+            <h4 class="title">
+              {{ (getStorageInfo.size / (1024 * 1024)).toFixed(2) + " Mb" }}
+              <small>({{ getStat.primary_disk }} %)</small>
+            </h4>
           </template>
 
           <template slot="footer">
             <div class="stats">
-                <ProgressButton
-                  @click=" restart_camera "
-                  class="md-danger md-round md-sm"
-                  style="width:160px"
-                  :height=" 10 "
-                  :duration=" 4000 "
-                  position="top"
-                >
-                  <md-icon>delete</md-icon>
-                  Clear storage
-                </ProgressButton>
+              {{ getStorageInfo.oldest_record }} to
+              {{ getStorageInfo.latest_record }}
+              <ProgressButton
+                @click="show_clear_storage = true"
+                class="md-danger md-round md-sm"
+                style="width: 160px"
+                :height="10"
+                :duration="4000"
+                position="top"
+              >
+                <md-icon>delete</md-icon>
+                Clear storage
+              </ProgressButton>
 
               &nbsp;
             </div>
@@ -215,7 +284,9 @@
 
           <template slot="content">
             <p class="category">Temperature</p>
-            <h4 class="title">{{ getStat.temperature }} <small>&#8451;</small></h4>
+            <h4 class="title">
+              {{ getStat.temperature }} <small>&#8451;</small>
+            </h4>
           </template>
 
           <template slot="footer">
@@ -258,9 +329,9 @@ import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   watch: {
-    getCameraType (newValue) { 
-      this.camera_type = newValue
-    }
+    getCameraType(newValue) {
+      this.camera_type = newValue;
+    },
   },
   components: {
     StatsCard,
@@ -268,6 +339,7 @@ export default {
   },
   created() {
     this.getstats();
+    this.getStorageInfoFromServer();
     this.intervaller = setInterval(this.getstats, 4000);
     this.getCameraTypesFromServer();
   },
@@ -275,7 +347,12 @@ export default {
     clearInterval(this.intervaller);
   },
   computed: {
-    ...mapGetters(['getStat', 'getCameraTypes', 'getCameraType']),
+    ...mapGetters([
+      "getStat",
+      "getCameraTypes",
+      "getCameraType",
+      "getStorageInfo",
+    ]),
     huptime() {
       if (this.getStat.uptime > 3600 * 24)
         return Math.floor(this.getStat.uptime / (3600 * 24)) + " days";
@@ -287,16 +364,24 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['getStatsFromServer', 'getCameraTypesFromServer', 'sendCameraTypeToServer', 'sendCameraActionToServer']),
-    ...mapMutations(['setTest']),
+    ...mapActions([
+      "getStatsFromServer",
+      "getCameraTypesFromServer",
+      "sendCameraTypeToServer",
+      "sendCameraActionToServer",
+      "getStorageInfoFromServer",
+      "clearStorageToServer",
+    ]),
+    clear_storage() {
+      this.clearStorageToServer(this.clear);
+    },
     restart_camera() {
       this.$refs.reboot_camera_button.start();
       this.action("restart", "camera");
       this.show_progress();
     },
-    set_camera_type ()
-    {
-      this.sendCameraTypeToServer(this.camera_type, 'ff')
+    set_camera_type() {
+      this.sendCameraTypeToServer(this.camera_type, "ff");
     },
     show_progress() {
       if (this.progress < 100) {
@@ -314,14 +399,23 @@ export default {
         if ((_var = "off")) this.$refs.arm_on_button.start();
         else this.$refs.arm_off_button.start();
       }
-      this.sendCameraActionToServer({action: action, var: _var});
+      this.sendCameraActionToServer({ action: action, var: _var });
     },
   },
   data() {
     return {
+      show_clear_storage: false,
       intervaller: null,
       progress: 0,
-      camera_type: ''
+      camera_type: "",
+      clear: {
+        main_stream: false,
+        alarms: false,
+        substream: false,
+        snapshots: false,
+        date: new Date(),
+        time: "00:00",
+      },
     };
   },
 };

@@ -28,27 +28,46 @@
         <table>
           <tr>
             <td align="center">
-              <md-button class="md-warning md-sm md-just-icon jdok" @click="btn_up">
+              <md-button
+                class="md-warning md-sm md-just-icon jdok"
+                @click="btn_up"
+              >
                 <md-icon>keyboard_double_arrow_up</md-icon>
               </md-button>
             </td>
             <td align="center">
-              <md-button class="md-warning md-sm md-just-icon jdok" @click="btn_left" >
+              <md-button
+                class="md-warning md-sm md-just-icon jdok"
+                @click="btn_left"
+              >
                 <md-icon>keyboard_double_arrow_left</md-icon>
-              </md-button>  
+              </md-button>
             </td>
             <td align="center">
-                <md-button :disabled="!getStat.provisioning.allowed_to_change" :class="(getStat.provisioning.state ? 'md-success' : 'md-warning') + ' md-sm md-just-icon1 jdok'" @click=" place_holder" >
-                  provisioning
-                </md-button>  
+              <md-button
+                :disabled="!getStat.provisioning.allowed_to_change"
+                :class="
+                  (getStat.provisioning.state ? 'md-success' : 'md-warning') +
+                  ' md-sm md-just-icon1 jdok'
+                "
+                @click="place_holder"
+              >
+                provisioning
+              </md-button>
             </td>
             <td align="center">
-              <md-button class="md-warning md-sm md-just-icon jdok" @click="btn_right">
+              <md-button
+                class="md-warning md-sm md-just-icon jdok"
+                @click="btn_right"
+              >
                 <md-icon>keyboard_double_arrow_right</md-icon>
               </md-button>
             </td>
             <td align="center">
-              <md-button class="md-warning md-sm md-just-icon jdok" @click="btn_down">
+              <md-button
+                class="md-warning md-sm md-just-icon jdok"
+                @click="btn_down"
+              >
                 <md-icon>keyboard_double_arrow_down</md-icon>
               </md-button>
             </td>
@@ -69,14 +88,14 @@
 
         <sidebar-link to="/notifications">
           <md-icon>notifications</md-icon>
-          <p class="jmen">
+          <div class="jmen">
             <table>
               <tr>
                 <td>Notifications</td>
                 <td><md-badge :md-content="getAlarmsCounts" /></td>
               </tr>
             </table>
-          </p>
+          </div>
         </sidebar-link>
 
         <sidebar-link to="/tools">
@@ -88,7 +107,7 @@
           <p class="jmen">Live</p>
         </sidebar-link>
       </md-list>
-    </div> 
+    </div>
   </div>
 </template>
 <script>
@@ -138,7 +157,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['getStat', 'getAlarmsCounts']),
+    ...mapGetters(["getStat", "getAlarmsCounts"]),
     sidebarStyle() {
       return {
         backgroundImage: `url(${this.sidebarBackgroundImage})`,
@@ -148,20 +167,20 @@ export default {
   data() {
     return {
       img: this.$cam_image,
-      intervaller: null
+      intervaller: null,
     };
   },
   methods: {
-    ...mapActions(['getAlaramCountFromServer', 'getStatsFromServer', 'sendChangeProvisioning', 'sendCapture', 'sendRotate']),
-    capture() {
-      this.sendCapture()
-      setTimeout(this.setImage, 1000); 
-    },
-    place_holder ()
-    {
-      this.sendChangeProvisioning()
-      setTimeout(this.getStatsFromServer, 1000);      
-      setTimeout(this.setImage, 8000);      
+    ...mapActions([
+      "getAlaramCountFromServer",
+      "getStatsFromServer",
+      "sendChangeProvisioning",
+      "sendRotate",
+    ]),
+    place_holder() {
+      this.sendChangeProvisioning();
+      setTimeout(this.getStatsFromServer, 1000);
+      setTimeout(this.setImage, 8000);
     },
     btn_up() {
       this.sendRotate("up");
@@ -180,23 +199,21 @@ export default {
     },
     setImage() {
       this.img = this.$cam_image + "?rnd=" + Math.random();
-    }
+    },
   },
   created() {
-    this.getAlaramCountFromServer()
-    this.getStatsFromServer()
+    this.getAlaramCountFromServer();
+    this.getStatsFromServer();
     this.setImage();
     if (!this.intervaller)
-      this.intervaller = 
-        setInterval(() => {
-          this.setImage();
-          this.getAlaramCountFromServer()
-        }, 8000);
+      this.intervaller = setInterval(() => {
+        this.setImage();
+        this.getAlaramCountFromServer();
+      }, 8000);
   },
   beforeDestroy() {
-    if (this.intervaller)
-      clearInterval(this.intervaller);
-  }
+    if (this.intervaller) clearInterval(this.intervaller);
+  },
 };
 </script>
 <style>
@@ -214,5 +231,4 @@ export default {
 .jmen {
   color: white;
 }
-
 </style>

@@ -1,22 +1,26 @@
 import { Server, Model } from "miragejs";
 
-export function makeServer ({ environment = "development" } = {})
-{
+export function makeServer({ environment = "development" } = {}) {
   let server = new Server({
     environment,
     models: {
       todo: Model,
     },
-    seeds (server)
-    {
+    seeds(server) {
       server.create("todo", { content: "Learn Mirage JS" });
       server.create("todo", { content: "Integrate With Vue.js" });
     },
-    routes ()
-    {
+    routes() {
       this.namespace = "api";
-      this.get("snapshots", (schema, request) =>
-      {
+      this.get("storage/info", (schema, request) => {
+        return {
+          success: true,
+          oldest_record: "2012-01-01 12:10:11",
+          latest_record: "2022-01-01 12:10:11",
+          size: 10000,
+        };
+      });
+      this.get("snapshots", (schema, request) => {
         return {
           success: true,
           snapshots: [
@@ -175,8 +179,7 @@ export function makeServer ({ environment = "development" } = {})
           ],
         };
       });
-      this.get("services", (schema, request) =>
-      {
+      this.get("services", (schema, request) => {
         if (request.queryParams.action == "list")
           return {
             success: true,
@@ -237,8 +240,7 @@ export function makeServer ({ environment = "development" } = {})
         };
       });
 
-      this.get("footages", () =>
-      {
+      this.get("footages", () => {
         return {
           success: true,
           oldest_record: "2022-12-22 12:00:00",
@@ -277,36 +279,30 @@ export function makeServer ({ environment = "development" } = {})
           ],
         };
       });
-      this.get("capture_snapshot", () =>
-      {
+      this.get("capture_snapshot", () => {
         return {
           success: true,
           creation_date: "2022-12-22 12:00:00",
           href: "http://103.solar.helixsec.live/frames/snapshot_latest.jpg",
         };
       });
-      this.get("latest_snapshots", () =>
-      {
+      this.get("latest_snapshots", () => {
         return {
           success: true,
           creation_date: "2022-12-22 12:00:00",
           href: "https://www.entekhab.ir/files/fa/news/1401/3/10/1268200_267.jpg",
         };
       });
-      this.get("capture_snapshot", () =>
-      {
+      this.get("capture_snapshot", () => {
         return { success: true, token: "TOKEN" };
       });
-      this.get("footage_demand", () =>
-      {
+      this.get("footage_demand", () => {
         return { success: true, token: "TOKEN" };
       });
-      this.get("footage_upload", () =>
-      {
+      this.get("footage_upload", () => {
         return { success: true, href: "href" };
       });
-      this.get("snapshot_inquiry", () =>
-      {
+      this.get("snapshot_inquiry", () => {
         return {
           success: true,
           state: "failed",
@@ -318,31 +314,25 @@ export function makeServer ({ environment = "development" } = {})
           result: "http://120.157.72.86/frames/074_202212161200_20.mp4",
         };
       });
-      this.get("footage_inquiry", () =>
-      {
+      this.get("footage_inquiry", () => {
         return {
           state: "end",
           result: "http://120.157.72.86/frames/074_202212161200_20.mp4",
         };
       });
-      this.get("unit_id", () =>
-      {
+      this.get("unit_id", () => {
         return { unit_id: 323103 };
       });
-      this.delete("alarms", () =>
-      {
+      this.delete("alarms", () => {
         return { success: true };
       });
-      this.get("camera_types", () =>
-      {
+      this.get("camera_types", () => {
         return { camera_types: ["1", "2"], current: "1" };
       });
-      this.post("camera_types", () =>
-      {
+      this.post("camera_types", () => {
         return {};
       });
-      this.get("configs", () =>
-      {
+      this.get("configs", () => {
         return {
           HUMANID: "303",
           IOT_DEVICE_ID: "123",
@@ -354,8 +344,7 @@ export function makeServer ({ environment = "development" } = {})
           SOLAR_CTRL_LOAD_MODE: "0",
         };
       });
-      this.post("configs", () =>
-      {
+      this.post("configs", () => {
         return {
           HUMANID: "303",
           IOT_DEVICE_ID: "123",
@@ -367,80 +356,71 @@ export function makeServer ({ environment = "development" } = {})
           SOLAR_CTRL_LOAD_MODE: "0",
         };
       });
-      this.get("allowed_to_configure", () => false)
-      this.get("provisioning", () => { });
-      this.get("status_quo", () =>
-      {
+      this.get("allowed_to_configure", () => false);
+      this.get("provisioning", () => {});
+      this.get("status_quo", () => {
         return {
-          "cpu": 6.8,
-          "memory": 23.6186,
-          "primary_disk": 64.0,
-          "temperature": 46.2,
-          "uptime": 38518.0,
-          "load_current": 0.0,
-          "armed": false,
-          "allowed_to_configure": true,
+          cpu: 6.8,
+          memory: 23.6186,
+          primary_disk: 64.0,
+          temperature: 46.2,
+          uptime: 38518.0,
+          load_current: 0.0,
+          armed: false,
+          allowed_to_configure: true,
           alarms: 0,
-          "provisioning": {
+          provisioning: {
             state: true,
-            allowed_to_change: true
+            allowed_to_change: true,
           },
-          "camera": {
-            "status": 2,
-            "carrier": 1,
-            "ethernet": 1,
-            "ping": 0.32
-          }
-        }
+          camera: {
+            status: 2,
+            carrier: 1,
+            ethernet: 1,
+            ping: 0.32,
+          },
+        };
       });
-      this.get("alarms", (i, d) =>
-      {
+      this.get("alarms", (i, d) => {
         var samples = [
           {
             name: "2022-08-09 19:02:31",
             href: "http://120.157.118.37/alarms/103-1660035751.mp4",
-            download:
-              "http://120.157.118.37/alarms/103-1660035751-main.mp4",
+            download: "http://120.157.118.37/alarms/103-1660035751-main.mp4",
           },
           {
             name: "2022-08-09 18:51:03",
             href: "http://120.157.118.37/alarms/103-1660035063.mp4",
-            download:
-              "http://120.157.118.37/alarms/103-1660035063-main.mp4",
+            download: "http://120.157.118.37/alarms/103-1660035063-main.mp4",
           },
           {
             name: "2022-08-09 18:34:35",
             href: "http://120.157.118.37/alarms/103-1660034075.mp4",
-            download:
-              "http://120.157.118.37/alarms/103-1660034075-main.mp4",
+            download: "http://120.157.118.37/alarms/103-1660034075-main.mp4",
           },
           {
             name: "2022-08-09 18:33:53",
             href: "http://120.157.118.37/alarms/103-1660034033.mp4",
-            download:
-              "http://120.157.118.37/alarms/103-1660034033-main.mp4",
+            download: "http://120.157.118.37/alarms/103-1660034033-main.mp4",
           },
           {
             name: "2022-08-05 16:16:17",
             href: "http://120.157.118.37/alarms/103-1659680177.mp4",
-            download:
-              "http://120.157.118.37/alarms/103-1659680177-main.mp4",
+            download: "http://120.157.118.37/alarms/103-1659680177-main.mp4",
           },
-        ]
-        for (let i = 0; i < 10; i++)
-          samples = samples.concat(samples)
+        ];
+        for (let i = 0; i < 10; i++) samples = samples.concat(samples);
         if (d.queryParams != undefined && d.queryParams.detail == "false") {
           return { success: true, total: samples.length };
         } else {
           return {
             success: true,
             alarms: samples,
-          }
+          };
         }
       });
       this.namespace = "";
-      this.get("maintenance", () =>
-      {
+      this.get("maintenance", () => {
         return {
           armed: true,
           camera: false,
