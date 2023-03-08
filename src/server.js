@@ -343,7 +343,18 @@ export function makeServer({ environment = "development" } = {}) {
         return { success: true };
       });
       this.get("camera_types", () => {
-        return {"camera_types":["DahuaCamera0","LargeCamera0","DomeCamera0","HikvisionCamera0","SmallCamera0","SmallFixCamera0","PanoCamera0"],"current":"SmallFixCamera0"};
+        return {
+          camera_types: [
+            "DahuaCamera0",
+            "LargeCamera0",
+            "DomeCamera0",
+            "HikvisionCamera0",
+            "SmallCamera0",
+            "SmallFixCamera0",
+            "PanoCamera0",
+          ],
+          current: "SmallFixCamera0",
+        };
       });
       this.post("camera_types", () => {
         return {};
@@ -375,7 +386,25 @@ export function makeServer({ environment = "development" } = {}) {
       this.get("allowed_to_configure", () => false);
       this.get("provisioning", () => {});
       this.get("status_quo", () => {
-        return {"cpu": 10.9, "memory": 22.9686, "primary_disk": 47.0, "temperature": 46.7, "uptime": 15085.0, "load_current": 0.0, "armed": true, "allowed_to_configure": true, "alarms": 9, "provisioning": {"state": false, "allowed_to_change": true}, "camera": {"type": "SmallFixCamera0", "status": 2, "carrier": 1, "ethernet": 1, "ping": 0.325}};
+        return {
+          cpu: 10.9,
+          memory: 22.9686,
+          primary_disk: 47.0,
+          temperature: 46.7,
+          uptime: 15085.0,
+          load_current: 0.0,
+          armed: true,
+          allowed_to_configure: true,
+          alarms: 9,
+          provisioning: { state: false, allowed_to_change: true },
+          camera: {
+            type: "SmallFixCamera0",
+            status: 2,
+            carrier: 1,
+            ethernet: 1,
+            ping: 0.325,
+          },
+        };
       });
       this.get("alarms", (i, d) => {
         var samples = [

@@ -36,7 +36,7 @@ export const store = new Vuex.Store({
     alarm_demand: {
       state: "",
       message: "",
-      result: ""
+      result: "",
     },
     camera_types: [],
     camera_type: null,
@@ -64,7 +64,7 @@ export const store = new Vuex.Store({
   },
   mutations: {
     setLastAlarmDemand(state, v) {
-      state.alarm_demand.result = v
+      state.alarm_demand.result = v;
     },
     setAlarmDemandSate(state, v) {
       state.alarm_demand.state = v;
@@ -75,7 +75,7 @@ export const store = new Vuex.Store({
     },
     setStats(state, v) {
       state.stat = v;
-      state.camera_type = v.camera.type
+      state.camera_type = v.camera.type;
     },
     setCameraTypes(state, v) {
       state.camera_types = v.camera_types;
@@ -214,8 +214,8 @@ export const store = new Vuex.Store({
               else localStorage.removeItem("alarm_demand_token");
               if (r.data.state == "end") {
                 dispatch("getAlaramsFromServer");
-                commit("setLastAlarmDemand", r.data.result)
-                commit("setAlarmDemandSate", r.data.state)                
+                commit("setLastAlarmDemand", r.data.result);
+                commit("setAlarmDemandSate", r.data.state);
               }
             }
           })

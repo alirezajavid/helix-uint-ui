@@ -49,7 +49,7 @@
       <div
         class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
       >
-        <stats-card   
+        <stats-card
           :data-background-color="
             ['red', 'gray', 'green'][getStat.camera.status]
           "
@@ -70,7 +70,6 @@
                 })(getStat.camera.status)
               }}
             </h4>
-            
           </template>
           <template slot="footer">
             <div class="stats">
@@ -260,7 +259,6 @@
 
           <template slot="footer">
             <div class="stats">
-              
               <ProgressButton
                 @click="show_clear_storage = true"
                 class="md-danger md-round md-sm"
@@ -283,8 +281,7 @@
                   <td>{{ getStorageInfo.latest_record }}</td>
                 </tr>
               </table>
-               
-              
+
               &nbsp;
             </div>
           </template>
@@ -442,8 +439,8 @@ export default {
 </script>
 
 <style scoped>
-  .stats {
-    border:solid 1px none;
-     height:100px;
-  }
+.stats {
+  border: solid 1px none;
+  height: 100px;
+}
 </style>

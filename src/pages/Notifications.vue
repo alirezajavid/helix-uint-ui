@@ -30,15 +30,8 @@
                   ></md-progress-spinner>
                   Demand Alarm</md-button
                 >
-                <div
-                  v-if="
-                    getAlarmDemand.state == 'failed' 
-                  "
-                >
-                  <md-card
-                    class="md-accent"
-                    md-with-hover
-                  >
+                <div v-if="getAlarmDemand.state == 'failed'">
+                  <md-card class="md-accent" md-with-hover>
                     <md-ripple>
                       <md-card-content>
                         {{ getAlarmDemand.message }}
@@ -112,9 +105,8 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   watch: {
-    'getAlarmDemand.result'(newValue){
-      if (newValue != '')
-      this.playVideo({href:newValue })
+    "getAlarmDemand.result"(newValue) {
+      if (newValue != "") this.playVideo({ href: newValue });
     },
     getAlarms() {
       this.pageCounts = Math.ceil(this.getStat.alarms / this.PAGE_SIZE);
