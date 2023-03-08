@@ -49,7 +49,7 @@
       <div
         class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
       >
-        <stats-card
+        <stats-card   
           :data-background-color="
             ['red', 'gray', 'green'][getStat.camera.status]
           "
@@ -70,6 +70,7 @@
                 })(getStat.camera.status)
               }}
             </h4>
+            
           </template>
           <template slot="footer">
             <div class="stats">
@@ -259,8 +260,7 @@
 
           <template slot="footer">
             <div class="stats">
-              {{ getStorageInfo.oldest_record }} to
-              {{ getStorageInfo.latest_record }}
+              
               <ProgressButton
                 @click="show_clear_storage = true"
                 class="md-danger md-round md-sm"
@@ -272,7 +272,19 @@
                 <md-icon>delete</md-icon>
                 Clear storage
               </ProgressButton>
-
+              <br />
+              <table>
+                <tr>
+                  <td>Oldest Record:</td>
+                  <td>{{ getStorageInfo.oldest_record }}</td>
+                </tr>
+                <tr>
+                  <td>Latest Record:</td>
+                  <td>{{ getStorageInfo.latest_record }}</td>
+                </tr>
+              </table>
+               
+              
               &nbsp;
             </div>
           </template>
@@ -389,7 +401,7 @@ export default {
       this.show_progress();
     },
     set_camera_type() {
-      this.sendCameraTypeToServer(this.camera_type, "ff");
+      this.sendCameraTypeToServer(this.camera_type);
     },
     show_progress() {
       if (this.progress < 100) {
@@ -428,3 +440,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+  .stats {
+    border:solid 1px none;
+     height:100px;
+  }
+</style>

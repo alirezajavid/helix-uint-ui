@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
-import Toasted from "vue-toasted";
 
 Vue.use(Vuex);
 
@@ -15,12 +14,14 @@ export const store = new Vuex.Store({
       uptime: null,
       load_current: null,
       armed: null,
+      alarms: 0,
       allowed_to_configure: null,
       provisioning: {
         state: true,
         allowed_to_change: false,
       },
       camera: {
+        type: "-",
         status: null,
         carrier: null,
         ethernet: null,
@@ -35,10 +36,10 @@ export const store = new Vuex.Store({
     alarm_demand: {
       state: "",
       message: "",
+      result: ""
     },
     camera_types: [],
     camera_type: null,
-    alarm_count: 0,
     alarms: [],
   },
   getters: {
@@ -57,20 +58,24 @@ export const store = new Vuex.Store({
     getAlarms(state) {
       return state.alarms;
     },
-    getAlarmsCounts(state) {
-      return state.alarm_count;
-    },
     getStorageInfo(state) {
       return state.storageInfo;
     },
   },
   mutations: {
+    setLastAlarmDemand(state, v) {
+      state.alarm_demand.result = v
+    },
+    setAlarmDemandSate(state, v) {
+      state.alarm_demand.state = v;
+    },
     setAlarmDemand(state, v) {
       state.alarm_demand.state = v.state;
       state.alarm_demand.message = v.message;
     },
     setStats(state, v) {
       state.stat = v;
+      state.camera_type = v.camera.type
     },
     setCameraTypes(state, v) {
       state.camera_types = v.camera_types;
@@ -84,9 +89,6 @@ export const store = new Vuex.Store({
         return { ...i, id: key++ };
       });
     },
-    setAlarmCount(state, v) {
-      state.alarm_count = v;
-    },
     setStorageInfo(state, data) {
       state.storageInfo.oldest_record = data.oldest_record;
       state.storageInfo.latest_record = data.latest_record;
@@ -97,11 +99,6 @@ export const store = new Vuex.Store({
     getAlaramsFromServer({ commit }) {
       axios.get("/api/alarms").then((r) => {
         commit("setAlarms", r.data);
-      });
-    },
-    getAlaramCountFromServer({ commit }) {
-      axios.get("/api/alarms?detail=false").then((r) => {
-        commit("setAlarmCount", r.data.total);
       });
     },
     getStatsFromServer({ commit }) {
@@ -126,12 +123,13 @@ export const store = new Vuex.Store({
       });
     },
     sendCameraTypeToServer({ dispatch, commit }, camera_type) {
+      this._vm.$toasted.show("Send camera type to unit.");
       axios.post("/api/camera_types?camera=" + camera_type).then((r) => {
+        this._vm.$toasted.show("Camera type changes successfully");
         dispatch("getCameraTypesFromServer");
       });
     },
     sendCameraActionToServer({ dispatch, commit }, payload) {
-      this._vm.$toasted.show("Send change camera action command to unit!");
       axios
         .get("/maintenance?action=" + payload.action + "&var=" + payload.var)
         .then(() => {
@@ -187,7 +185,7 @@ export const store = new Vuex.Store({
       const token = localStorage.getItem("alarm_demand_token");
       if (token == null) {
         axios
-          .get("/api/alarm_demand")
+          .get("/api/alarms_demand")
           .then((r) => {
             if (r.data.success === true) {
               this._vm.$toasted.show(
@@ -214,7 +212,11 @@ export const store = new Vuex.Store({
                   dispatch("sendDemandAlarmToServer");
                 }, 1000);
               else localStorage.removeItem("alarm_demand_token");
-              commit("setAlarmDemand", r.data);
+              if (r.data.state == "end") {
+                dispatch("getAlaramsFromServer");
+                commit("setLastAlarmDemand", r.data.result)
+                commit("setAlarmDemandSate", r.data.state)                
+              }
             }
           })
           .catch((r) => {

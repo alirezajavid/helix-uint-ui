@@ -5,7 +5,7 @@
         <router-link to="/notifications" slot="title" class="dropdown-toggle">
           <i class="material-icons">notifications</i>
           <span class="notification"></span>
-          <span class="notification">{{ getAlarmsCounts }}</span>
+          <span class="notification">{{ getStat.alarms }}</span>
           <p>Notifications</p>
         </router-link>
       </drop-down>
@@ -21,7 +21,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters(["getAlarmsCounts"]),
+    ...mapGetters(["getStat"]),
   },
 };
 </script>

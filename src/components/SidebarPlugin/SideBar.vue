@@ -92,7 +92,7 @@
             <table>
               <tr>
                 <td>Notifications</td>
-                <td><md-badge :md-content="getAlarmsCounts" /></td>
+                <td><md-badge :md-content="getStat.alarms" /></td>
               </tr>
             </table>
           </div>
@@ -157,7 +157,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getStat", "getAlarmsCounts"]),
+    ...mapGetters(["getStat"]),
     sidebarStyle() {
       return {
         backgroundImage: `url(${this.sidebarBackgroundImage})`,
@@ -172,7 +172,6 @@ export default {
   },
   methods: {
     ...mapActions([
-      "getAlaramCountFromServer",
       "getStatsFromServer",
       "sendChangeProvisioning",
       "sendRotate",
@@ -202,13 +201,11 @@ export default {
     },
   },
   created() {
-    this.getAlaramCountFromServer();
     this.getStatsFromServer();
     this.setImage();
     if (!this.intervaller)
       this.intervaller = setInterval(() => {
         this.setImage();
-        this.getAlaramCountFromServer();
       }, 8000);
   },
   beforeDestroy() {

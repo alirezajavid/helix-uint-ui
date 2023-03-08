@@ -32,16 +32,11 @@
                 >
                 <div
                   v-if="
-                    getAlarmDemand.state == 'failed' ||
-                    getAlarmDemand.state == 'end'
+                    getAlarmDemand.state == 'failed' 
                   "
                 >
                   <md-card
-                    :class="
-                      getAlarmDemand.state == 'failed'
-                        ? 'md-accent'
-                        : 'md-primary'
-                    "
+                    class="md-accent"
                     md-with-hover
                   >
                     <md-ripple>
@@ -117,8 +112,12 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   watch: {
+    'getAlarmDemand.result'(newValue){
+      if (newValue != '')
+      this.playVideo({href:newValue })
+    },
     getAlarms() {
-      this.pageCounts = Math.ceil(this.getAlarmsCounts / this.PAGE_SIZE);
+      this.pageCounts = Math.ceil(this.getStat.alarms / this.PAGE_SIZE);
     },
   },
   created() {
@@ -146,14 +145,14 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getAlarms", "getAlarmsCounts", "getAlarmDemand"]),
+    ...mapGetters(["getAlarms", "getAlarmDemand", "getStat"]),
     player() {
       return this.$refs.videoPlayer.player;
     },
     alarms() {
       let start = (this.currentPage - 1) * this.PAGE_SIZE;
       let end = this.currentPage * this.PAGE_SIZE;
-      if (start < this.getAlarmsCounts) return this.getAlarms.slice(start, end);
+      if (start < this.getStat.alarms) return this.getAlarms.slice(start, end);
       else {
         return this.getAlarms;
       }
@@ -163,7 +162,6 @@ export default {
   methods: {
     ...mapActions([
       "getAlaramsFromServer",
-      "getAlaramCountFromServer",
       "sendDelAlarm",
       "sendDemandAlarmToServer",
     ]),
