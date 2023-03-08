@@ -3,11 +3,10 @@
     <md-dialog :md-active.sync="show_clear_storage">
       <md-dialog-title>
         Clear Storage <br />
-        <div style="font-size: smaller; color:red">
+        <div style="font-size: smaller; color: red">
           files created before this date will be deleted:
         </div>
       </md-dialog-title>
-      
 
       <md-dialog-content>
         <div class="md-layout md-gutter">
@@ -41,7 +40,7 @@
       <md-dialog-actions>
         <md-button class="md-accent" @click="clear_storage">Clear</md-button>
         <md-button class="md-accent" @click="show_clear_storage = false"
-          >Cancel</md-button
+          >Close</md-button
         >
       </md-dialog-actions>
     </md-dialog>
@@ -251,7 +250,9 @@
           <template slot="content">
             <p class="category">Disk Usage</p>
             <h4 class="title">
-              {{ (getStorageInfo.size / (1024 * 1024)).toFixed(2) + " Mb" }}
+              {{
+                (getStorageInfo.size / (1024 * 1024 * 1024)).toFixed(2) + " GB"
+              }}
               <small>({{ getStat.primary_disk }} %)</small>
             </h4>
           </template>
@@ -380,6 +381,7 @@ export default {
     ]),
     clear_storage() {
       this.clearStorageToServer(this.clear);
+      this.show_clear_storage = false;
     },
     restart_camera() {
       this.$refs.reboot_camera_button.start();

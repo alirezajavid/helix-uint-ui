@@ -55,7 +55,7 @@ export default {
       axios.get("/api/snapshot_inquiry?token=" + this.token).then((r) => {
         if (r.data.state == "pending") setTimeout(this.pooler, 3000);
         if (r.data.state == "failed")
-          this.$notification.error(r.data.message, { timer: 10 });
+          this.$toasted.show(r.data.message, { duration: 10 });
         if (r.data.state == "end") this.src = r.data.result;
         this.in_progress = r.data.state == "pending";
       });
@@ -67,7 +67,7 @@ export default {
           this.src = r.data.href;
         }
         if (r.data.success == false) {
-          this.$notification.error(r.data.message, { timer: 10 });
+          this.$toasted.error(r.data.message, { duration: 10 });
         }
       });
     },

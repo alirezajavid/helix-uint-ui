@@ -172,7 +172,7 @@ export default {
       axios.get("/api/footage_inquiry?token=" + this.token).then((r) => {
         if (r.data.state == "pending") setTimeout(this.pooler, 5000);
         if (r.data.state == "failed")
-          this.$notification.error(r.data.message, { timer: 10 });
+          this.$toasted.error(r.data.message, { timer: 10 });
 
         if (r.data.state == "end") {
           this.src = r.data.result;

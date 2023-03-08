@@ -138,7 +138,7 @@ export default {
           );
         })
         .catch((e) => {
-          this.$notification.error(e.message, { timer: 10 });
+          this.$toasted.show(e.message, { duration: 10 });
         });
     },
 
@@ -146,10 +146,10 @@ export default {
       axios
         .get("/maintenance?action=restart&var=pi")
         .then((r) => {
-          this.$notification.info("Send reboot signal.", { timer: 10 });
+          this.$toasted.show("Send reboot signal.", { duration: 10 });
         })
         .catch((e) => {
-          this.$notification.error("Error in connection.", { timer: 10 });
+          this.$toasted.show("Error in connection.", { duration: 10 });
         });
     },
 
@@ -201,7 +201,7 @@ export default {
         this.CAMERA_TYPES = r.data.camera_types;
       })
       .catch((e) => {
-        this.$notification.error("Error in connection.", { timer: 10 });
+        this.$toasted.error("Error in connection.", { duration: 10 });
       });
     axios
       .get("/api/configs")
@@ -217,7 +217,7 @@ export default {
         this.MIN_CHUNKS_LIFETIME_IN_HOUR = r.data.MIN_CHUNKS_LIFETIME_IN_HOUR;
       })
       .catch((e) => {
-        this.$notification.error("Error in connection.", { timer: 10 });
+        this.$toasted.show("Error in connection.", { duration: 10 });
       });
   },
   data() {

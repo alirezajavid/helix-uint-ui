@@ -13,7 +13,45 @@
           <md-card-content>
             <div class="md-layout">
               <div class="md-layout-item md-medium-size-100 player">
-                <h5>Video</h5>
+                <md-button class="md-info" @click="demand_alarm">
+                  <md-icon
+                    v-if="
+                      getAlarmDemand.state == 'failed' ||
+                      getAlarmDemand.state == 'end' ||
+                      getAlarmDemand.state == ''
+                    "
+                    >emergency_recording</md-icon
+                  >
+                  <md-progress-spinner
+                    class="md-primary"
+                    v-if="getAlarmDemand.state == 'pending'"
+                    :md-diameter="20"
+                    md-mode="indeterminate"
+                  ></md-progress-spinner>
+                  Demand Alarm</md-button
+                >
+                <div
+                  v-if="
+                    getAlarmDemand.state == 'failed' ||
+                    getAlarmDemand.state == 'end'
+                  "
+                >
+                  <md-card
+                    :class="
+                      getAlarmDemand.state == 'failed'
+                        ? 'md-accent'
+                        : 'md-primary'
+                    "
+                    md-with-hover
+                  >
+                    <md-ripple>
+                      <md-card-content>
+                        {{ getAlarmDemand.message }}
+                      </md-card-content>
+                    </md-ripple>
+                  </md-card>
+                </div>
+
                 <video-player
                   ref="videoPlayer"
                   style="border: none 1px red"
@@ -108,7 +146,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getAlarms", "getAlarmsCounts"]),
+    ...mapGetters(["getAlarms", "getAlarmsCounts", "getAlarmDemand"]),
     player() {
       return this.$refs.videoPlayer.player;
     },
@@ -127,7 +165,11 @@ export default {
       "getAlaramsFromServer",
       "getAlaramCountFromServer",
       "sendDelAlarm",
+      "sendDemandAlarmToServer",
     ]),
+    demand_alarm() {
+      this.sendDemandAlarmToServer();
+    },
     setRecords(index) {
       this.currentPage = index;
     },

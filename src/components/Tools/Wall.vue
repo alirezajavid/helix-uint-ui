@@ -36,7 +36,7 @@ export default {
           this.snapshots = r.data.snapshots;
         }
         if (r.data.success == false) {
-          this.$notification.error(r.data.message, { timer: 10 });
+          this.$toasted.show(r.data.message, { duration: 10 });
         }
       });
     },

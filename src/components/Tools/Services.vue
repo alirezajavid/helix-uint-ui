@@ -69,12 +69,11 @@ export default {
           }
 
           if (r.data.success && r.data.message)
-            this.$notification.success(r.data.message, { timer: 10 });
-          else
-            this.$notification.info(action + " " + service_name, { timer: 10 });
+            this.$toasted.success(r.data.message, { timer: 10 });
+          else this.$toasted.info(action + " " + service_name, { timer: 10 });
         })
         .catch(() => {
-          this.$notification.error(r.data.message, { timer: 10 });
+          this.$toasted.error(r.data.message, { timer: 10 });
         });
     },
     play(service_name) {
