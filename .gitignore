@@ -5,3 +5,4 @@ package-lock.json
 /dist
 .vscode/
 deply/
+.DS_Store

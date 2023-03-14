@@ -146,12 +146,10 @@ export const store = new Vuex.Store({
     },
     sendChangeProvisioning({ state }) {
       this._vm.$toasted.show("Send switch provisioning command to unit!");
-      axios.get(
-        "/api/provisioning?action=" +
-          (state.stat.provisioning.state ? "false" : "true").then(() => {
-            this._vm.$toasted.show("provisioning changed.");
-          })
-      );
+      const new_statue = state.stat.provisioning.state ? "false" : "true"
+      axios
+        .get("/api/provisioning?action=" + new_statue)
+        .then(() => this._vm.$toasted.show("provisioning changed."))
     },
     sendRotate({ state }, arrow) {
       this._vm.$toasted.show("Send rotate command to unit.");
