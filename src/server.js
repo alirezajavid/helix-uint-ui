@@ -12,6 +12,29 @@ export function makeServer({ environment = "development" } = {}) {
     },
     routes() {
       this.namespace = "api";
+
+      this.get("solarctrl/is_connected", (schema, request) => {
+        return { "active": true };
+      });
+      this.post("configs/general", (schema, request) => {
+        return {"HUMANID": "Solar104", "IOT_DEVICE_ID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", "CAMERA_TYPE": "DahuaCamera0", "HARDWARE": "HIBv4", "BOARD": "bpi", "HARDWARE_VERSION": "1.5.0", "MAIN_STORAGE": "/opt/helix/storage", "EXTRA_STORAGE": "", "ICCID": "89610185002763605463", "MIN_CHUNKS_LIFETIME_IN_HOUR": "48", "success": true, "state": false};
+      });
+      this.post("configs/solarctrl", (schema, request) => {
+        return {"load_mode": 2, "controlled_powerdown_enable": 0, "reset_once_aday": {"turn_on_time1": "01:01:00", "turn_off_time1": "01:00:00", "use_two_times": 1, "turn_on_time2": "12:01:00", "turn_off_time2": "12:00:00"}, "delayed_restart": {"hours_into_future": 6, "delay_frequency": 1}, "controlled_powerdown": {"battery_vol_low_threshold": 10.9, "turn_on_time": "11:00:00"}, "success": true, "state": true};
+      });
+      this.get("configs/solarctrl", (schema, request) => {
+        return {"load_mode": 1, "controlled_powerdown_enable": 0, "reset_once_aday": {"turn_on_time1": "01:01:00", "turn_off_time1": "01:00:00", "use_two_times": 0, "turn_on_time2": "12:01:00", "turn_off_time2": "12:00:00"}, "delayed_restart": {"hours_into_future": 6, "delay_frequency": 1}, "controlled_powerdown": {"battery_vol_low_threshold": 10.9, "turn_on_time": "11:00:00"}};
+      });
+      this.get("configs/allowed_to_change", (schema, request) => {
+        return {"active_save": true };
+      });
+
+      this.get("solarctrl/datetime", (schema, request) => {
+        return {success: true, datetime: "2023-08-11 20:50:13"};
+      });      
+      this.post("solarctrl/datetime", (schema, request) => {
+        return {success: true, datetime: "2023-08-11 20:50:13"};
+      });
       this.get("alarm_demand", (schema, request) => {
         return {
           success: true,
@@ -354,6 +377,24 @@ export function makeServer({ environment = "development" } = {}) {
             "PanoCamera0",
           ],
           current: "SmallFixCamera0",
+        };
+      });
+      this.get("hardware_types", () => {
+        return {
+          hardware_types: [
+            "HW1",
+            "HW2",
+            "HW3",
+          ]
+        };
+      });      
+      this.get("board_types", () => {
+        return {
+          board_types: [
+            "B!",
+            "B2",
+            "B3",
+          ]
         };
       });
       this.post("camera_types", () => {

@@ -1,15 +1,4 @@
 <template>
-  <form>
-    <md-card>
-      <md-card-header data-background-color="naghmeh2">
-        <h4>
-          <md-icon style="color: white">settings</md-icon>&nbsp;<B
-            >Configuration</B
-          >
-        </h4>
-        <p class="category">Device properties</p>
-      </md-card-header>
-
       <md-card-content>
         <div class="md-layout">
           <div class="md-layout-item md-small-size-100 md-size-100">
@@ -20,8 +9,8 @@
           </div>
           <div class="md-layout-item md-small-size-100 md-size-100">
             <md-field>
-              <label>IoT Device ID</label>
-              <md-input v-model="IOT_DEVICE_ID" type="text"></md-input>
+              <label>ICCID</label>
+              <md-input v-model="ICCID" type="text"></md-input>
             </md-field>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-100">
@@ -31,29 +20,22 @@
             <v-select v-model="CAMERA_TYPE" :options="CAMERA_TYPES"></v-select>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-100">
-            <md-field>
-              <label>Hardware</label>
-              <md-input v-model="HARDWARE" type="text"></md-input>
-            </md-field>
+            <label class="label" style="color: #aaa; font-size: 0.6875rem"
+              >Hardware</label
+            >
+            <v-select v-model="HARDWARE" :options="HARDWARE_TYPES"></v-select>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-100">
-            <md-field>
-              <label>Hardware Version</label>
-              <md-input v-model="HARDWARE_VERSION" type="text"></md-input>
-            </md-field>
+            <label class="label" style="color: #aaa; font-size: 0.6875rem"
+              >Board</label
+            >
+            <v-select v-model="BOARD" :options="BOARD_TYPES"></v-select>
           </div>
           <div class="md-layout-item md-small-size-100 md-size-100">
             <md-field>
               <label>Extra Storage</label>
               <md-input v-model="EXTRA_STORAGE" type="text"></md-input>
             </md-field>
-          </div>
-
-          <div class="md-layout-item md-small-size-100 md-size-100">
-            <label>Solar Control Mode:</label> &nbsp;&nbsp;
-            <md-radio v-model="SOLAR_CTRL_LOAD_MODE" value="0">Manual</md-radio>
-            &nbsp;
-            <md-radio v-model="SOLAR_CTRL_LOAD_MODE" value="1">Timing</md-radio>
           </div>
 
           <div class="md-layout-item md-small-size-100 md-size-100">
@@ -97,8 +79,6 @@
           </div>
         </div>
       </md-card-content>
-    </md-card>
-  </form>
 </template>
 <script>
 import axios from "axios";
@@ -106,7 +86,7 @@ import "vue-select/dist/vue-select.css";
 import ProgressButton from "../../components/ProgressButton";
 
 export default {
-  name: "edit-profile-form",
+  name: "General",
   components: {
     ProgressButton,
   },
@@ -121,7 +101,8 @@ export default {
       axios
         .post("/api/configs", {
           HUMANID: this.HUMANID,
-          IOT_DEVICE_ID: this.IOT_DEVICE_ID,
+          ICCID: this.ICCID,
+          BOARD: this.BOARD,
           CAMERA_TYPE: this.CAMERA_TYPE,
           HARDWARE: this.HARDWARE,
           HARDWARE_VERSION: this.HARDWARE_VERSION,
@@ -203,11 +184,27 @@ export default {
       .catch((e) => {
         this.$toasted.error("Error in connection.", { duration: 10 });
       });
+      axios
+      .get("/api/board_types")
+      .then((r) => {
+        this.BOARD_TYPES = r.data.board_types;
+      })
+      .catch((e) => {
+        this.$toasted.error("Error in connection.", { duration: 10 });
+      });
+    axios
+      .get("/api/hardware_types")
+      .then((r) => {
+        this.HARDWARE_TYPES = r.data.hardware_types;
+      })
+      .catch((e) => {
+        this.$toasted.error("Error in connection.", { duration: 10 });
+      });
     axios
       .get("/api/configs")
       .then((r) => {
         this.HUMANID = r.data.HUMANID;
-        this.IOT_DEVICE_ID = r.data.IOT_DEVICE_ID;
+        this.ICCID = r.data.ICCID;
         this.CAMERA_TYPE = r.data.CAMERA_TYPE;
         this.HARDWARE = r.data.HARDWARE;
         this.HARDWARE_VERSION = r.data.HARDWARE_VERSION;
@@ -223,13 +220,16 @@ export default {
   data() {
     return {
       HUMANID: "",
-      IOT_DEVICE_ID: "",
+      ICCID: "",
       CAMERA_TYPE: "",
       HARDWARE: "",
       HARDWARE_VERSION: "",
       MAIN_STORAGE: "",
       EXTRA_STORAGE: "",
+      BOARD: "B!",
       CAMERA_TYPES: [],
+      BOARD_TYPES: [],
+      HARDWARE_TYPES: [],
       progressv: 50,
       SOLAR_CTRL_LOAD_MODE: "0",
       MIN_CHUNKS_LIFETIME_IN_HOUR: 10,
@@ -268,4 +268,5 @@ export default {
     0 3px 1px -2px rgba(0, 188, 212, 0.2), 0 1px 5px 0 rgba(0, 188, 212, 0.12);
   border: none;
 }
+
 </style>

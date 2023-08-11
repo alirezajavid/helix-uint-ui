@@ -18,7 +18,7 @@ export const store = new Vuex.Store({
       allowed_to_configure: null,
       provisioning: {
         state: true,
-        allowed_to_change: false,
+        allowed_to_change: true,
       },
       camera: {
         type: "-",
