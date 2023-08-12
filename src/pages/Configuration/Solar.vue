@@ -123,34 +123,18 @@ export default {
         });
     },
     save() {
-      console.log(this.$data)
-      // axios
-      //   .post("/api/configs", {
-      //     HUMANID: this.HUMANID,
-      //     IOT_DEVICE_ID: this.IOT_DEVICE_ID,
-      //     CAMERA_TYPE: this.CAMERA_TYPE,
-      //     HARDWARE: this.HARDWARE,
-      //     HARDWARE_VERSION: this.HARDWARE_VERSION,
-      //     MAIN_STORAGE: this.MAIN_STORAGE,
-      //     EXTRA_STORAGE: this.EXTRA_STORAGE,
-      //     SOLAR_CTRL_LOAD_MODE: this.SOLAR_CTRL_LOAD_MODE,
-      //     MIN_CHUNKS_LIFETIME_IN_HOUR: this.MIN_CHUNKS_LIFETIME_IN_HOUR,
-      //   })
-      //   .then((r) => {
-      //     this.active_save = false;
-      //     this.check_configurable_interval = setInterval(
-      //       () => this.check_configurable(),
-      //       6000
-      //     );
-      //   })
-      //   .catch((e) => {
-      //     this.$toasted.show(e.message, { duration: 10 });
-      //   });
+      axios
+        .post("/api/configs/solarctrl", this.obj)
+        .then((r) => {
+        })
+        .catch((e) => {
+          this.$toasted.show(e.message, { duration: 10 });
+        });
     },
 
     reboot() {
       axios
-        .get("/maintenance?action=restart&var=pi")
+        .get("/maintenance?action=restart&var=sc")
         .then((r) => {
           this.$toasted.show("Send reboot signal.", { duration: 10 });
         })
@@ -190,26 +174,8 @@ export default {
       });
     },
 
-    check_configurable() {
-      axios.get("/api/configs/allowed_to_change").then((r) => {
-        this.active_save = r.data.state === true;
-        if (this.check_configurable_interval && r.data.state === true)
-          clearInterval(this.check_configurable_interval);
-      });
-    },
   },
   created() {
-    this.check_configurable();
-
-    axios
-      .get("/api/camera_types")
-      .then((r) => {
-        this.CAMERA_TYPES = r.data.camera_types;
-      })
-      .catch((e) => {
-        this.$toasted.error("Error in connection.", { duration: 10 });
-      });
-
     axios
       .get("/api/configs/solarctrl")
       .then((r) => {
@@ -232,7 +198,7 @@ export default {
   data() {
     return {
       active_save: true,
-      datetime: 'dd',
+      datetime: '----',
       obj: {
         load_mode: 2,
         controlled_powerdown_enable: 0,

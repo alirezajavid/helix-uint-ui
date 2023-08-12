@@ -18,7 +18,7 @@
           <div style="padding:10px; margin:10px">
             <md-card-header data-background-color="naghmeh2">
               <md-button :class="'btn btn-warning mr-1 mb-1 ' + (state=='general'? 'b3':'b2') " @click="state='general'">General Config</md-button>
-              <md-button :disabled="!active" :class="'btn btn-warning mr-1 mb-1 ' + (state=='solar'? 'b3':'b2') " @click="state='solar'">Solar Controller</md-button>
+              <md-button :disabled="!status" :class="'btn btn-warning mr-1 mb-1 ' + (state=='solar'? 'b3':'b2') " @click="state='solar'">Solar Controller</md-button>
             </md-card-header>
           </div>
 
@@ -43,12 +43,12 @@ export default {
   },
   created() {
     axios.get("/api/solarctrl/is_connected").then((r) => {
-      this.active = r.data.active;
+      this.status = r.data.status;
     });
   },
   data() {
     return {
-      active: false,
+      status: false,
       state:'general'
     }
   }
