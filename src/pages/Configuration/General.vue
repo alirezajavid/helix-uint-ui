@@ -201,7 +201,7 @@ export default {
         this.$toasted.error("Error in connection.", { duration: 10 });
       });
     axios
-      .get("/api/configs")
+      .get("/api/configs/general")
       .then((r) => {
         this.HUMANID = r.data.HUMANID;
         this.ICCID = r.data.ICCID;
