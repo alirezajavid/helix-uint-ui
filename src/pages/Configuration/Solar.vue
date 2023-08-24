@@ -21,7 +21,16 @@
                 Turn-off time 1: <input :disabled="obj.load_mode!= 1" v-model="obj.reset_once_aday.turn_off_time1"/><br />
                 <md-checkbox :disabled="obj.load_mode!= 1" v-model="obj.reset_once_aday.use_two_times" :value="1">Reset twice a day</md-checkbox><br />
                 Turn-on time 2: <input :disabled="obj.load_mode!= 1 || obj.reset_once_aday.use_two_times!=1" v-model="obj.reset_once_aday.turn_on_time2"/> &nbsp; &nbsp; 
-                Turn-off time 2: <input  :disabled="obj.load_mode!= 1 || obj.reset_once_aday.use_two_times!=1" v-model="obj.reset_once_aday.turn_off_time2"/>
+                Turn-off time 2: <input  :disabled="obj.load_mode!= 1 || obj.reset_once_aday.use_two_times!=1" v-model="obj.reset_once_aday.turn_off_time2"/><br /><br />
+                <ProgressButton
+                  @click="read_params"
+                  name="bottom"
+                  class="btn btn-warning mr-1 mb-1"
+                  style="height:22px"
+                  position="top"
+                >
+                  Read
+                </ProgressButton>
               </md-card-content>
             </md-card-content>
             <hr />
@@ -110,6 +119,24 @@ export default {
     },
   },
   methods: {
+    read_params() {
+      this.$toasted.show("Read data from solar.", { duration: 10 });
+      axios
+        .get("/api/solarctrl/timing_params")
+        .then((r) => {
+          if (r.data.success === true) {
+            this.reset_once_aday.turn_on_time1 = r.data.turn_on_time1
+            this.reset_once_aday.turn_on_time2 = r.data.turn_on_time2
+            this.reset_once_aday.turn_off_time1 = r.data.turn_off_time1
+            this.reset_once_aday.turn_off_time2 = r.data.turn_off_time2
+            this.reset_once_aday.use_two_times = r.data.use_two_times
+          }
+        })
+        .catch((e) => {
+          this.$toasted.show("Error in connection.", { duration: 10 });
+        });
+
+    },
     sync_time() {
       this.datetime = "";
       axios

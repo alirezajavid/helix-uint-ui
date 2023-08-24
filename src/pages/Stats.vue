@@ -55,7 +55,9 @@
           "
         >
           <template slot="header">
-            <md-icon>video_camera_front</md-icon>
+            <a :href="'/camera'" target="_blank" >
+              <md-icon>video_camera_front</md-icon>
+            </a>
           </template>
 
           <template slot="content">
@@ -417,7 +419,7 @@ export default {
         else this.$refs.arm_off_button.start();
       }
       this.sendCameraActionToServer({ action: action, var: _var });
-    },
+    }
   },
   data() {
     return {
