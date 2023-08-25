@@ -13,6 +13,9 @@ export function makeServer({ environment = "development" } = {}) {
     routes() {
       this.namespace = "api";
 
+      this.get("solarctrl/timing_params", (schema, request) => {
+        return {"success": true, "turn_on_time1": "0:23:23", "turn_off_time1": "0:22:23", "use_two_times": 0, "turn_on_time2": "11:1:0", "turn_off_time2": "11:0:0"};
+      });
       this.get("solarctrl/is_connected", (schema, request) => {
         return { "status": true };
       });

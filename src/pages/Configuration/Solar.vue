@@ -125,11 +125,11 @@ export default {
         .get("/api/solarctrl/timing_params")
         .then((r) => {
           if (r.data.success === true) {
-            this.reset_once_aday.turn_on_time1 = r.data.turn_on_time1
-            this.reset_once_aday.turn_on_time2 = r.data.turn_on_time2
-            this.reset_once_aday.turn_off_time1 = r.data.turn_off_time1
-            this.reset_once_aday.turn_off_time2 = r.data.turn_off_time2
-            this.reset_once_aday.use_two_times = r.data.use_two_times
+            this.obj.reset_once_aday.turn_on_time1 = r.data.turn_on_time1
+            this.obj.reset_once_aday.turn_on_time2 = r.data.turn_on_time2
+            this.obj.reset_once_aday.turn_off_time1 = r.data.turn_off_time1
+            this.obj.reset_once_aday.turn_off_time2 = r.data.turn_off_time2
+            this.obj.reset_once_aday.use_two_times = r.data.use_two_times
           }
         })
         .catch((e) => {
