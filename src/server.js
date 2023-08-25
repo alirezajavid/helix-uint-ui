@@ -14,7 +14,7 @@ export function makeServer({ environment = "development" } = {}) {
       this.namespace = "api";
 
       this.get("solarctrl/is_connected", (schema, request) => {
-        return { "active": true };
+        return { "status": true };
       });
       this.post("configs/general", (schema, request) => {
         return {"HUMANID": "Solar104", "IOT_DEVICE_ID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", "CAMERA_TYPE": "DahuaCamera0", "HARDWARE": "HIBv4", "BOARD": "bpi", "HARDWARE_VERSION": "1.5.0", "MAIN_STORAGE": "/opt/helix/storage", "EXTRA_STORAGE": "", "ICCID": "89610185002763605463", "MIN_CHUNKS_LIFETIME_IN_HOUR": "48", "success": true, "state": false};
