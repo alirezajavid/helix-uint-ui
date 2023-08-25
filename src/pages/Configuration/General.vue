@@ -74,7 +74,7 @@
               position="top"
             >
               <md-icon>restart_alt</md-icon>
-              Reboot
+              Reboot Pi
             </ProgressButton>
           </div>
         </div>
@@ -206,6 +206,7 @@ export default {
         this.HUMANID = r.data.HUMANID;
         this.ICCID = r.data.ICCID;
         this.CAMERA_TYPE = r.data.CAMERA_TYPE;
+        this.BOARD = r.data.BOARD;
         this.HARDWARE = r.data.HARDWARE;
         this.HARDWARE_VERSION = r.data.HARDWARE_VERSION;
         this.MAIN_STORAGE = r.data.MAIN_STORAGE;
@@ -226,7 +227,7 @@ export default {
       HARDWARE_VERSION: "",
       MAIN_STORAGE: "",
       EXTRA_STORAGE: "",
-      BOARD: "B!",
+      BOARD: "",
       CAMERA_TYPES: [],
       BOARD_TYPES: [],
       HARDWARE_TYPES: [],

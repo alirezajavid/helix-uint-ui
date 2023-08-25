@@ -73,7 +73,7 @@
               position="top"
             >
               <md-icon>save</md-icon>
-              Save
+              Update
             </ProgressButton>
           </div>
           <div class="md-layout-item md-small-size-50 md-size-50">
@@ -87,7 +87,7 @@
               position="top"
             >
               <md-icon>restart_alt</md-icon>
-              Reboot
+              Reboot Unit
             </ProgressButton>
           </div>
         </div>
@@ -198,7 +198,7 @@ export default {
   data() {
     return {
       active_save: true,
-      datetime: '----',
+      datetime: '---',
       obj: {
         load_mode: 2,
         controlled_powerdown_enable: 0,
