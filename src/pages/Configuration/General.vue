@@ -99,7 +99,7 @@ export default {
   methods: {
     save() {
       axios
-        .post("/api/configs", {
+        .post("/api/configs/general", {
           HUMANID: this.HUMANID,
           ICCID: this.ICCID,
           BOARD: this.BOARD,
