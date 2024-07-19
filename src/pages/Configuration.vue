@@ -18,12 +18,14 @@
           <div style="padding:10px; margin:10px">
             <md-card-header data-background-color="naghmeh2">
               <md-button :class="'btn btn-warning mr-1 mb-1 ' + (state=='general'? 'b3':'b2') " @click="state='general'">General Config</md-button>
-              <md-button :disabled="!status" :class="'btn btn-warning mr-1 mb-1 ' + (state=='solar'? 'b3':'b2') " @click="state='solar'">Solar Controller</md-button>
+              <md-button :class="'btn btn-warning mr-1 mb-1 ' + (state=='solar'? 'b3':'b2') " @click="state='solar'" :disabled="!status">Solar Controller</md-button>
+              <md-button :class="'btn btn-warning mr-1 mb-1 ' + (state=='network'? 'b3':'b2') " @click="state='network'">Network Configuration</md-button>
             </md-card-header>
           </div>
 
-          <General v-if="state=='general'" data-background-color="blue"> </General>
-          <Solar v-if="state=='solar'" data-background-color="blue"> </Solar>
+          <General v-if="state=='general'" data-background-color="blue" />
+          <Solar v-if="state=='solar'" data-background-color="blue" />
+          <Network v-if="state=='network'" data-background-color="blue" /> 
         </md-card>
 
       </div>
@@ -35,10 +37,12 @@
 import axios from "axios"
 import  General  from "@/pages/Configuration/General";
 import  Solar  from "@/pages/Configuration/Solar";
+import  Network  from "@/pages/Configuration/Network";
 
 export default {
   components: {
     General,
+    Network,
     Solar
   },
   created() {
