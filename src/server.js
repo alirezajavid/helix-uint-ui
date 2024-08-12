@@ -14,7 +14,8 @@ export function makeServer({ environment = "development" } = {}) {
       this.namespace = "api";
       this.get("configs/network", (schema, request) => {
         return {
-          success: true,
+          success: false,
+          msg: 'adsadsa',
           br0: {
             method: "manual",
             ip: "10.0.0.129",

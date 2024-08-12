@@ -79,7 +79,8 @@
 					.then((r) => {
 						this.active_save = false;
 
-
+            if (r.data.success === false)
+              this.$toasted.error(r.data.msg, {icon: 'error'});
 
             this.get_configuration()
 						this.check_configurable_interval = setInterval(
@@ -88,7 +89,7 @@
 						);
 					})
 					.catch((e) => {
-						this.$toasted.show(e.message, { duration: 10 });
+						this.$toasted.error(e.message, {icon: 'error'});
 					});
 			},
 			/*
@@ -146,13 +147,21 @@
         axios
 				.get("/api/configs/network")
 				.then((r) => {
+          if (r.data.success === false) {
+              this.$toasted.error(r.data.msg, {icon: 'error'});
+              this.method = '';
+              this.ip = '';
+              this.netmask = '';
+              this.gateway = '';
+              return;
+          }
 					this.method = r.data.br0.method;
 					this.ip = r.data.br0.ip;
 					this.netmask = r.data.br0.netmask;
 					this.gateway = r.data.br0.gateway;
 				})
 				.catch((e) => {
-					this.$toasted.show("Error in connection.", { duration: 10 });
+					this.$toasted.error("Error in connection.", {icon: 'error'});
 				});
       }
 		},
