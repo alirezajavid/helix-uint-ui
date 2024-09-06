@@ -6,6 +6,7 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
   state: {
+    camera_count: 1,
     stat: {
       cpu: null,
       memory: null,
@@ -61,6 +62,10 @@ export const store = new Vuex.Store({
     getStorageInfo(state) {
       return state.storageInfo;
     },
+    getCameraCount(state) {
+      return state.camera_count;
+    },
+
   },
   mutations: {
     setLastAlarmDemand(state, v) {
@@ -76,6 +81,9 @@ export const store = new Vuex.Store({
     setStats(state, v) {
       state.stat = v;
       state.camera_type = v.camera.type;
+    },
+    setCameraCount(state, v) {
+      state.camera_count = v.camera_count;
     },
     setCameraTypes(state, v) {
       state.camera_types = v.camera_types;
@@ -106,6 +114,12 @@ export const store = new Vuex.Store({
         commit("setStats", r.data);
       });
     },
+    getCameraCountFromServer({ commit }) {
+      axios.get("/api/camera_count").then((r) => {
+        commit("setCameraCount", r.data);
+      });
+    },
+
     getCameraTypesFromServer({ commit }) {
       axios
         .get("/api/camera_types")

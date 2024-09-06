@@ -12,6 +12,13 @@ export function makeServer({ environment = "development" } = {}) {
     },
     routes() {
       this.namespace = "api";
+      this.get("camera_count", (schema, request) => {
+        return {
+          success: true,
+          camera_count: 4
+        };
+      });
+
       this.get("configs/network", (schema, request) => {
         return {
           success: false,
