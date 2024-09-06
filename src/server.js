@@ -354,7 +354,7 @@ export function makeServer({ environment = "development" } = {}) {
         return {
           success: true,
           creation_date: "2022-12-22 12:00:00",
-          href: "https://www.entekhab.ir/files/fa/news/1401/3/10/1268200_267.jpg",
+          href: 'http://22.solar.helixsec.live/jpeg/snapshot_latest.jpg?rnd=1725629793',
         };
       });
       this.get("capture_snapshot", () => {

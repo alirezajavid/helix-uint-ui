@@ -55,7 +55,7 @@ Vue.prototype.$dev_mode =
   window.location.hostname === "127.0.0.1" ||
   window.location.hostname === "localhost";
 Vue.prototype.$cam_image = Vue.prototype.$dev_mode
-  ? "https://www.entekhab.ir/files/fa/news/1401/3/10/1268200_267.jpg"
+  ? 'http://22.solar.helixsec.live/jpeg/snapshot_latest.jpg?rnd=1725629793'
   : "/jpeg/mjpeg_latest.jpg";
 Date.prototype.FORMAT = function () {
   function pad(number, length) {

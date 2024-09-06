@@ -1,6 +1,8 @@
 <template>
   <div class="md-layout md-gutter">
     <div class="md-layout-item md-small-size-100 md-xsmall-size-100">
+      <b>Last snapshot: </b> &nbsp;{{ this.last_snapshot.creation_date }}<br />
+      <b>Camera count: </b> &nbsp;{{ getCameraCount }}<br />
       <md-button
         class="btn btn-warning mr-1 mb-1 jj"
         @click="capture"
@@ -17,17 +19,16 @@
         Create Snapshot
       </md-button>
     </div>
-    <div class="md-layout-item md-small-size-100 md-xsmall-size-100">
-      <b>Last snapshot: </b> &nbsp;{{ this.last_snapshot.creation_date }}
-    </div>
-    <div class="md-layout-item md-small-size-100 md-xsmall-size-100">
-      <img :src="src" v-if="src != ''" />
+
+    <div v-for="(j,i) in getCameraCount" :key="i" style='padding:2px; border: solid 1px rgb(205, 205, 205)' class="md-layout-item md-small-size-100 md-xsmall-size-100">
+      <img :src="'/jpeg/snapshot_latest' + (i == 0 ? '' : '_' + i) + '.jpg?rnd=' + Math.random()"  />
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -40,6 +41,9 @@ export default {
         href: "",
       },
     };
+  },
+  computed: {
+		...mapGetters(["getCameraCount"]),
   },
   methods: {
     capture() {
