@@ -1,14 +1,12 @@
 <template>
   <div class="content">
     <md-dialog :md-active.sync="show_clear_storage">
-      <md-dialog-title>
-        Clear Storage <br />
+      <md-dialog-title> Clear Storage {{ clear.type }}<br /> </md-dialog-title>
+
+      <md-dialog-content v-if="clear.type == 'primary'">
         <div style="font-size: smaller; color: red">
           files created before this date will be deleted:
         </div>
-      </md-dialog-title>
-
-      <md-dialog-content>
         <div class="md-layout md-gutter">
           <div class="md-layout-item md-small-size-100">
             <md-datepicker v-model="clear.date">
@@ -38,7 +36,9 @@
         </div>
       </md-dialog-content>
       <md-dialog-actions>
-        <md-button class="md-accent" @click="clear_storage">Clear</md-button>
+        <md-button class="md-accent" @click="clear_storage">{{
+          clear.type == "primary" ? "Clear" : "Format"
+        }}</md-button>
         <md-button class="md-accent" @click="show_clear_storage = false"
           >Close</md-button
         >
@@ -55,7 +55,7 @@
           "
         >
           <template slot="header">
-            <a :href="'/camera'" target="_blank" >
+            <a :href="'/camera'" target="_blank">
               <md-icon>video_camera_front</md-icon>
             </a>
           </template>
@@ -184,85 +184,28 @@
       <div
         class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
       >
-        <stats-card data-background-color="green">
-          <template slot="header">
-            <md-icon>developer_board</md-icon>
-          </template>
-
-          <template slot="content">
-            <p class="category">CPU</p>
-            <h4 class="title">({{ getStat.cpu }} %)</h4>
-          </template>
-
-          <template slot="footer">
-            <div class="stats">
-              <md-icon></md-icon>
-              &nbsp;
-            </div>
-          </template>
-        </stats-card>
-      </div>
-      <div
-        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
-      >
-        <stats-card data-background-color="orange">
-          <template slot="header">
-            <md-icon>earbuds_battery</md-icon>
-          </template>
-
-          <template slot="content">
-            <p class="category">Load</p>
-            <h4 class="title">
-              {{ getStat.load_current }}
-              <small></small>
-            </h4>
-          </template>
-
-          <template slot="footer">
-            <div class="stats">&nbsp;</div>
-          </template>
-        </stats-card>
-      </div>
-      <div
-        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
-      >
-        <stats-card data-background-color="red">
-          <template slot="header">
-            <md-icon>memory</md-icon>
-          </template>
-
-          <template slot="content">
-            <p class="category">Memory</p>
-            <h4 class="title">{{ Math.round(getStat.memory) }} %</h4>
-          </template>
-
-          <template slot="footer">
-            <div class="stats">&nbsp;</div>
-          </template>
-        </stats-card>
-      </div>
-      <div
-        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
-      >
         <stats-card data-background-color="blue">
           <template slot="header">
-            <md-icon>data_usage</md-icon>
+            <PieChart :percentage="getStat.primary_disk.percent" />
           </template>
 
           <template slot="content">
-            <p class="category">Disk Usage</p>
+            <p class="category">Pimary Disk</p>
             <h4 class="title">
-              {{
-                (getStorageInfo.size / (1024 * 1024 * 1024)).toFixed(2) + " GB"
-              }}
-              <small>({{ getStat.primary_disk }} %)</small>
+              {{ getStat.primary_disk.size }}
+              <small>({{ getStat.primary_disk.percent.toFixed(0) }} %)</small>
             </h4>
           </template>
 
           <template slot="footer">
-            <div class="stats">
+            <div class="stats" style="color: black">
+              <b>Size:</b> {{ getStat.primary_disk.size }} <br />
+              <b>Free:</b> {{ getStat.primary_disk.free }} <br />
               <ProgressButton
-                @click="show_clear_storage = true"
+                @click="
+                  clear.type = 'primary';
+                  show_clear_storage = true;
+                "
                 class="md-danger md-round md-sm"
                 style="width: 160px"
                 :height="10"
@@ -273,7 +216,7 @@
                 Clear storage
               </ProgressButton>
               <br />
-              <table>
+              <table style="display: none">
                 <tr>
                   <td>Oldest Record:</td>
                   <td>{{ getStorageInfo.oldest_record }}</td>
@@ -285,6 +228,119 @@
               </table>
 
               &nbsp;
+            </div>
+          </template>
+        </stats-card>
+      </div>
+
+      <div
+        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
+      >
+        <stats-card
+          :data-background-color="
+            getStat.extra_disk.available ? 'blue' : 'grey'
+          "
+        >
+          <template slot="header">
+            <PieChart :percentage="getStat.extra_disk.percent" />
+          </template>
+
+          <template slot="content">
+            <p class="category">Extra storage</p>
+            <h4 class="title">
+              {{ getStat.extra_disk.size }}
+              <small>({{ getStat.extra_disk.percent.toFixed(0) }} %)</small>
+            </h4>
+          </template>
+
+          <template slot="footer">
+            <div class="stats" style="color: black">
+              <b>Size:</b> {{ getStat.extra_disk.size }} <br />
+              <b>Free:</b> {{ getStat.extra_disk.free }} <br />
+              <!-- <ProgressButton
+                :disabled="!getStat.extra_disk.available"
+                @click="clear.type='extra' ;show_clear_storage = true"
+                :class="'md-danger md-round md-sm'"
+                style="width: 160px"
+                :height="10"
+                :duration="4000"
+                position="top"
+              >
+                <md-icon>delete</md-icon>
+                Clear storage
+              </ProgressButton> -->
+              <ProgressButton
+                :disabled="!getStat.extra_disk.available"
+                @click="
+                  clear.type = 'extra';
+                  show_clear_storage = true;
+                "
+                :class="'md-danger md-round md-sm'"
+                style="width: 160px"
+                :height="10"
+                :duration="4000"
+                position="top"
+              >
+                <md-icon>hdd</md-icon>
+                Format storage
+              </ProgressButton>
+              <br />
+              <table style="display: none">
+                <tr>
+                  <td>Oldest Record:</td>
+                  <td>{{ getStorageInfo.oldest_record }}</td>
+                </tr>
+                <tr>
+                  <td>Latest Record:</td>
+                  <td>{{ getStorageInfo.latest_record }}</td>
+                </tr>
+              </table>
+
+              &nbsp;
+            </div>
+          </template>
+        </stats-card>
+      </div>
+
+      <div
+        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
+      >
+        <stats-card data-background-color="orange">
+          <template slot="header">
+            <md-icon>earbuds_battery</md-icon>
+          </template>
+
+          <template slot="content">
+            <p class="category">Solar Controller</p>
+            <h4 class="title">
+              {{ getStat.solar_controller.status }}
+              <small></small>
+            </h4>
+          </template>
+
+          <template slot="footer">
+            <div class="stats">&nbsp;</div>
+            Battery voltage: {{ getStat.solar_controller.battery_voltage }}
+          </template>
+        </stats-card>
+      </div>
+
+      <div
+        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
+      >
+        <stats-card data-background-color="green">
+          <template slot="header">
+            <md-icon>timer</md-icon>
+          </template>
+
+          <template slot="content">
+            <p class="category">Uptime</p>
+            <h4 class="title">{{ huptime }}</h4>
+          </template>
+
+          <template slot="footer">
+            <div class="stats">
+              <md-icon>&nbsp;</md-icon>
             </div>
           </template>
         </stats-card>
@@ -310,7 +366,29 @@
           <template slot="footer">
             <div class="stats">
               <md-icon></md-icon>
+              <Thermometer :percentage="getStat.temperature" />
+            </div>
+          </template>
+        </stats-card>
+      </div>
+
+      <div
+        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
+      >
+        <stats-card data-background-color="red">
+          <template slot="header">
+            <md-icon>memory</md-icon>
+          </template>
+
+          <template slot="content">
+            <p class="category">Memory</p>
+            <h4 class="title">{{ Math.round(getStat.memory) }} %</h4>
+          </template>
+
+          <template slot="footer">
+            <div class="stats">
               &nbsp;
+              <RamProgressBar :percentage="Math.round(getStat.memory)" />
             </div>
           </template>
         </stats-card>
@@ -321,17 +399,40 @@
       >
         <stats-card data-background-color="green">
           <template slot="header">
-            <md-icon>timer</md-icon>
+            <md-icon>developer_board</md-icon>
           </template>
 
           <template slot="content">
-            <p class="category">Uptime</p>
-            <h4 class="title">{{ huptime }}</h4>
+            <p class="category">CPU</p>
+            <h4 class="title">({{ getStat.cpu }} %)</h4>
           </template>
 
           <template slot="footer">
             <div class="stats">
-              <md-icon>&nbsp;</md-icon>
+              <md-icon></md-icon>
+              &nbsp;
+            </div>
+          </template>
+        </stats-card>
+      </div>
+
+      <div
+        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
+      >
+        <stats-card data-background-color="white">
+          <template slot="header">
+            <md-icon>info</md-icon>
+          </template>
+
+          <template slot="content">
+            <p class="category">Software version</p>
+            <h4 class="title">{{ getStat.software_version }}</h4>
+          </template>
+
+          <template slot="footer">
+            <div class="stats">
+              <md-icon></md-icon>
+              &nbsp;
             </div>
           </template>
         </stats-card>
@@ -343,6 +444,9 @@
 <script>
 import { StatsCard } from "@/components";
 import ProgressButton from "@/components/ProgressButton";
+import PieChart from "@/components/PieChart";
+import RamProgressBar from "@/components/RamProgressBar";
+import Thermometer from "@/components/Thermometer";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -354,6 +458,9 @@ export default {
   components: {
     StatsCard,
     ProgressButton,
+    PieChart,
+    RamProgressBar,
+    Thermometer,
   },
   created() {
     this.getstats();
@@ -419,7 +526,7 @@ export default {
         else this.$refs.arm_off_button.start();
       }
       this.sendCameraActionToServer({ action: action, var: _var });
-    }
+    },
   },
   data() {
     return {
@@ -428,6 +535,7 @@ export default {
       progress: 0,
       camera_type: "",
       clear: {
+        type: null,
         main_stream: false,
         alarms: false,
         substream: false,

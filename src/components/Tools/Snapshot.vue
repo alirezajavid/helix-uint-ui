@@ -20,8 +20,20 @@
       </md-button>
     </div>
 
-    <div v-for="(j,i) in getCameraCount" :key="i" style='padding:2px; border: solid 1px rgb(205, 205, 205)' class="md-layout-item md-small-size-100 md-xsmall-size-100">
-      <img :src="'/jpeg/snapshot_latest' + (i == 0 ? '' : '_' + i) + '.jpg?rnd=' + Math.random()"  />
+    <div
+      v-for="(j, i) in getCameraCount"
+      :key="i"
+      style="padding: 2px; border: solid 1px rgb(205, 205, 205)"
+      class="md-layout-item md-small-size-100 md-xsmall-size-100"
+    >
+      <img
+        :src="
+          '/jpeg/snapshot_latest' +
+          (i == 0 ? '' : '_' + i) +
+          '.jpg?rnd=' +
+          Math.random()
+        "
+      />
     </div>
   </div>
 </template>
@@ -43,7 +55,7 @@ export default {
     };
   },
   computed: {
-		...mapGetters(["getCameraCount"]),
+    ...mapGetters(["getCameraCount"]),
   },
   methods: {
     capture() {

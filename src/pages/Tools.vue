@@ -44,6 +44,13 @@
                 md-label="Wall"
                 md-icon="wallpaper"
               ></md-bottom-bar-item>
+              <md-bottom-bar-item
+                md-mini
+                id="tab_video_inventory"
+                data-background-color="naghmeh2"
+                md-label="Video  Inv."
+                md-icon="archive"
+              ></md-bottom-bar-item>
             </md-bottom-bar>
           </md-card-content>
 
@@ -52,6 +59,7 @@
             <Services v-if="current_tab == 'tab_service'" />
             <Snapshot v-if="current_tab == 'tab_snapshot'" />
             <Wall v-if="current_tab == 'tab_wall'" />
+            <VideoInventory v-if="current_tab == 'tab_video_inventory'" />
           </md-card-content>
         </md-card>
       </div>
@@ -64,6 +72,7 @@ import Footage from "../components/Tools/Footage";
 import Snapshot from "../components/Tools/Snapshot";
 import Services from "../components/Tools/Services";
 import Wall from "../components/Tools/Wall";
+import VideoInventory from "../components/Tools/VideoInventory";
 export default {
   props: {},
   components: {
@@ -71,6 +80,7 @@ export default {
     Snapshot,
     Services,
     Wall,
+    VideoInventory,
   },
   methods: {
     tabChange(v) {

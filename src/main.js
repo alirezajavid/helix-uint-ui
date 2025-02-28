@@ -48,15 +48,12 @@ const router = new VueRouter({
   routes, // short for routes: routes
   linkExactActiveClass: "nav-item active",
 });
-
 Vue.prototype.$Chartist = Chartist;
 Vue.prototype.$unitid = "...";
 Vue.prototype.$dev_mode =
   window.location.hostname === "127.0.0.1" ||
   window.location.hostname === "localhost";
-Vue.prototype.$cam_image = Vue.prototype.$dev_mode
-  ? 'http://22.solar.helixsec.live/jpeg/snapshot_latest.jpg?rnd=1725629793'
-  : "/jpeg/mjpeg_latest.jpg";
+Vue.prototype.$cam_image = "/jpeg/mjpeg_latest.jpg";
 Date.prototype.FORMAT = function () {
   function pad(number, length) {
     var str = "" + number;

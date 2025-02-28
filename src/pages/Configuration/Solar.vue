@@ -1,106 +1,160 @@
 <template>
-      <md-card-content>
-        <div class="md-layout">
-          
-          
-          <md-card>
-            <md-card-content>
-              SC currennt datetime: <b>{{ datetime }}</b> &nbsp;<a href="#" @click="sync_time">Sync. with Pi time</a>
-            </md-card-content>
-    
-            <hr />
-            <md-card-content>
-              <md-radio v-model="obj.load_mode" :value="0">Manual Mode</md-radio> 
-            </md-card-content>
-            <hr />
+  <md-card-content>
+    <div class="md-layout">
+      <md-card>
+        <md-card-content>
+          SC currennt datetime: <b>{{ datetime }}</b> &nbsp;<a
+            href="#"
+            @click="sync_time"
+            >Sync. with Pi time</a
+          >
+        </md-card-content>
 
-            <md-card-content>
-              <md-radio  v-model="obj.load_mode" :value="1">Reset Once a day</md-radio> 
-              <md-card-content>
-                Turn-on time 1: <input :disabled="obj.load_mode!= 1" v-model="obj.reset_once_aday.turn_on_time1"/> &nbsp; &nbsp; 
-                Turn-off time 1: <input :disabled="obj.load_mode!= 1" v-model="obj.reset_once_aday.turn_off_time1"/><br />
-                <md-checkbox :disabled="obj.load_mode!= 1" v-model="obj.reset_once_aday.use_two_times" :value="1">Reset twice a day</md-checkbox><br />
-                Turn-on time 2: <input :disabled="obj.load_mode!= 1 || obj.reset_once_aday.use_two_times!=1" v-model="obj.reset_once_aday.turn_on_time2"/> &nbsp; &nbsp; 
-                Turn-off time 2: <input  :disabled="obj.load_mode!= 1 || obj.reset_once_aday.use_two_times!=1" v-model="obj.reset_once_aday.turn_off_time2"/><br /><br />
-                <ProgressButton
-                  @click="read_params"
-                  name="bottom"
-                  class="btn btn-warning mr-1 mb-1"
-                  style="height:22px"
-                  position="top"
-                >
-                  Read
-                </ProgressButton>
-              </md-card-content>
-            </md-card-content>
-            <hr />
+        <hr />
+        <md-card-content>
+          <md-radio v-model="obj.load_mode" :value="0">Manual Mode</md-radio>
+        </md-card-content>
+        <hr />
 
-            <md-card-content>
-              <md-radio v-model="obj.load_mode" :value="2">Delayed restart mode</md-radio> 
-              <md-card-content>
-                <table>
-                  <tr>
-                    <td>How many hours into future?</td>
-                    <td><input  :disabled="obj.load_mode!= 2" v-model="obj.delayed_restart.hours_into_future" /> hrs. <br></td>
-                  </tr>
-                  <tr>
-                    <td>Delay frequency</td>
-                    <td><input :disabled="obj.load_mode!= 2" v-model="obj.delayed_restart.delay_frequency" /> hrs.</td>
-                  </tr>
-                </table>
-              </md-card-content>
-            </md-card-content>
-
-            <hr />
-            <md-card-content>
-              <md-checkbox v-model="obj.controlled_powerdown_enable" >Controlled power down</md-checkbox>
-              <md-card-content>
-                <table>
-                  <tr>
-                    <td>Battery voltage low threshold to turn off load:</td>
-                    <td><input :disabled="!obj.controlled_powerdown_enable" v-model="obj.controlled_powerdown.battery_vol_low_threshold"/></td>
-                  </tr>
-                  <tr>
-                    <td>Turn-on time1:</td>
-                    <td><input :disabled="!obj.controlled_powerdown_enable" v-model="obj.controlled_powerdown.turn_on_time"/></td>
-                  </tr>
-                </table>
-              </md-card-content>
-            </md-card-content>
-          </md-card>
-
-
-          <div class="md-layout-item md-small-size-50 md-size-50">
+        <md-card-content>
+          <md-radio v-model="obj.load_mode" :value="1"
+            >Reset Once a day</md-radio
+          >
+          <md-card-content>
+            Turn-on time 1:
+            <input
+              :disabled="obj.load_mode != 1"
+              v-model="obj.reset_once_aday.turn_on_time1"
+            />
+            &nbsp; &nbsp; Turn-off time 1:
+            <input
+              :disabled="obj.load_mode != 1"
+              v-model="obj.reset_once_aday.turn_off_time1"
+            /><br />
+            <md-checkbox
+              :disabled="obj.load_mode != 1"
+              v-model="obj.reset_once_aday.use_two_times"
+              :value="1"
+              >Reset twice a day</md-checkbox
+            ><br />
+            Turn-on time 2:
+            <input
+              :disabled="
+                obj.load_mode != 1 || obj.reset_once_aday.use_two_times != 1
+              "
+              v-model="obj.reset_once_aday.turn_on_time2"
+            />
+            &nbsp; &nbsp; Turn-off time 2:
+            <input
+              :disabled="
+                obj.load_mode != 1 || obj.reset_once_aday.use_two_times != 1
+              "
+              v-model="obj.reset_once_aday.turn_off_time2"
+            /><br /><br />
             <ProgressButton
-              @click="save_clicked"
-              ref="save_button"
+              @click="read_params"
               name="bottom"
               class="btn btn-warning mr-1 mb-1"
-              :height="10"
-              :disabled="!active_save"
-              :duration="1000"
+              style="height: 22px"
               position="top"
             >
-              <md-icon>save</md-icon>
-              Update
+              Read
             </ProgressButton>
-          </div>
-          <div class="md-layout-item md-small-size-50 md-size-50">
-            <ProgressButton
-              @click="reboot_clicked"
-              ref="reboot_button"
-              name="bottom"
-              class="btn btn-warning mr-1 mb-1"
-              :height="10"
-              :duration="20000"
-              position="top"
-            >
-              <md-icon>restart_alt</md-icon>
-              Reboot Unit
-            </ProgressButton>
-          </div>
-        </div>
-      </md-card-content>
+          </md-card-content>
+        </md-card-content>
+        <hr />
+
+        <md-card-content>
+          <md-radio v-model="obj.load_mode" :value="2"
+            >Delayed restart mode</md-radio
+          >
+          <md-card-content>
+            <table>
+              <tr>
+                <td>How many hours into future?</td>
+                <td>
+                  <input
+                    :disabled="obj.load_mode != 2"
+                    v-model="obj.delayed_restart.hours_into_future"
+                  />
+                  hrs. <br />
+                </td>
+              </tr>
+              <tr>
+                <td>Delay frequency</td>
+                <td>
+                  <input
+                    :disabled="obj.load_mode != 2"
+                    v-model="obj.delayed_restart.delay_frequency"
+                  />
+                  hrs.
+                </td>
+              </tr>
+            </table>
+          </md-card-content>
+        </md-card-content>
+
+        <hr />
+        <md-card-content>
+          <md-checkbox v-model="obj.controlled_powerdown_enable"
+            >Controlled power down</md-checkbox
+          >
+          <md-card-content>
+            <table>
+              <tr>
+                <td>Battery voltage low threshold to turn off load:</td>
+                <td>
+                  <input
+                    :disabled="!obj.controlled_powerdown_enable"
+                    v-model="obj.controlled_powerdown.battery_vol_low_threshold"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Turn-on time1:</td>
+                <td>
+                  <input
+                    :disabled="!obj.controlled_powerdown_enable"
+                    v-model="obj.controlled_powerdown.turn_on_time"
+                  />
+                </td>
+              </tr>
+            </table>
+          </md-card-content>
+        </md-card-content>
+      </md-card>
+
+      <div class="md-layout-item md-small-size-50 md-size-50">
+        <ProgressButton
+          @click="save_clicked"
+          ref="save_button"
+          name="bottom"
+          class="btn btn-warning mr-1 mb-1"
+          :height="10"
+          :disabled="!active_save"
+          :duration="1000"
+          position="top"
+        >
+          <md-icon>save</md-icon>
+          Update
+        </ProgressButton>
+      </div>
+      <div class="md-layout-item md-small-size-50 md-size-50">
+        <ProgressButton
+          @click="reboot_clicked"
+          ref="reboot_button"
+          name="bottom"
+          class="btn btn-warning mr-1 mb-1"
+          :height="10"
+          :duration="20000"
+          position="top"
+        >
+          <md-icon>restart_alt</md-icon>
+          Reboot Unit
+        </ProgressButton>
+      </div>
+    </div>
+  </md-card-content>
 </template>
 <script>
 import axios from "axios";
@@ -125,25 +179,23 @@ export default {
         .get("/api/solarctrl/timing_params")
         .then((r) => {
           if (r.data.success === true) {
-            this.obj.reset_once_aday.turn_on_time1 = r.data.turn_on_time1
-            this.obj.reset_once_aday.turn_on_time2 = r.data.turn_on_time2
-            this.obj.reset_once_aday.turn_off_time1 = r.data.turn_off_time1
-            this.obj.reset_once_aday.turn_off_time2 = r.data.turn_off_time2
-            this.obj.reset_once_aday.use_two_times = r.data.use_two_times
+            this.obj.reset_once_aday.turn_on_time1 = r.data.turn_on_time1;
+            this.obj.reset_once_aday.turn_on_time2 = r.data.turn_on_time2;
+            this.obj.reset_once_aday.turn_off_time1 = r.data.turn_off_time1;
+            this.obj.reset_once_aday.turn_off_time2 = r.data.turn_off_time2;
+            this.obj.reset_once_aday.use_two_times = r.data.use_two_times;
           }
         })
         .catch((e) => {
           this.$toasted.show("Error in connection.", { duration: 10 });
         });
-
     },
     sync_time() {
       this.datetime = "";
       axios
         .post("/api/solarctrl/datetime")
         .then((r) => {
-          if (r.data.success === true )
-            this.datetime = r.data.datetime 
+          if (r.data.success === true) this.datetime = r.data.datetime;
         })
         .catch((e) => {
           this.$toasted.show("Error in connection.", { duration: 10 });
@@ -152,8 +204,7 @@ export default {
     save() {
       axios
         .post("/api/configs/solarctrl", this.obj)
-        .then((r) => {
-        })
+        .then((r) => {})
         .catch((e) => {
           this.$toasted.show(e.message, { duration: 10 });
         });
@@ -200,23 +251,21 @@ export default {
         },
       });
     },
-
   },
   created() {
     axios
       .get("/api/configs/solarctrl")
       .then((r) => {
-        this.obj = r.data;      
+        this.obj = r.data;
       })
       .catch((e) => {
         this.$toasted.show("Error in connection.", { duration: 10 });
       });
 
-      axios
+    axios
       .get("/api/solarctrl/datetime")
       .then((r) => {
-        if (r.data.success === true )
-          this.datetime = r.data.datetime  
+        if (r.data.success === true) this.datetime = r.data.datetime;
       })
       .catch((e) => {
         this.$toasted.show("Error in connection.", { duration: 10 });
@@ -225,27 +274,27 @@ export default {
   data() {
     return {
       active_save: true,
-      datetime: '---',
+      datetime: "---",
       obj: {
         load_mode: 2,
         controlled_powerdown_enable: 0,
         reset_once_aday: {
-          turn_on_time1: '01:01:00',
-          turn_off_time1: '01:00:00',
+          turn_on_time1: "01:01:00",
+          turn_off_time1: "01:00:00",
           use_two_times: 1,
-          turn_on_time2: '12:01:00',
-          turn_off_time2: '12:00:00'
+          turn_on_time2: "12:01:00",
+          turn_off_time2: "12:00:00",
         },
         delayed_restart: {
           hours_into_future: 6,
-          delay_frequency: 1
+          delay_frequency: 1,
         },
         controlled_powerdown: {
           battery_vol_low_threshold: 10.9,
-          turn_on_time: '11:00:00'
-        }
-      }
-    }
+          turn_on_time: "11:00:00",
+        },
+      },
+    };
   },
   mounted() {},
 };
@@ -278,5 +327,4 @@ export default {
     0 3px 1px -2px rgba(0, 188, 212, 0.2), 0 1px 5px 0 rgba(0, 188, 212, 0.12);
   border: none;
 }
-
 </style>

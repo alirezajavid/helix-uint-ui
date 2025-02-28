@@ -11,24 +11,26 @@ export function makeServer({ environment = "development" } = {}) {
       server.create("todo", { content: "Integrate With Vue.js" });
     },
     routes() {
+      this.logging = true; // Enable logging
+
       this.namespace = "api";
       this.get("camera_count", (schema, request) => {
         return {
           success: true,
-          camera_count: 4
+          camera_count: 4,
         };
       });
 
       this.get("configs/network", (schema, request) => {
         return {
           success: false,
-          msg: 'adsadsa',
+          msg: "adsadsa",
           br0: {
             method: "manual",
             ip: "10.0.0.129",
             netmask: "255.255.255.0",
-            gateway: "10.0.0.138"
-          }
+            gateway: "10.0.0.138",
+          },
         };
       });
       this.post("configs/network", (schema, request) => {
@@ -36,22 +38,96 @@ export function makeServer({ environment = "development" } = {}) {
       });
 
       this.get("solarctrl/timing_params", (schema, request) => {
-        return { "success": true, "turn_on_time1": "0:23:23", "turn_off_time1": "0:22:23", "use_two_times": 0, "turn_on_time2": "11:1:0", "turn_off_time2": "11:0:0" };
+        return {
+          success: true,
+          turn_on_time1: "0:23:23",
+          turn_off_time1: "0:22:23",
+          use_two_times: 0,
+          turn_on_time2: "11:1:0",
+          turn_off_time2: "11:0:0",
+        };
       });
       this.get("solarctrl/is_connected", (schema, request) => {
-        return { "status": true };
+        return { status: true };
+      });
+      this.get("configs/general", (schema, request) => {
+        return {
+          HUMANID: "Solar000",
+          IOT_DEVICE_ID: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+          CAMERA_TYPE: "DahuaCamera0",
+          CAMERA_PASSWORD: "helixsolar123",
+          HARDWARE: "HIBv6",
+          BOARD: "cm4-cctv",
+          HARDWARE_VERSION: "1.5.0",
+          MAIN_STORAGE: "/opt/helix/storage",
+          EXTRA_STORAGE: "/mnt/storage",
+          ICCID: "0",
+          MIN_CHUNKS_LIFETIME_IN_HOUR: "49",
+          OLD_HIBV5: "0",
+          SOLAR_CTRL_PORT: "/dev/ttyAMA3",
+          SUPPORT_EMAIL: "nnaghavi1388@gmail.com",
+          success: true,
+        };
       });
       this.post("configs/general", (schema, request) => {
-        return { "HUMANID": "Solar104", "IOT_DEVICE_ID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", "CAMERA_TYPE": "DahuaCamera0", "HARDWARE": "HIBv4", "BOARD": "bpi", "HARDWARE_VERSION": "1.5.0", "MAIN_STORAGE": "/opt/helix/storage", "EXTRA_STORAGE": "", "ICCID": "89610185002763605463", "MIN_CHUNKS_LIFETIME_IN_HOUR": "48", "success": true, "state": false };
+        return {
+          HUMANID: "Solar000",
+          IOT_DEVICE_ID: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+          CAMERA_TYPE: "DahuaCamera0",
+          CAMERA_PASSWORD: "helixsolar123",
+          HARDWARE: "HIBv6",
+          BOARD: "cm4-cctv",
+          HARDWARE_VERSION: "1.5.0",
+          MAIN_STORAGE: "/opt/helix/storage",
+          EXTRA_STORAGE: "/mnt/storage",
+          ICCID: "0",
+          MIN_CHUNKS_LIFETIME_IN_HOUR: "49",
+          OLD_HIBV5: "0",
+          SOLAR_CTRL_PORT: "/dev/ttyAMA3",
+          SUPPORT_EMAIL: "nnaghavi1388@gmail.com",
+          success: true,
+        };
       });
       this.post("configs/solarctrl", (schema, request) => {
-        return { "load_mode": 2, "controlled_powerdown_enable": 0, "reset_once_aday": { "turn_on_time1": "01:01:00", "turn_off_time1": "01:00:00", "use_two_times": 1, "turn_on_time2": "12:01:00", "turn_off_time2": "12:00:00" }, "delayed_restart": { "hours_into_future": 6, "delay_frequency": 1 }, "controlled_powerdown": { "battery_vol_low_threshold": 10.9, "turn_on_time": "11:00:00" }, "success": true, "state": true };
+        return {
+          load_mode: 2,
+          controlled_powerdown_enable: 0,
+          reset_once_aday: {
+            turn_on_time1: "01:01:00",
+            turn_off_time1: "01:00:00",
+            use_two_times: 1,
+            turn_on_time2: "12:01:00",
+            turn_off_time2: "12:00:00",
+          },
+          delayed_restart: { hours_into_future: 6, delay_frequency: 1 },
+          controlled_powerdown: {
+            battery_vol_low_threshold: 10.9,
+            turn_on_time: "11:00:00",
+          },
+          success: true,
+          state: true,
+        };
       });
       this.get("configs/solarctrl", (schema, request) => {
-        return { "load_mode": 1, "controlled_powerdown_enable": 0, "reset_once_aday": { "turn_on_time1": "01:01:00", "turn_off_time1": "01:00:00", "use_two_times": 0, "turn_on_time2": "12:01:00", "turn_off_time2": "12:00:00" }, "delayed_restart": { "hours_into_future": 6, "delay_frequency": 1 }, "controlled_powerdown": { "battery_vol_low_threshold": 10.9, "turn_on_time": "11:00:00" } };
+        return {
+          load_mode: 1,
+          controlled_powerdown_enable: 0,
+          reset_once_aday: {
+            turn_on_time1: "01:01:00",
+            turn_off_time1: "01:00:00",
+            use_two_times: 0,
+            turn_on_time2: "12:01:00",
+            turn_off_time2: "12:00:00",
+          },
+          delayed_restart: { hours_into_future: 6, delay_frequency: 1 },
+          controlled_powerdown: {
+            battery_vol_low_threshold: 10.9,
+            turn_on_time: "11:00:00",
+          },
+        };
       });
       this.get("configs/allowed_to_change", (schema, request) => {
-        return { "state": true };
+        return { state: true };
       });
 
       this.get("solarctrl/datetime", (schema, request) => {
@@ -354,7 +430,7 @@ export function makeServer({ environment = "development" } = {}) {
         return {
           success: true,
           creation_date: "2022-12-22 12:00:00",
-          href: 'http://22.solar.helixsec.live/jpeg/snapshot_latest.jpg?rnd=1725629793',
+          href: "http://22.solar.helixsec.live/jpeg/snapshot_latest.jpg?rnd=1725629793",
         };
       });
       this.get("capture_snapshot", () => {
@@ -406,20 +482,12 @@ export function makeServer({ environment = "development" } = {}) {
       });
       this.get("hardware_types", () => {
         return {
-          hardware_types: [
-            "HW1",
-            "HW2",
-            "HW3",
-          ]
+          hardware_types: ["HW1", "HW2", "HW3"],
         };
       });
       this.get("board_types", () => {
         return {
-          board_types: [
-            "B!",
-            "B2",
-            "B3",
-          ]
+          board_types: ["B!", "B2", "B3"],
         };
       });
       this.post("camera_types", () => {
@@ -450,25 +518,43 @@ export function makeServer({ environment = "development" } = {}) {
         };
       });
       this.get("allowed_to_configure", () => false);
-      this.get("provisioning", () => { });
+      this.get("provisioning", () => {});
       this.get("status_quo", () => {
         return {
-          cpu: 10.9,
-          memory: 22.9686,
-          primary_disk: 47.0,
-          temperature: 46.7,
-          uptime: 15085.0,
+          cpu: 25.0,
+          memory: 20.0433,
+          primary_disk: {
+            size: "6.7G",
+            used: "6.2G",
+            free: "88M",
+          },
+          extra_disk: {
+            available: true,
+            size: "117G",
+            used: "85G",
+            free: "27G",
+          },
+          solar_controller: {
+            status: "connected",
+            battery_voltage: 12.43,
+          },
+          software_version: "1.2.3",
+          temperature: 43.0,
+          uptime: 31848.0,
           load_current: 0.0,
-          armed: true,
+          armed: false,
           allowed_to_configure: true,
-          alarms: 9,
-          provisioning: { state: false, allowed_to_change: true },
+          alarms: 0,
+          provisioning: {
+            state: false,
+            allowed_to_change: true,
+          },
           camera: {
-            type: "SmallFixCamera0",
+            type: "DahuaCamera0",
             status: 2,
             carrier: 1,
             ethernet: 1,
-            ping: 0.325,
+            ping: 0.494,
           },
         };
       });
@@ -523,6 +609,11 @@ export function makeServer({ environment = "development" } = {}) {
           uptime: 432234,
         };
       });
+      // Allow all external API calls to pass through
+      this.passthrough("https://api.github.com/**");
+
+      // Optionally, allow all unhandled requests to pass through
+      this.passthrough();
     },
   });
   // console.log(server)

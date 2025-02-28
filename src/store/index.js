@@ -10,8 +10,26 @@ export const store = new Vuex.Store({
     stat: {
       cpu: null,
       memory: null,
-      primary_disk: null,
-      temperature: null,
+
+      primary_disk: {
+        size: null,
+        used: null,
+        free: null,
+        percent: 0,
+      },
+      extra_disk: {
+        available: true,
+        size: null,
+        used: null,
+        free: null,
+        percent: 0,
+      },
+      solar_controller: {
+        status: "connected",
+        battery_voltage: 13,
+      },
+      software_version: "",
+      temperature: 0,
       uptime: null,
       load_current: null,
       armed: null,
@@ -23,7 +41,7 @@ export const store = new Vuex.Store({
       },
       camera: {
         type: "-",
-        status: null,
+        status: 1,
         carrier: null,
         ethernet: null,
         ping: null,
@@ -65,7 +83,6 @@ export const store = new Vuex.Store({
     getCameraCount(state) {
       return state.camera_count;
     },
-
   },
   mutations: {
     setLastAlarmDemand(state, v) {
@@ -81,6 +98,29 @@ export const store = new Vuex.Store({
     setStats(state, v) {
       state.stat = v;
       state.camera_type = v.camera.type;
+      // New version from Naghmeh
+      function parseSize(size) {
+        if (size.endsWith("G")) {
+          return parseFloat(size);
+        } else if (size.endsWith("M")) {
+          return parseFloat(size) / 1024;
+        } else if (size.endsWith("K")) {
+          return parseFloat(size) / (1024 * 1024);
+        } else if (size.endsWith("T")) {
+          return parseFloat(size) * 1024;
+        }
+        return 0;
+      }
+
+      // Calculate percentage usage for primary disk
+      const primarySize = parseSize(state.stat.primary_disk.size);
+      const primaryUsed = parseSize(state.stat.primary_disk.used);
+      state.stat.primary_disk.percent = (primaryUsed / primarySize) * 100;
+
+      // Calculate percentage usage for extra disk
+      const extraSize = parseSize(state.stat.extra_disk.size);
+      const extraUsed = parseSize(state.stat.extra_disk.used);
+      state.stat.extra_disk.percent = (extraUsed / extraSize) * 100;
     },
     setCameraCount(state, v) {
       state.camera_count = v.camera_count;
@@ -160,10 +200,10 @@ export const store = new Vuex.Store({
     },
     sendChangeProvisioning({ state }) {
       this._vm.$toasted.show("Send switch provisioning command to unit!");
-      const new_statue = state.stat.provisioning.state ? "false" : "true"
+      const new_statue = state.stat.provisioning.state ? "false" : "true";
       axios
         .get("/api/provisioning?action=" + new_statue)
-        .then(() => this._vm.$toasted.show("provisioning changed."))
+        .then(() => this._vm.$toasted.show("provisioning changed."));
     },
     sendRotate({ state }, arrow) {
       this._vm.$toasted.show("Send rotate command to unit.");
@@ -188,10 +228,17 @@ export const store = new Vuex.Store({
         "snapshots=" +
         payload.snapshots;
       this._vm.$toasted.show("Send clear storage command to unit.");
-      axios.delete("/api/storage?" + qry).then((r) => {
-        this._vm.$toasted.show("Storage cleared successfully.");
-        dispatch("getStorageInfoFromServer");
-      });
+      if ((payload.type = "primary")) {
+        axios.delete("/api/storage?" + qry).then((r) => {
+          this._vm.$toasted.show("Storage cleared successfully.");
+          dispatch("getStorageInfoFromServer");
+        });
+      } else {
+        axios.get("/api/extra_storage/clear?" + qry).then((r) => {
+          this._vm.$toasted.show("Storage cleared successfully.");
+          dispatch("getStorageInfoFromServer");
+        });
+      }
     },
     sendDemandAlarmToServer({ dispatch, commit }) {
       const token = localStorage.getItem("alarm_demand_token");

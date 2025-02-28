@@ -1,84 +1,120 @@
 <template>
-      <md-card-content>
-        <div class="md-layout">
-          <div class="md-layout-item md-small-size-100 md-size-100">
-            <md-field>
-              <label>Human ID</label>
-              <md-input v-model="HUMANID"></md-input>
-            </md-field>
-          </div>
-          <div class="md-layout-item md-small-size-100 md-size-100">
-            <md-field>
-              <label>ICCID</label>
-              <md-input v-model="ICCID" type="text"></md-input>
-            </md-field>
-          </div>
-          <div class="md-layout-item md-small-size-100 md-size-100">
-            <label class="label" style="color: #aaa; font-size: 0.6875rem"
-              >Camera Type</label
-            >
-            <v-select v-model="CAMERA_TYPE" :options="CAMERA_TYPES"></v-select>
-          </div>
-          <div class="md-layout-item md-small-size-100 md-size-100">
-            <label class="label" style="color: #aaa; font-size: 0.6875rem"
-              >Hardware</label
-            >
-            <v-select v-model="HARDWARE" :options="HARDWARE_TYPES"></v-select>
-          </div>
-          <div class="md-layout-item md-small-size-100 md-size-100">
-            <label class="label" style="color: #aaa; font-size: 0.6875rem"
-              >Board</label
-            >
-            <v-select v-model="BOARD" :options="BOARD_TYPES"></v-select>
-          </div>
-          <div class="md-layout-item md-small-size-100 md-size-100">
-            <md-field>
-              <label>Extra Storage</label>
-              <md-input v-model="EXTRA_STORAGE" type="text"></md-input>
-            </md-field>
-          </div>
+  <md-card-content>
+    <div class="md-layout">
+      <div class="md-layout-item md-small-size-100 md-size-100">
+        <md-field>
+          <label>Human ID</label>
+          <md-input v-model="HUMANID"></md-input>
+        </md-field>
+      </div>
+      <div class="md-layout-item md-small-size-100 md-size-100">
+        <md-field>
+          <label>ICCID</label>
+          <md-input v-model="ICCID" type="text"></md-input>
+        </md-field>
+      </div>
 
-          <div class="md-layout-item md-small-size-100 md-size-100">
-            <md-field>
-              <label>Minimum Keeping Record Duration (hours)</label>
-              <md-input
-                v-model="MIN_CHUNKS_LIFETIME_IN_HOUR"
-                type="text"
-              ></md-input>
-            </md-field>
-          </div>
+      <div class="md-layout-item md-small-size-100 md-size-100">
+        <label class="label" style="color: #aaa; font-size: 0.6875rem"
+          >Camera Type</label
+        >
+        <v-select v-model="CAMERA_TYPE" :options="CAMERA_TYPES"></v-select>
+      </div>
 
-          <div class="md-layout-item md-small-size-50 md-size-50">
-            <ProgressButton
-              @click="save_clicked"
-              ref="save_button"
-              name="bottom"
-              class="btn btn-warning mr-1 mb-1"
-              :height="10"
-              :disabled="!active_save"
-              :duration="1000"
-              position="top"
-            >
-              <md-icon>save</md-icon>
-              Save
-            </ProgressButton>
-          </div>
-          <div class="md-layout-item md-small-size-50 md-size-50">
-            <ProgressButton
-              @click="reboot_clicked"
-              ref="reboot_button"
-              name="bottom"
-              class="btn btn-warning mr-1 mb-1"
-              :height="10"
-              :duration="20000"
-              position="top"
-            >
-              <md-icon>restart_alt</md-icon>
-              Reboot Pi
-            </ProgressButton>
-          </div>
-        </div>
-      </md-card-content>
+      <div class="md-layout-item md-small-size-100 md-size-100">
+        <md-field>
+          <label>Camera Password</label>
+          <md-input v-model="CAMERA_PASSWORD" type="password"></md-input>
+        </md-field>
+      </div>
+
+      <div class="md-layout-item md-small-size-100 md-size-100">
+        <label class="label" style="color: #aaa; font-size: 0.6875rem"
+          >Hardware</label
+        >
+        <v-select v-model="HARDWARE" :options="HARDWARE_TYPES"></v-select>
+      </div>
+      <div class="md-layout-item md-small-size-100 md-size-100">
+        <label class="label" style="color: #aaa; font-size: 0.6875rem"
+          >Board</label
+        >
+        <v-select v-model="BOARD" :options="BOARD_TYPES"></v-select>
+      </div>
+      <div class="md-layout-item md-small-size-100 md-size-100">
+        <md-field>
+          <label>Extra Storage</label>
+          <md-input v-model="EXTRA_STORAGE" type="text"></md-input>
+        </md-field>
+      </div>
+
+      <div class="md-layout-item md-small-size-100 md-size-100">
+        <md-field>
+          <label>Minimum Keeping Record Duration (hours)</label>
+          <md-input
+            v-model="MIN_CHUNKS_LIFETIME_IN_HOUR"
+            type="text"
+          ></md-input>
+        </md-field>
+      </div>
+
+      <div class="md-layout-item md-small-size-100 md-size-100">
+        <md-field>
+          <label>IOT Device ID</label>
+          <md-input v-model="IOT_DEVICE_ID" type="text"></md-input>
+        </md-field>
+      </div>
+
+      <div class="md-layout-item md-small-size-100 md-size-100">
+        <md-field>
+          <label>OLD_HIBV5</label>
+          <md-input v-model="OLD_HIBV5" type="text"></md-input>
+        </md-field>
+      </div>
+      <div class="md-layout-item md-small-size-100 md-size-100">
+        <md-field>
+          <label>Solar Port</label>
+          <md-input v-model="SOLAR_CTRL_PORT" type="text"></md-input>
+        </md-field>
+      </div>
+
+      <div class="md-layout-item md-small-size-100 md-size-100">
+        <md-field>
+          <label>Support Email</label>
+          <md-input v-model="SUPPORT_EMAIL" type="text"></md-input>
+        </md-field>
+      </div>
+
+      <div class="md-layout-item md-small-size-50 md-size-50">
+        <ProgressButton
+          @click="save_clicked"
+          ref="save_button"
+          name="bottom"
+          class="btn btn-warning mr-1 mb-1"
+          :height="10"
+          :disabled="!active_save"
+          :duration="1000"
+          position="top"
+        >
+          <md-icon>save</md-icon>
+          Save
+        </ProgressButton>
+      </div>
+      <div class="md-layout-item md-small-size-50 md-size-50">
+        <ProgressButton
+          @click="reboot_clicked"
+          ref="reboot_button"
+          name="bottom"
+          class="btn btn-warning mr-1 mb-1"
+          :height="10"
+          :duration="20000"
+          position="top"
+        >
+          <md-icon>restart_alt</md-icon>
+          Reboot Pi
+        </ProgressButton>
+      </div>
+    </div>
+  </md-card-content>
 </template>
 <script>
 import axios from "axios";
@@ -100,6 +136,11 @@ export default {
     save() {
       axios
         .post("/api/configs/general", {
+          IOT_DEVICE_ID: this.IOT_DEVICE_ID,
+          CAMERA_PASSWORD: this.CAMERA_PASSWORD,
+          OLD_HIBV5: this.OLD_HIBV5,
+          SOLAR_CTRL_PORT: this.SOLAR_CTRL_PORT,
+          SUPPORT_EMAIL: this.SUPPORT_EMAIL,
           HUMANID: this.HUMANID,
           ICCID: this.ICCID,
           BOARD: this.BOARD,
@@ -184,7 +225,7 @@ export default {
       .catch((e) => {
         this.$toasted.error("Error in connection.", { duration: 10 });
       });
-      axios
+    axios
       .get("/api/board_types")
       .then((r) => {
         this.BOARD_TYPES = r.data.board_types;
@@ -203,6 +244,11 @@ export default {
     axios
       .get("/api/configs/general")
       .then((r) => {
+        this.IOT_DEVICE_ID = r.data.IOT_DEVICE_ID;
+        this.CAMERA_PASSWORD = r.data.CAMERA_PASSWORD;
+        this.OLD_HIBV5 = r.data.OLD_HIBV5;
+        this.SOLAR_CTRL_PORT = r.data.SOLAR_CTRL_PORT;
+        this.SUPPORT_EMAIL = r.data.SUPPORT_EMAIL;
         this.HUMANID = r.data.HUMANID;
         this.ICCID = r.data.ICCID;
         this.CAMERA_TYPE = r.data.CAMERA_TYPE;
@@ -220,6 +266,12 @@ export default {
   },
   data() {
     return {
+      IOT_DEVICE_ID: "",
+      CAMERA_PASSWORD: "",
+      OLD_HIBV5: "",
+      SOLAR_CTRL_PORT: "",
+      SUPPORT_EMAIL: "",
+
       HUMANID: "",
       ICCID: "",
       CAMERA_TYPE: "",
@@ -269,5 +321,4 @@ export default {
     0 3px 1px -2px rgba(0, 188, 212, 0.2), 0 1px 5px 0 rgba(0, 188, 212, 0.12);
   border: none;
 }
-
 </style>
