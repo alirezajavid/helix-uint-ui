@@ -21,12 +21,6 @@
         <v-select v-model="CAMERA_TYPE" :options="CAMERA_TYPES"></v-select>
       </div>
 
-      <div class="md-layout-item md-small-size-100 md-size-100">
-        <md-field>
-          <label>Camera Password</label>
-          <md-input v-model="CAMERA_PASSWORD" type="password"></md-input>
-        </md-field>
-      </div>
 
       <div class="md-layout-item md-small-size-100 md-size-100">
         <label class="label" style="color: #aaa; font-size: 0.6875rem"
@@ -40,36 +34,15 @@
         >
         <v-select v-model="BOARD" :options="BOARD_TYPES"></v-select>
       </div>
-      <div class="md-layout-item md-small-size-100 md-size-100">
-        <md-field>
-          <label>Extra Storage</label>
-          <md-input v-model="EXTRA_STORAGE" type="text"></md-input>
-        </md-field>
-      </div>
+
 
       <div class="md-layout-item md-small-size-100 md-size-100">
         <md-field>
-          <label>Minimum Keeping Record Duration (hours)</label>
-          <md-input
-            v-model="MIN_CHUNKS_LIFETIME_IN_HOUR"
-            type="text"
-          ></md-input>
+          <label>Camera Password</label>
+          <md-input v-model="CAMERA_PASSWORD" type="password"></md-input>
         </md-field>
       </div>
-
-      <div class="md-layout-item md-small-size-100 md-size-100">
-        <md-field>
-          <label>IOT Device ID</label>
-          <md-input v-model="IOT_DEVICE_ID" type="text"></md-input>
-        </md-field>
-      </div>
-
-      <div class="md-layout-item md-small-size-100 md-size-100">
-        <md-field>
-          <label>OLD_HIBV5</label>
-          <md-input v-model="OLD_HIBV5" type="text"></md-input>
-        </md-field>
-      </div>
+            
       <div class="md-layout-item md-small-size-100 md-size-100">
         <md-field>
           <label>Solar Port</label>
@@ -83,6 +56,39 @@
           <md-input v-model="SUPPORT_EMAIL" type="text"></md-input>
         </md-field>
       </div>
+
+      <div class="md-layout-item md-small-size-100 md-size-100">
+        <md-field>
+          <label>Extra Storage</label>
+          <md-input v-model="EXTRA_STORAGE" type="text"></md-input>
+        </md-field>
+      </div>
+
+
+      <div class="md-layout-item md-small-size-100 md-size-100">
+        <md-field>
+          <label>Minimum Keeping Record Duration (hours)</label>
+          <md-input
+            v-model="MIN_CHUNKS_LIFETIME_IN_HOUR"
+            type="text"
+          ></md-input>
+        </md-field>
+      </div>
+
+      <!-- <div class="md-layout-item md-small-size-100 md-size-100">
+        <md-field>
+          <label>IOT Device ID</label>
+          <md-input v-model="IOT_DEVICE_ID" type="text"></md-input>
+        </md-field>
+      </div> -->
+
+      <!-- <div class="md-layout-item md-small-size-100 md-size-100">
+        <md-field>
+          <label>OLD_HIBV5</label>
+          <md-input v-model="OLD_HIBV5" type="text"></md-input>
+        </md-field>
+      </div> -->
+
 
       <div class="md-layout-item md-small-size-50 md-size-50">
         <ProgressButton

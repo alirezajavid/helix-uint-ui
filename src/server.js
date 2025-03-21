@@ -14,6 +14,51 @@ export function makeServer({ environment = "development" } = {}) {
       this.logging = true; // Enable logging
 
       this.namespace = "api";
+      this.get("/inventory/search", (schema, request) => {
+        let { start, end } = request.queryParams;
+    
+        // Default start date if not provided
+        let startDate = start ? new Date(start) : new Date('2025-02-25T16:20:00Z');
+        let endDate = end ? new Date(end) : new Date(startDate.getTime() + 3 * 24 * 60 * 60000);
+    
+        let inventory = [];
+        let dist = 0;
+        let val = 0;
+        let currentDate = new Date(startDate);
+    
+        while (currentDate <= endDate) {
+          if (dist <= 0) {
+            dist = Math.floor(Math.random() * 100);
+            val = (val + 1) % 2;
+          }
+    
+          let formattedDate = currentDate.toISOString().replace('T', ' ').substring(0, 19);
+          inventory.push({ dist: dist, datetime: formattedDate, value: val });
+    
+          dist--;
+          currentDate = new Date(currentDate.getTime() + 60000); // Increment by 1 minute
+        }
+    
+        return { success: true, inventory };
+      });
+      this.get("/inventory/list", () => {
+        const startDate = new Date('2025-02-25T16:20:00Z');
+        const minutesInWeek = 3 * 24 * 60;
+        let inventory = [];
+        let dist = 0;
+        let val = 0;
+        for (let i = 0; i < minutesInWeek; i++) {
+          if (dist <= 0) {
+            dist = Math.floor(Math.random() * 100)
+            val = (val + 1) % 2;
+          }
+          let date = new Date(startDate.getTime() + i * 60000);
+          let formattedDate = date.toISOString().replace('T', ' ').substring(0, 19);
+          inventory.push({dist:dist, datetime: formattedDate, value: val});
+          dist--;
+        }
+        return { success: true, inventory };
+      }); 
       this.get("camera_count", (schema, request) => {
         return {
           success: true,
@@ -609,6 +654,7 @@ export function makeServer({ environment = "development" } = {}) {
           uptime: 432234,
         };
       });
+     
       // Allow all external API calls to pass through
       this.passthrough("https://api.github.com/**");
 
